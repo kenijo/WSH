@@ -1,0 +1,721 @@
+##-----------------------------------------------------------------------------
+## @author       Kenrick JORUS
+## @copyright    2022 Kenrick JORUS
+## @license      MIT License
+## @link         http://kenijo.github.io/WSH/
+## @description  Custom Dircolors
+##-----------------------------------------------------------------------------
+
+################################################################################
+# BASED ON:
+# Copyright (c) 2017-present Arctic Ice Studio <development@arcticicestudio.com>
+# Copyright (c) 2017-present Sven Greb <code@svengreb.de>
+#
+# Project:    Nord dircolors
+# Repository: https://github.com/arcticicestudio/nord-dircolors
+# License:    MIT
+################################################################################
+
+################################################################################
+# Configuration file for the color ls utility
+# Synchronized with coreutils 8.5 dircolors
+# This file goes in the /etc directory, and must be world readable.
+# You can copy this file to .dir_colors in your $HOME directory to override
+# the system defaults.
+
+################################################################################
+# COLOR needs one of these arguments: 'tty' colorizes output to ttys, but not
+# pipes. 'all' adds color characters to all output. 'none' shuts colorization
+# off.
+COLOR all
+
+
+################################################################################
+# Extra command line options for ls go here.
+# Basically these ones are:
+#  -F = show '/' for dirs, '*' for executables, etc.
+#  -T 0 = don't trust tab spacing when formatting ls output.
+OPTIONS -F -T 0
+
+# Term Section
+# Below, there should be one TERM entry for each termtype that is colorizable
+TERM *color*
+TERM ansi
+TERM color-xterm
+TERM con132x25
+TERM con132x30
+TERM con132x43
+TERM con132x60
+TERM con80x25
+TERM con80x28
+TERM con80x30
+TERM con80x43
+TERM con80x50
+TERM con80x60
+TERM cons25
+TERM console
+TERM con[0-9]*x[0-9]*
+TERM cygwin
+TERM dtterm
+TERM dvtm
+TERM dvtm-256color
+TERM Eterm
+TERM eterm-color
+TERM fbterm
+TERM gnome
+TERM gnome-256color
+TERM hurd
+TERM jfbterm
+TERM konsole
+TERM konsole-256color
+TERM kterm
+TERM linux
+TERM linux-c
+TERM mach-color
+TERM mach-gnu-color
+TERM mlterm
+TERM putty
+TERM putty-256color
+TERM rxvt
+TERM rxvt*
+TERM rxvt-256color
+TERM rxvt-cygwin
+TERM rxvt-cygwin-native
+TERM rxvt-unicode
+TERM rxvt-unicode-256color
+TERM rxvt-unicode256
+TERM screen
+TERM screen*
+TERM screen-256color
+TERM screen-256color-bce
+TERM screen-bce
+TERM screen-w
+TERM screen.Eterm
+TERM screen.linux
+TERM screen.rxvt
+TERM st
+TERM st-256color
+TERM terminator
+TERM tmux*
+TERM tmux-256color
+TERM vt100
+TERM xterm
+TERM xterm*
+TERM xterm-16color
+TERM xterm-256color
+TERM xterm-88color
+TERM xterm-color
+TERM xterm-debian
+
+################################################################################
+# Documentation
+################################################################################
+# To apply this custom dircolors, execute in command line:
+#   eval $(dircolors /path/to/my/dircolors)
+# To test a color, execute:
+#   printf "\x1b[00;32mTRUECOLOR\x1b[0m\n"
+################################################################################
+# ANSI escape codes (ISO 6429) (*: rarely supported)
+# References:   http://en.wikipedia.org/wiki/ANSI_escape_code
+#               http://ethanschoonover.com/solarized
+################################################################################
+# Attributes              Foreground Colors       Background Colors
+# ----------              -----------------       -----------------
+# 0 : Reset/Normal        30 : black              40 : black
+# 1 : Bright/Bold         31 : red                41 : red
+# 2*: Faint               32 : green              42 : green
+# 3*: Italic              33 : yellow             43 : yellow
+# 4 : Underline           34 : blue               44 : blue
+# 5 : Blink               35 : magenta            45 : magenta
+# 6*: Blink (rapid)       36 : cyan               46 : cyan
+# 7 : Invert fg/bg        37 : white              47 : white
+# 8*: Conceal             38 : 256-color          48 : 256-color
+# 9*: Crossed-out         39 : Default            49 : Default
+################################################################################
+# 256 colors (8 bits)
+#   Foreground 256 color coding:
+#     38;5;COLOR_NUMBER or 38;2;R;G;B
+#   Background 256 color coding:
+#     48;5;COLOR_NUMBER or 48;2;R;G;B
+################################################################################
+
+################################################################################
+# CORE
+BLK                       01;33         # block device driver
+CAPABILITY                01;37         # file with capability
+CHR                       00;33         # character device driver
+DIR                       01;34         # directory
+DOOR                      01;04;36      # door
+EXEC                      01;36         # This is for files with execute permission
+FIFO                      01;04;36      # pipe
+FILE                      00            # regular file: use no color at all
+LINK                      01;36         # symbolic link. (If you set this to 'target' instead of a numerical value, the color is as for the file pointed to.)
+MISSING                   01;37;41      # ... and the files they point to
+MULTIHARDLINK             01;04;36      # regular file with more than one link
+NORMAL                    00            # default color code (no color code at all)
+ORPHAN                    01;31         # symlink to nonexistent file, or non-stat'able file ...
+OTHER_WRITABLE            01;04;34      # dir that is other-writable (o+w) and not sticky
+RESET                     00            # reset to "normal" color
+SETGID                    01;04;37      # file that is setgid (g+s)
+SETUID                    01;04;37      # file that is setuid (u+s)
+SOCK                      01;04;33      # socket
+STICKY                    04;37;44      # dir with the sticky bit set (+t) and not other-writable
+STICKY_OTHER_WRITABLE     01;37;44      # dir that is sticky and other-writable (+t,o+w)
+
+
+################################################################################
+# List any file extensions like '.gz' or '.tar' that you would like ls
+# to colorize below. Put the extension, a space, and the color init string.
+# (and any comments you want to add after a '#')
+# If you use DOS-style suffixes, you may want to uncomment the following:
+.app                      01;36         # OSX
+.bat                      01;36         # Win
+.cmd                      01;36         # Win
+.com                      01;36         # Win
+.exe                      01;36         # Win
+# Or if you want to colorize scripts even if they do not have the
+# executable bit actually set.
+.awk                      01;36
+.bash                     01;36
+.sed                      01;36
+.sh                       01;36
+.csh                      01;36
+.zsh                      01;36
+.vin                      01;36
+# Interpreted languages
+.ahk                      01;36
+.gs                       01;36
+.msql                     01;36
+.mysql                    01;36
+.pgsql                    01;36
+.php                      01;36
+.pl                       01;36
+.py                       01;36
+.r                        01;36
+.sql                      01;36
+.t                        01;36
+.tcl                      01;36
+
+################################################################################
+# Archives or Compressed
+.7z                       01;35
+.a                        01;35
+.ace                      01;35
+.alz                      01;35
+.apk                      01;35
+.arc                      01;35
+.arj                      01;35
+.bin                      01;35
+.bsp                      01;35
+.bz                       01;35
+.bz2                      01;35
+.cab                      01;35
+.cpio                     01;35
+.deb                      01;35
+.dmg                      01;35
+.dz                       01;35
+.ear                      01;35
+.gem                      01;35
+.gz                       01;35
+.iso                      01;35
+.jad                      01;35
+.jar                      01;35
+.lha                      01;35
+.lrz                      01;35
+.lz                       01;35
+.lz4                      01;35
+.lzh                      01;35
+.lzma                     01;35
+.lzo                      01;35
+.nrg                      01;35
+.pak                      01;35
+.part                     01;35
+.pk3                      01;35
+.qcow                     01;35
+.rar                      01;35
+.rpm                      01;35
+.rz                       01;35
+.r[0-9]{0,2}              01;35
+.s7z                      01;35
+.sar                      01;35
+.sparseimage              01;35
+.sz                       01;35
+.t7z                      01;35
+.tar                      01;35
+.taz                      01;35
+.tbz                      01;35
+.tbz2                     01;35
+.tgz                      01;35
+.tlz                      01;35
+.toast                    01;35
+.txz                      01;35
+.tz                       01;35
+.tzo                      01;35
+.tzst                     01;35
+.vcd                      01;35
+.vdf                      01;35
+.vmdk                     01;35
+.vpk                      01;35
+.war                      01;35
+.xz                       01;35
+.z                        01;35
+.zip                      01;35
+.zipx                     01;35
+.zoo                      01;35
+.zpaq                     01;35
+.zst                      01;35
+.zx[0-9]{0,2}             01;35
+.zz                       01;35
+.z[0-9]{0,2}              01;35
+
+################################################################################
+# Audio Formats
+.3ga                      01;33
+.aac                      01;33
+.aiff                     01;33
+.alac                     01;33
+.ape                      01;33
+.au                       01;33
+.axa                      01;33
+.cda                      01;33
+.dat                      01;33
+.dts                      01;33
+.fcm                      01;33
+.flac                     01;33
+.m4a                      01;33
+.mid                      01;33
+.midi                     01;33
+.mka                      01;33
+.mod                      01;33
+.mp3                      01;33
+.mp4a                     01;33
+.mpa                      01;33
+.mpc                      01;33
+.oga                      01;33
+.ogg                      01;33
+.opus                     01;33
+.pcm                      01;33
+.ra                       01;33
+.S3M                      01;33
+.sid                      01;33
+.spx                      01;33
+.wav                      01;33
+.wma                      01;33
+.wv                       01;33
+.wvc                      01;33
+.xspf                     01;33
+
+################################################################################
+# Coding Formats
+########################################
+# Version Control
+#.git                      00
+#.gitattributes            00
+#.gitignore                00
+#.gitmodules               00
+########################################
+# Assembly Language
+#.asm                      00
+########################################
+# Build / Make
+#*build.xml                00
+#*Dockerfile               00
+#*Makefile                 00
+#*MANIFEST                 00
+#*pm_to_blib               00
+#.am                       00
+#.dockerignore             00
+#.hin                      00
+#.in                       00
+#.m4                       00
+#.out                      00
+#.scan                     00
+#.SKIP                     00
+########################################
+# C
+#.c                        00
+#.h                        00
+#.tcc                      00
+########################################
+# C ++
+#.c++                      00
+#.cpp                      00
+#.cxx                      00
+#.h++                      00
+#.hpp                      00
+#.hxx                      00
+#.ii                       00
+########################################
+# C Sharp
+#.cs                       00
+########################################
+# Crystal
+#.cr                       00
+########################################
+# Databases
+#.accdb                    00
+#.accde                    00
+#.accdr                    00
+#.accdt                    00
+#.db                       00
+#.fmp12                    00
+#.fp7                      00
+#.localstorage             00
+#.mdb                      00
+#.mde                      00
+#.nc                       00
+#.sql                      00
+#.sqlite                   00
+#.typelib                  00
+########################################
+# Fortran
+#.f                        00
+#.for                      00
+#.ftn                      00
+########################################
+# Go
+#.go                       00
+########################################
+# Haskell
+#.hs                       00
+#.lhs                      00
+########################################
+# HTML
+#.css                      00
+#.eml                      00
+#.htm                      00
+#.html                     00
+#.jhtm                     00
+#.less                     00
+#.mht                      00
+#.mustache                 00
+#.sass                     00
+#.scss                     00
+########################################
+# Java / Groovy
+#.coffee                   00
+#.groovy                   00
+#.java                     00
+#.js                       00
+#.jsm                      00
+#.jsp                      00
+########################################
+# LISP
+#.cl                       00
+#.lisp                     00
+########################################
+# Lua
+#.lua                      00
+########################################
+# Moonscript
+#.moon                     00
+########################################
+# Objective-C
+#.m                        00
+#.objc                     00
+########################################
+# Pascal
+#.s                        00
+########################################
+# Patch Files
+#.diff                     00
+#.patch                    00
+########################################
+# Python
+#.pyc                      00
+########################################
+# Rust
+#.rs                       00
+########################################
+# Swift
+#.swift                    00
+########################################
+# Visual Basic
+#.vb                       00
+#.vba                      00
+#.vbs                      00
+
+################################################################################
+# Document Formats
+.cbr                      01;32
+.cbz                      01;32
+.chm                      01;32
+.csv                      01;32
+.djvu                     01;32
+.doc                      01;32
+.docm                     01;32
+.docx                     01;32
+.odb                      01;32
+.odp                      01;32
+.ods                      01;32
+.odt                      01;32
+.pdf                      01;32
+.pps                      01;32
+.ppt                      01;32
+.ppts                     01;32
+.pptsm                    01;32
+.pptx                     01;32
+.pptxm                    01;32
+.rtf                      01;32
+.xla                      01;32
+.xls                      01;32
+.xlsx                     01;32
+.xlsxm                    01;32
+.xltm                     01;32
+.xltx                     01;32
+
+################################################################################
+# Game Emulator formats
+.32x                      01;35
+.a00                      01;35
+.a52                      01;35
+.A64                      01;35
+.a78                      01;35
+.adf                      01;35
+.atr                      01;35
+.cdi                      01;35
+.fm2                      01;35
+.gb                       01;35
+.gba                      01;35
+.gbc                      01;35
+.gel                      01;35
+.gg                       01;35
+.ggl                      01;35
+.ipk                      01;35
+.j64                      01;35
+.nds                      01;35
+.nes                      01;35
+.rom                      01;35
+.sav                      01;35
+.sms                      01;35
+.st                       01;35
+
+################################################################################
+# Image Formats
+.ai                       01;33
+.bmp                      01;33
+.cdr                      01;33
+.cgm                      01;33
+.CR2                      01;33
+.dl                       01;33
+.drw                      01;33
+.dvi                      01;33
+.emf                      01;33
+.eps                      01;33
+.epsf                     01;33
+.gif                      01;33
+.ico                      01;33
+.jpeg                     01;33
+.JPEG                     01;33
+.jpg                      01;33
+.JPG                      01;33
+.mng                      01;33
+.nth                      01;33
+.pbm                      01;33
+.pcx                      01;33
+.pgm                      01;33
+.png                      01;33
+.PNG                      01;33
+.ppm                      01;33
+.pps                      01;33
+.ppsx                     01;33
+.ps                       01;33
+.psd                      01;33
+.svg                      01;33
+.svgz                     01;33
+.tga                      01;33
+.tif                      01;33
+.tiff                     01;33
+.xbm                      01;33
+.xcf                      01;33
+.xpm                      01;33
+.xwd                      01;33
+.yuv                      01;33
+
+################################################################################
+# Plain files, configuration files, data
+#*AUTHORS                  00
+#*CHANGES                  00
+#*CONTRIBUTORS             00
+#*COPYING                  00
+#*COPYRIGHT                00
+#*HISTORY                  00
+#*INSTALL                  00
+#*LICENSE                  00
+#*NOTICE                   00
+#*PATENTS                  00
+#*README                   00
+#*README.rst               00
+#*VERSION                  00
+#*cfg                      00
+#*conf                     00
+#*rc                       00
+#.cfg                      00
+#.conf                     00
+#.csv                      00
+#.etx                      00
+#.info                     00
+#.ini                      00
+#.json                     00
+#.log                      00
+#.markdown                 00
+#.md                       00
+#.mkd                      00
+#.msg                      00
+#.nfo                      00
+#.pcf                      00
+#.pgn                      00
+#.plist                    00
+#.pod                      00
+#.psf                      00
+#.rdata                    00
+#.rss                      00
+#.tex                      00
+#.textile                  00
+#.txt                      00
+#.viminfo                  00
+#.xml                      00
+#.yaml                     00
+#.yml                      00
+
+################################################################################
+# Video formats
+.3g2                      01;33
+.3gp                      01;33
+.anx                      01;33
+.asf                      01;33
+.avi                      01;33
+.axv                      01;33
+.divx                     01;33
+.f4v                      01;33
+.flc                      01;33
+.fli                      01;33
+.flv                      01;33
+.gl                       01;33
+.gp3                      01;33
+.gp4                      01;33
+.ifo                      01;33
+.m2ts                     01;33
+.m2v                      01;33
+.m4v                      01;33
+.mkv                      01;33
+.mov                      01;33
+.mp4                      01;33
+.mp4v                     01;33
+.mpeg                     01;33
+.mpg                      01;33
+.nuv                      01;33
+.ogm                      01;33
+.ogv                      01;33
+.ogx                      01;33
+.qt                       01;33
+.rm                       01;33
+.rmvb                     01;33
+.ts                       01;33
+.vob                      01;33
+.webm                     01;33
+.swf                      01;33
+.wmv                      01;33
+
+################################################################################
+# Other Files
+########################################
+# Fonts
+#.afm                      00
+#.fnt                      00
+#.fon                      00
+#.otf                      00
+#.pfa                      00
+#.pfb                      00
+#.pfm                      00
+#.ttf                      00
+########################################
+# hosts - /etc/hosts.{deny,allow}
+#.allow                    00
+#.deny                     00
+########################################
+# Systemd
+#*@.service                00
+#.automount                00
+#.device                   00
+#.mount                    00
+#.path                     00
+#.service                  00
+#.snapshot                 00
+#.socket                   00
+#.swap                     00
+#.target                   00
+#.timer                    00
+########################################
+# Encrypted Data
+#.asc                      00
+#.asc                      00
+#.bfe                      00
+#.cer                      00
+#.cert                     00
+#.enc                      00
+#.gpg                      00
+#.p12                      00
+#.p7b                      00
+#.pem                      00
+#.pfx                      00
+#.pgp                      00
+#.rnd                      00
+#.sig                      00
+#.signature                00
+#.sst                      00
+
+################################################################################
+# "unimportant" files such undo, backups or logs
+*#                        02;37
+*~                        02;37
+########################################
+# Backup Files
+.BUP                      02;37
+.bak                      02;37
+.BAK                      02;37
+.o                        02;37
+.old                      02;37
+.OLD                      02;37
+.out                      02;37
+.rlib                     02;37
+########################################
+# Log Files
+.err                      02;37
+.ERR                      02;37
+.error                    02;37
+.ERROR                    02;37
+.log                      02;37
+.LOG                      02;37
+.stderr                   02;37
+.STDERR                   02;37
+########################################
+# State Dumps
+.dump                     02;37
+.DUMP                     02;37
+.stackdump                02;37
+.zcompdump                02;37
+.zwc                      02;37
+########################################
+# State Files
+*lockfile                 02;37
+.pid                      02;37
+.state                    02;37
+########################################
+# Temporary Files
+.cache                    02;37
+.part                     02;37
+.sassc                    02;37
+.swo                      02;37
+.swp                      02;37
+.temp                     02;37
+.TEMP                     02;37
+.tmp                      02;37
+.TMP                      02;37
+########################################
+# Undo Files
+.org                      02;37
+.ORG                      02;37
+.orig                     02;37
+.pacnew                   02;37
+.un~                      02;37

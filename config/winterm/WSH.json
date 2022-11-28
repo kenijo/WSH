@@ -1,0 +1,56 @@
+{
+  "confirmCloseAllTabs": false,
+  "copyFormatting": "all",
+  "copyOnSelect": true,
+  "defaultProfile": "{c23108d6-bbb8-5346-b4e5-ddf0d8577f47}",
+  "focusFollowMouse": true,
+  "windowingBehavior": "useAnyExisting",
+  "profiles":
+  [{
+      "guid": "{61c54bbd-c2c6-5271-96e7-009a87ff44bf}",
+      "hidden": true,
+      "name": "Windows PowerShell",
+    }, {
+      "guid": "{0caa0dad-35be-5f56-a8ff-afceeeaa6101}",
+      "hidden": true,
+      "name": "Command Prompt",
+    }, {
+      "guid": "{2c4de342-38b7-51cf-b940-2309a097f518}",
+      "hidden": true,
+      "name": "Ubuntu",
+    }, {
+      "guid": "{b453ae62-4e3d-5e58-b989-0a998ec441b8}",
+      "hidden": true,
+      "name": "Azure Cloud Shell",
+    }, {
+      "guid": "{2ece5bfe-50ed-5f3a-ab87-5cd4baafed2b}",
+      "hidden": true,
+      "name": "Git Bash",
+    }, {
+      "guid": "{c23108d6-bbb8-5346-b4e5-ddf0d8577f47}",
+      "hidden": false,
+      "name": "CMD",
+      "source": "WSH"
+    }, {
+      "guid": "{1e705aec-228d-5a9a-bad0-65d9fffab1e6}",
+      "hidden": false,
+      "name": "Git-Bash",
+      "source": "WSH"
+    }, {
+      "guid": "{782c3d40-2b4a-5e6c-a04d-1d3863322958}",
+      "hidden": false,
+      "name": "Git-CMD",
+      "source": "WSH"
+    }, {
+      "guid": "{8bf8204e-56fa-5a42-8a6d-890746e50195}",
+      "hidden": false,
+      "name": "PowerShell",
+      "source": "WSH"
+    }, {
+      "guid": "{273a8952-9a60-5b10-a6d5-0aa00fba00d9}",
+      "hidden": false,
+      "name": "Ubuntu",
+      "source": "WSH"
+    }
+  ]
+}
