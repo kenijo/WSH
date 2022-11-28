@@ -24,7 +24,7 @@ The releases are the compiled version of WSH.
 ---
 
 # How to compile your own version of Shrak
-  1. Download and install [<<nno setup>>](https://jrsoftware.org/isdl.php). Currently tested with NSIS 6.
+  1. Download and install [Inno setup](https://jrsoftware.org/isdl.php). Currently tested with NSIS 6.2.1
   2. Edit the script in the `build` folder.
   3. Compile the `.\build\wsh.iss` script and you'll get a `.build\WSH.exe` installer
 
