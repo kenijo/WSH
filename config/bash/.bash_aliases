@@ -48,5 +48,9 @@ alias md=mkdir                            # shortcut
 alias rd=rmdir                            # shortcut
 alias vi='vim'                            # shortcut
 
+# Add an "alert" alias for long running commands.  Use like so:
+#   sleep 10; alert
+alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
+
 # Displays what is the command behind an alias
 alias which='alias | /usr/bin/which --tty-only --read-alias --show-dot --show-tilde'

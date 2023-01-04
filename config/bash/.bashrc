@@ -23,13 +23,13 @@ esac
 # See /usr/share/doc/bash-doc/examples in the bash-doc package.
 # Source the user's alias definitions if it exists
 if [ -f ~/.bash_aliases ]; then
-  source ~/.bash_aliases
+    . ~/.bash_aliases
 fi
 
 ################################################################################
 # Source a custom configuration
 if [ -f ~/.custom ]; then
-  source ~/.custom
+  . ~/.custom
 fi
 
 ################################################################################
@@ -52,7 +52,11 @@ fi
 shopt -s histappend
 
 # History Options: Don't save duplicate lines through the history
-export HISTCONTROL=ignorespace:erasedups
+export HISTCONTROL=ignoreboth
+
+# For setting history length see HISTSIZE and HISTFILESIZE in bash(1)
+HISTSIZE=1000
+HISTFILESIZE=2000
 
 ################################################################################
 # Shell Options: Use case-insensitive filename globing
@@ -75,9 +79,9 @@ shopt -s checkwinsize
 # sources /etc/bash.bashrc).
 if ! shopt -oq posix; then
   if [ -f /usr/share/bash-completion/bash_completion ]; then
-    source /usr/share/bash-completion/bash_completion
+    . /usr/share/bash-completion/bash_completion
   elif [ -f /etc/bash_completion ]; then
-    source /etc/bash_completion
+    . /etc/bash_completion
   fi
 fi
 

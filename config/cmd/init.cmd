@@ -44,6 +44,9 @@ doskey dib=dir /A /B /N $*
 ::    --sort=WORD                sort by WORD instead of name: none (-U), size (-S), time (-t), version (-v), extension (-X)
 ::    -g                         like -l, but do not list owner
 ::    -o                         like -l, but do not list group information
+doskey ls=ls -AFhN --color=auto --time-style=long-iso --format=vertical
+::doskey dir=ls -AFhN --color=auto --time-style=long-iso --format=vertical
+doskey ll=ls -AFhN --color=auto --time-style=long-iso --format=long
 
 doskey clear=cls $*
 doskey df=df -h $*
