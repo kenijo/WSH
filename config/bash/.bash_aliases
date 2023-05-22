@@ -1,4 +1,4 @@
-##-----------------------------------------------------------------------------
+﻿##-----------------------------------------------------------------------------
 ## @author       Kenrick JORUS
 ## @copyright    2022 Kenrick JORUS
 ## @license      MIT License
@@ -47,6 +47,7 @@ alias cls='clear'                         # shortcut
 alias md=mkdir                            # shortcut
 alias rd=rmdir                            # shortcut
 alias vi='vim'                            # shortcut
+alias unzip='7z x'
 
 # Add an "alert" alias for long running commands.  Use like so:
 #   sleep 10; alert

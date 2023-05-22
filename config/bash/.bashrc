@@ -1,4 +1,4 @@
-##-----------------------------------------------------------------------------
+﻿##-----------------------------------------------------------------------------
 ## @author       Kenrick JORUS
 ## @license      MIT License
 ## @link         http://kenijo.github.io/WSH/
@@ -23,13 +23,13 @@ esac
 # See /usr/share/doc/bash-doc/examples in the bash-doc package.
 # Source the user's alias definitions if it exists
 if [ -f ~/.bash_aliases ]; then
-    . ~/.bash_aliases
+  source ~/.bash_aliases
 fi
 
 ################################################################################
 # Source a custom configuration
 if [ -f ~/.custom ]; then
-  . ~/.custom
+  source ~/.custom
 fi
 
 ################################################################################
@@ -51,12 +51,27 @@ fi
 # History Options: Make bash append rather than overwrite the history on disk
 shopt -s histappend
 
-# History Options: Don't save duplicate lines through the history
-export HISTCONTROL=ignoreboth
+# History Options: Set history file location
+export HISTFILE=~/.bash_history
 
-# For setting history length see HISTSIZE and HISTFILESIZE in bash(1)
-HISTSIZE=1000
-HISTFILESIZE=2000
+# History Options: Immediately persist commands to the history
+export  PROMPT_COMMAND="history -w"
+
+# History Options: Colon-separated list of values controlling how commands are saved in the history list
+#                   ignorespace – CLI, which begin with a space character, are not saved in the history list.
+#                   ignoredups – Do not save duplicate commands.
+#                   ignoreboth – It is a shortcut to both ignorespace and ignoredups.
+#                   erasedups – This option causes all previous lines matching the current line to be removed from the history list before that line is saved.
+export HISTCONTROL=ignorespace:ignoredups:erasedups
+
+# History Options: Colon-separated list of patterns to not save to the history
+export HISTIGNORE='su:exit'
+
+# History Options: The maximum number of commands in the history
+export HISTSIZE=1000
+
+# History Options: The maximum number of lines in the history
+export HISTFILESIZE=2000
 
 ################################################################################
 # Shell Options: Use case-insensitive filename globing
@@ -79,9 +94,9 @@ shopt -s checkwinsize
 # sources /etc/bash.bashrc).
 if ! shopt -oq posix; then
   if [ -f /usr/share/bash-completion/bash_completion ]; then
-    . /usr/share/bash-completion/bash_completion
+    source /usr/share/bash-completion/bash_completion
   elif [ -f /etc/bash_completion ]; then
-    . /etc/bash_completion
+    source /etc/bash_completion
   fi
 fi
 

@@ -1,4 +1,4 @@
-##-----------------------------------------------------------------------------
+﻿##-----------------------------------------------------------------------------
 ## @author       Kenrick JORUS
 ## @copyright    2022 Kenrick JORUS
 ## @license      MIT License
@@ -28,7 +28,6 @@
 # pipes. 'all' adds color characters to all output. 'none' shuts colorization
 # off.
 COLOR all
-
 
 ################################################################################
 # Extra command line options for ls go here.
