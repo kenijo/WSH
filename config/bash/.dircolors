@@ -1,4 +1,4 @@
-﻿##-----------------------------------------------------------------------------
+##-----------------------------------------------------------------------------
 ## @author       Kenrick JORUS
 ## @copyright    2022 Kenrick JORUS
 ## @license      MIT License
@@ -120,16 +120,16 @@ TERM xterm-debian
 ################################################################################
 # Attributes              Foreground Colors       Background Colors
 # ----------              -----------------       -----------------
-# 0 : Reset/Normal        30 : black              40 : black
-# 1 : Bright/Bold         31 : red                41 : red
-# 2*: Faint               32 : green              42 : green
-# 3*: Italic              33 : yellow             43 : yellow
-# 4 : Underline           34 : blue               44 : blue
-# 5 : Blink               35 : magenta            45 : magenta
-# 6*: Blink (rapid)       36 : cyan               46 : cyan
-# 7 : Invert fg/bg        37 : white              47 : white
-# 8*: Conceal             38 : 256-color          48 : 256-color
-# 9*: Crossed-out         39 : Default            49 : Default
+# 00 : Reset/Normal     30 : black           40 : black
+# 01 : Bright           31 : red             41 : red
+# 02*: Faint            32 : green           42 : green
+# 03*: Italic           33 : yellow          43 : yellow
+# 04 : Underline        34 : blue            44 : blue
+# 05 : Blink            35 : magenta         45 : magenta
+# 06*: Blink (rapid)    36 : cyan            46 : cyan
+# 07 : Invert fg/bg     37 : white           47 : white
+# 08*: Conceal          38 : 256-color       48 : 256-color
+# 09*: Crossed-out      39 : Default         49 : Default
 ################################################################################
 # 256 colors (8 bits)
 #   Foreground 256 color coding:
