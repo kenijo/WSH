@@ -1,20 +1,23 @@
 {
   "$help": "https://aka.ms/terminal-documentation",
   "$schema": "https://aka.ms/terminal-profiles-schema",
-  "actions":
-  [{
+  "actions": [
+    {
       "command": {
         "action": "copy",
         "singleLine": false
       },
       "keys": "ctrl+c"
-    }, {
+    },
+    {
       "command": "paste",
       "keys": "ctrl+v"
-    }, {
+    },
+    {
       "command": "find",
       "keys": "ctrl+shift+f"
-    }, {
+    },
+    {
       "command": {
         "action": "splitPane",
         "split": "auto",
@@ -29,39 +32,47 @@
   "defaultProfile": "{c23108d6-bbb8-5346-b4e5-ddf0d8577f47}",
   "focusFollowMouse": true,
   "profiles": {
-    "defaults": {},
-    "list":
-    [{
+    "defaults": {
+      "elevate": false
+    },
+    "list": [
+      {
         "guid": "{61c54bbd-c2c6-5271-96e7-009a87ff44bf}",
         "hidden": true,
         "name": "Windows PowerShell",
         "source": "WSH"
-      }, {
+      },
+      {
         "guid": "{0caa0dad-35be-5f56-a8ff-afceeeaa6101}",
         "hidden": true,
         "name": "Command Prompt",
         "source": "WSH"
-      }, {
+      },
+      {
         "guid": "{c23108d6-bbb8-5346-b4e5-ddf0d8577f47}",
         "hidden": false,
         "name": "CMD",
         "source": "WSH"
-      }, {
+      },
+      {
         "guid": "{1e705aec-228d-5a9a-bad0-65d9fffab1e6}",
         "hidden": false,
         "name": "Git-Bash",
         "source": "WSH"
-      }, {
+      },
+      {
         "guid": "{782c3d40-2b4a-5e6c-a04d-1d3863322958}",
         "hidden": false,
         "name": "Git-CMD",
         "source": "WSH"
-      }, {
+      },
+      {
         "guid": "{8bf8204e-56fa-5a42-8a6d-890746e50195}",
         "hidden": false,
         "name": "PowerShell",
         "source": "WSH"
-      }, {
+      },
+      {
         "guid": "{273a8952-9a60-5b10-a6d5-0aa00fba00d9}",
         "hidden": false,
         "name": "Ubuntu",
@@ -69,8 +80,8 @@
       }
     ]
   },
-  "schemes":
-  [{
+  "schemes": [
+    {
       "background": "#0C0C0C",
       "black": "#0C0C0C",
       "blue": "#0037DA",
@@ -92,7 +103,8 @@
       "selectionBackground": "#FFFFFF",
       "white": "#CCCCCC",
       "yellow": "#C19C00"
-    }, {
+    },
+    {
       "background": "#012456",
       "black": "#0C0C0C",
       "blue": "#0037DA",
@@ -114,7 +126,8 @@
       "selectionBackground": "#FFFFFF",
       "white": "#CCCCCC",
       "yellow": "#C19C00"
-    }, {
+    },
+    {
       "background": "#2E3440",
       "black": "#3B4252",
       "blue": "#81A1C1",
@@ -136,7 +149,8 @@
       "selectionBackground": "#4C566A",
       "white": "#E5E9F0",
       "yellow": "#EBCB8B"
-    }, {
+    },
+    {
       "background": "#282C34",
       "black": "#282C34",
       "blue": "#61AFEF",
@@ -158,7 +172,8 @@
       "selectionBackground": "#FFFFFF",
       "white": "#DCDFE4",
       "yellow": "#E5C07B"
-    }, {
+    },
+    {
       "background": "#FAFAFA",
       "black": "#383A42",
       "blue": "#0184BC",
@@ -180,7 +195,8 @@
       "selectionBackground": "#FFFFFF",
       "white": "#FAFAFA",
       "yellow": "#C18301"
-    }, {
+    },
+    {
       "background": "#002B36",
       "black": "#002B36",
       "blue": "#268BD2",
@@ -202,7 +218,8 @@
       "selectionBackground": "#FFFFFF",
       "white": "#EEE8D5",
       "yellow": "#B58900"
-    }, {
+    },
+    {
       "background": "#FDF6E3",
       "black": "#002B36",
       "blue": "#268BD2",
@@ -224,7 +241,8 @@
       "selectionBackground": "#FFFFFF",
       "white": "#EEE8D5",
       "yellow": "#B58900"
-    }, {
+    },
+    {
       "background": "#000000",
       "black": "#000000",
       "blue": "#3465A4",
@@ -246,7 +264,8 @@
       "selectionBackground": "#FFFFFF",
       "white": "#D3D7CF",
       "yellow": "#C4A000"
-    }, {
+    },
+    {
       "background": "#FFFFFF",
       "black": "#000000",
       "blue": "#3465A4",
@@ -268,7 +287,8 @@
       "selectionBackground": "#FFFFFF",
       "white": "#D3D7CF",
       "yellow": "#C4A000"
-    }, {
+    },
+    {
       "background": "#300A24",
       "black": "#171421",
       "blue": "#0037DA",
@@ -290,7 +310,8 @@
       "selectionBackground": "#FFFFFF",
       "white": "#CCCCCC",
       "yellow": "#A2734C"
-    }, {
+    },
+    {
       "background": "#000000",
       "black": "#000000",
       "blue": "#000080",
@@ -314,5 +335,7 @@
       "yellow": "#808000"
     }
   ],
+  "theme": "system",
+  "themes": [],
   "windowingBehavior": "useAnyExisting"
 }
