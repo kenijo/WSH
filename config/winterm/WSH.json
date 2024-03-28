@@ -1,56 +1,90 @@
 {
-  "confirmCloseAllTabs": false,
-  "copyFormatting": "all",
-  "copyOnSelect": true,
-  "defaultProfile": "{c23108d6-bbb8-5346-b4e5-ddf0d8577f47}",
-  "focusFollowMouse": true,
-  "windowingBehavior": "useAnyExisting",
-  "profiles":
-  [{
-      "guid": "{61c54bbd-c2c6-5271-96e7-009a87ff44bf}",
-      "hidden": true,
-      "name": "Windows PowerShell",
-    }, {
-      "guid": "{0caa0dad-35be-5f56-a8ff-afceeeaa6101}",
-      "hidden": true,
-      "name": "Command Prompt",
-    }, {
-      "guid": "{2c4de342-38b7-51cf-b940-2309a097f518}",
-      "hidden": true,
-      "name": "Ubuntu",
-    }, {
-      "guid": "{b453ae62-4e3d-5e58-b989-0a998ec441b8}",
-      "hidden": true,
-      "name": "Azure Cloud Shell",
-    }, {
-      "guid": "{2ece5bfe-50ed-5f3a-ab87-5cd4baafed2b}",
-      "hidden": true,
-      "name": "Git Bash",
-    }, {
-      "guid": "{c23108d6-bbb8-5346-b4e5-ddf0d8577f47}",
-      "hidden": false,
-      "name": "CMD",
-      "source": "WSH"
-    }, {
-      "guid": "{1e705aec-228d-5a9a-bad0-65d9fffab1e6}",
-      "hidden": false,
-      "name": "Git-Bash",
-      "source": "WSH"
-    }, {
-      "guid": "{782c3d40-2b4a-5e6c-a04d-1d3863322958}",
-      "hidden": false,
-      "name": "Git-CMD",
-      "source": "WSH"
-    }, {
-      "guid": "{8bf8204e-56fa-5a42-8a6d-890746e50195}",
-      "hidden": false,
-      "name": "PowerShell",
-      "source": "WSH"
-    }, {
-      "guid": "{273a8952-9a60-5b10-a6d5-0aa00fba00d9}",
-      "hidden": false,
-      "name": "Ubuntu",
-      "source": "WSH"
-    }
-  ]
+    "confirmCloseAllTabs": false,
+    "copyFormatting": "all",
+    "copyOnSelect": true,
+    "defaultProfile": "{0caa0dad-35be-5f56-a8ff-afceeeaa6101}",
+    "focusFollowMouse": true,
+    "newTabMenu": [
+        {
+            "type": "remainingProfiles"
+        }
+    ],
+    "profiles": {
+        "defaults": {
+            "bellStyle": [
+                "window",
+                "taskbar"
+            ],
+            "closeOnExit": "always",
+            "colorScheme": "Nord",
+            "cursorShape": "bar",
+            "font": {
+                "face": "Source Code Pro",
+                "size": 11.0
+            },
+            "historySize": 9999,
+            "startingDirectory": "%USERPROFILE%"
+        },
+        "list": [
+            {
+                "commandline": "cmd.exe /k C:/Software/WSH/config/cmd/init.cmd",
+                "guid": "{0caa0dad-35be-5f56-a8ff-afceeeaa6101}",
+                "icon": "C:\\Software\\WSH\\icons\\cmd.ico",
+                "name": "CMD"
+            },
+            {
+                "background": "#284378",
+                "guid": "{61c54bbd-c2c6-5271-96e7-009a87ff44bf}",
+                "icon": "C:\\Software\\WSH\\icons\\powershell.ico",
+                "name": "PowerShell"
+            },
+            {
+                "commandline": "ubuntu.exe",
+                "guid": "{51855cb2-8cce-5362-8f54-464b92b32386}",
+                "hidden": false,
+                "icon": "C:\\Software\\WSH\\icons\\ubuntu.ico",
+                "name": "Ubuntu",
+                "source": "CanonicalGroupLimited.Ubuntu_79rhkp1fndgsc"
+            },
+            {
+                "commandline": "cmd.exe /k C:/Software/WSH/config/cmd/init.cmd",
+                "elevate": true,
+                "guid": "{02b4d0bf-5ab0-537e-bb94-9aa312e63ca5}",
+                "icon": "C:\\Software\\WSH\\icons\\cmd.ico",
+                "name": "CMD (Admin)"
+            },
+            {
+                "background": "#284378",
+                "commandline": "powershell.exe",
+                "elevate": true,
+                "guid": "{a2ca0b9c-4259-5314-bb0f-5227aa65401f}",
+                "icon": "C:\\Software\\WSH\\icons\\powershell.ico",
+                "name": "PowerShell (Admin)"
+            },
+            {
+                "commandline": "ssh.exe \"NETVIBES PLMA + 3DX Collab + Route\"",
+                "guid": "{cffcdd18-5ed8-5e84-b832-7e5bcc9952e0}",
+                "hidden": false,
+                "icon": "C:\\Software\\WSH\\icons\\putty.ico",
+                "name": "NETVIBES PLMA + 3DX Collab + Route"
+            },
+            {
+                "commandline": "ssh \"NETVIBES Sourcing & Standardization\"",
+                "guid": "{91f9b9b8-5215-5cfa-a6a5-d0c9d2c968ea}",
+                "hidden": false,
+                "icon": "C:\\Software\\WSH\\icons\\putty.ico",
+                "name": "NETVIBES Sourcing & Standardization"
+            },
+            {
+                "commandline": "ssh \"EXALEAD-NAM CentOS Server\"",
+                "guid": "{0108e1c9-be97-5b95-9fe1-79ac0b195558}",
+                "hidden": false,
+                "icon": "C:\\Software\\WSH\\icons\\putty.ico",
+                "name": "EXALEAD-NAM CentOS Server"
+            }
+        ]
+    },
+    "theme": "system",
+    "themes": [],
+    "windowingBehavior": "useAnyExisting"
 }
