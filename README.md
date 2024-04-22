@@ -16,7 +16,6 @@ The releases are the compiled version of WSH.
   - [Clink](https://chrisant996.github.io/clink) ([repo](https://github.com/chrisant996/clink))
   - [Free Programing Fonts](http://cdn.sixrevisions.com/0441-01_programming-fonts/demo/programming-fonts.html)
   - [Git](https://git-scm.com) ([repo](https://github.com/git-for-windows/git))
-  - [KiTTY](http://kitty.9bis.net)
   - [PHP](http://php.net)
   - [PuTTY](http://www.putty.org)
   - [Windows Terminal](https://apps.microsoft.com/store/detail/windows-terminal/9N0DX20HK701) ([repo](https://github.com/microsoft/terminal))

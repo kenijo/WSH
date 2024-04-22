@@ -29,27 +29,29 @@
             {
                 "commandline": "cmd.exe /k C:/Software/WSH/config/cmd/init.cmd",
                 "guid": "{0caa0dad-35be-5f56-a8ff-afceeeaa6101}",
+                "hidden": false,
                 "icon": "C:\\Software\\WSH\\icons\\cmd.ico",
                 "name": "CMD"
             },
             {
                 "background": "#284378",
                 "guid": "{61c54bbd-c2c6-5271-96e7-009a87ff44bf}",
+                "hidden": false,
                 "icon": "C:\\Software\\WSH\\icons\\powershell.ico",
                 "name": "PowerShell"
             },
             {
                 "commandline": "ubuntu.exe",
-                "guid": "{51855cb2-8cce-5362-8f54-464b92b32386}",
+                "guid": "{e381fe40-9d15-58b7-99ea-5908cd6561e5}",
                 "hidden": false,
                 "icon": "C:\\Software\\WSH\\icons\\ubuntu.ico",
-                "name": "Ubuntu",
-                "source": "CanonicalGroupLimited.Ubuntu_79rhkp1fndgsc"
+                "name": "Ubuntu"
             },
             {
                 "commandline": "cmd.exe /k C:/Software/WSH/config/cmd/init.cmd",
                 "elevate": true,
                 "guid": "{02b4d0bf-5ab0-537e-bb94-9aa312e63ca5}",
+                "hidden": false,
                 "icon": "C:\\Software\\WSH\\icons\\cmd.ico",
                 "name": "CMD (Admin)"
             },
@@ -58,6 +60,7 @@
                 "commandline": "powershell.exe",
                 "elevate": true,
                 "guid": "{a2ca0b9c-4259-5314-bb0f-5227aa65401f}",
+                "hidden": false,
                 "icon": "C:\\Software\\WSH\\icons\\powershell.ico",
                 "name": "PowerShell (Admin)"
             },
