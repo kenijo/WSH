@@ -29,7 +29,7 @@ Name: "clink";                    Description: "Clink";         Types: custom fu
 Name: "fonts";                    Description: "Fonts";         Types: full;
 Name: "git";                      Description: "Git";           Types: full;
 Name: "php";                      Description: "PHP";           Types: full;
-Name: "kitty";                    Description: "KiTTY-PuTTY";   Types: full;
+Name: "putty";                    Description: "PuTTY";   Types: full;
 
 [Tasks]
 Name: cmd_context_menu;           Description: "Add ""Open CMD""";                  GroupDescription: "Context Menu (Right Click):";
@@ -37,12 +37,12 @@ Name: ubuntu_context_menu;        Description: "Add ""Open Ubuntu""";           
 Name: powershell_context_menu;    Description: "Add ""Open PowerShell""";           GroupDescription: "Context Menu (Right Click):";
 
 Name: cmd_theme;                  Description: "Apply CMD Nord Theme";              GroupDescription: "Themes:";
-Name: kitty_theme;                Description: "Apply KiTTY Nord Theme";            GroupDescription: "Themes:";                        Components: kitty;
-Name: putty_theme;                Description: "Apply PuTTY Nord Theme";            GroupDescription: "Themes:";                        Components: kitty;
+;Name: kitty_theme;                Description: "Apply KiTTY Nord Theme";            GroupDescription: "Themes:";                        Components: putty;
+Name: putty_theme;                Description: "Apply PuTTY Nord Theme";            GroupDescription: "Themes:";                        Components: putty;
 
 Name: cmd_settings;               Description: "Apply CMD Settings";                GroupDescription: "Settings:";
-Name: kitty_settings;             Description: "Apply KiTTY Settings";              GroupDescription: "Settings:";                      Components: kitty;
-Name: putty_settings;             Description: "Apply PuTTY Settings";              GroupDescription: "Settings:";                      Components: kitty;
+;Name: kitty_settings;             Description: "Apply KiTTY Settings";              GroupDescription: "Settings:";                      Components: putty;
+Name: putty_settings;             Description: "Apply PuTTY Settings";              GroupDescription: "Settings:";                      Components: putty;
 Name: wterm_settings;             Description: "Apply Windows Terminal Settings";   GroupDescription: "Settings:";
 
 [Files]
@@ -53,7 +53,7 @@ Source: "..\config\bash\*";                                                   De
 Source: "..\config\clink\*";                                                  DestDir: "{app}\config\clink";                                          Components: clink;        Flags: recursesubdirs restartreplace uninsrestartdelete;
 Source: "..\config\cmd\*";                                                    DestDir: "{app}\config\cmd";                                                                      Flags: recursesubdirs restartreplace uninsrestartdelete;
 Source: "..\config\git\*";                                                    DestDir: "{app}\config\git";                                            Components: git;          Flags: recursesubdirs restartreplace uninsrestartdelete;
-Source: "..\config\kitty\*";                                                  DestDir: "{app}\config\kitty";                                          Components: kitty;        Flags: recursesubdirs restartreplace uninsrestartdelete;
+Source: "..\config\putty\*";                                                  DestDir: "{app}\config\putty";                                          Components: putty;        Flags: recursesubdirs restartreplace uninsrestartdelete;
 Source: "..\config\winterm\*";                                                DestDir: "{app}\config\winterm";                                                                  Flags: recursesubdirs restartreplace uninsrestartdelete;
 Source: "..\config\winterm\*";                                                DestDir: "{commonappdata}\Microsoft\Windows Terminal\Fragments\WSH";    Tasks: wterm_settings;    Flags: recursesubdirs restartreplace uninsrestartdelete;    Check: IsAdminInstallMode
 Source: "..\config\winterm\*";                                                DestDir: "{localappdata}\Microsoft\Windows Terminal\Fragments\WSH";     Tasks: wterm_settings;    Flags: recursesubdirs restartreplace uninsrestartdelete;    Check: not IsAdminInstallMode
@@ -64,7 +64,7 @@ Source: "..\modules\bin\*";                                                   De
 Source: "..\modules\clink\*";                                                 DestDir: "{app}\modules\clink";                                         Components: clink;        Flags: recursesubdirs restartreplace uninsrestartdelete;
 Source: "..\modules\fonts\*";                                                 DestDir: "{app}\modules\fonts";                                         Components: fonts;        Flags: recursesubdirs restartreplace uninsrestartdelete;
 Source: "..\modules\git\*";                                                   DestDir: "{app}\modules\git";                                           Components: git;          Flags: recursesubdirs restartreplace uninsrestartdelete;
-Source: "..\modules\kitty\*";                                                 DestDir: "{app}\modules\kitty";                                         Components: kitty;        Flags: recursesubdirs restartreplace uninsrestartdelete;
+Source: "..\modules\putty\*";                                                 DestDir: "{app}\modules\putty";                                         Components: putty;        Flags: recursesubdirs restartreplace uninsrestartdelete;
 Source: "..\modules\php\*";                                                   DestDir: "{app}\modules\php";                                           Components: php;          Flags: recursesubdirs restartreplace uninsrestartdelete;
 
 // Install fonts
@@ -181,21 +181,22 @@ Source: "..\modules\fonts\Ubuntu Font\UbuntuMono-RI.ttf";                     De
 Source: "{tmp}\clink.zip";                                                    DestDir: "{app}\modules\clink";                                         Components: clink;        Flags: deleteafterinstall external uninsrestartdelete;
 Source: "{tmp}\git-x64.exe";                                                  DestDir: "{app}\modules\git";                                           Components: git;          Flags: deleteafterinstall external uninsrestartdelete;
 Source: "{tmp}\php-x64.zip";                                                  DestDir: "{app}\modules\php";                                           Components: php;          Flags: deleteafterinstall external uninsrestartdelete;
-Source: "{tmp}\kitty.exe";                                                    DestDir: "{app}\modules\kitty";                                         Components: kitty;        Flags: external uninsrestartdelete;
-Source: "{tmp}\pscp.exe";                                                     DestDir: "{app}\modules\kitty";                                         Components: kitty;        Flags: external uninsrestartdelete;
-Source: "{tmp}\psftp.exe";                                                    DestDir: "{app}\modules\kitty";                                         Components: kitty;        Flags: external uninsrestartdelete;
-Source: "{tmp}\plink.exe";                                                    DestDir: "{app}\modules\kitty";                                         Components: kitty;        Flags: external uninsrestartdelete;
-Source: "{tmp}\pageant.exe";                                                  DestDir: "{app}\modules\kitty";                                         Components: kitty;        Flags: external uninsrestartdelete;
-Source: "{tmp}\puttygen.exe";                                                 DestDir: "{app}\modules\kitty";                                         Components: kitty;        Flags: external uninsrestartdelete;
+;Source: "{tmp}\kitty.exe";                                                    DestDir: "{app}\modules\putty";                                         Components: putty;        Flags: external uninsrestartdelete;
+Source: "{tmp}\putty.exe";                                                    DestDir: "{app}\modules\putty";                                         Components: putty;        Flags: external uninsrestartdelete;
+Source: "{tmp}\pscp.exe";                                                     DestDir: "{app}\modules\putty";                                         Components: putty;        Flags: external uninsrestartdelete;
+Source: "{tmp}\psftp.exe";                                                    DestDir: "{app}\modules\putty";                                         Components: putty;        Flags: external uninsrestartdelete;
+Source: "{tmp}\plink.exe";                                                    DestDir: "{app}\modules\putty";                                         Components: putty;        Flags: external uninsrestartdelete;
+Source: "{tmp}\pageant.exe";                                                  DestDir: "{app}\modules\putty";                                         Components: putty;        Flags: external uninsrestartdelete;
+Source: "{tmp}\puttygen.exe";                                                 DestDir: "{app}\modules\putty";                                         Components: putty;        Flags: external uninsrestartdelete;
 
 [INI]
 // Define KiTTY configuration
-Filename: "{app}\config\kitty\kitty.ini";   Section: "KiTTY";   Key: "savemode";    String: "dir";                  Components: kitty;    Flags: uninsdeleteentry;
-Filename: "{app}\config\kitty\kitty.ini";   Section: "KiTTY";   Key: "configdir";   String: "{app}\config\kitty";   Components: kitty;    Flags: uninsdeleteentry;
+;Filename: "{app}\config\putty\kitty.ini";   Section: "KiTTY";   Key: "savemode";    String: "dir";                  Components: putty;    Flags: uninsdeleteentry;
+;Filename: "{app}\config\putty\kitty.ini";   Section: "KiTTY";   Key: "configdir";   String: "{app}\config\putty";   Components: putty;    Flags: uninsdeleteentry;
 
 // Define Git installer configuration
-Filename: "{app}\config\git\git-x64.ini";   Section: "Setup";   Key: "Dir";         String: "{app}\modules\git";    Components: kitty;    Flags: uninsdeleteentry;
-Filename: "{app}\config\git\git-x64.ini";   Section: "Setup";   Key: "Group";       String: "{groupname}\Git";      Components: kitty;    Flags: uninsdeleteentry;
+Filename: "{app}\config\git\git-x64.ini";   Section: "Setup";   Key: "Dir";         String: "{app}\modules\git";    Components: putty;    Flags: uninsdeleteentry;
+Filename: "{app}\config\git\git-x64.ini";   Section: "Setup";   Key: "Group";       String: "{groupname}\Git";      Components: putty;    Flags: uninsdeleteentry;
 
 [Run]
 // Unzip Clink
@@ -212,30 +213,30 @@ Filename: "{app}\modules\git\git-x64.exe";    Parameters: "/LOADINF=""{app}\conf
 Filename: "{app}\build\7za.exe";              Parameters: "x -aoa -o""{app}\modules\php\"" -y ""{app}\modules\php\php-x64.zip"" ""*""";       Components: php;          Flags: runhidden;   StatusMsg: "Installing PHP";
 
 // Create a symbolic link to the "kitty.ini" configuration file
-Filename: "{cmd}";                            Parameters: "/C mklink ""{app}\modules\kitty\kitty.ini"" ""{app}\config\kitty\kitty.ini""";     Components: kitty;        Flags: runhidden;   StatusMsg: "Installing KiTTY-PuTTY";
+;Filename: "{cmd}";                            Parameters: "/C mklink ""{app}\modules\putty\kitty.ini"" ""{app}\config\putty\kitty.ini""";     Components: putty;        Flags: runhidden;   StatusMsg: "Installing PuTTY";
 // Create a symbolic link to "kitty.exe" named "putty.exe" to allow either execuatble name to be used
-Filename: "{cmd}";                            Parameters: "/C mklink ""{app}\modules\kitty\putty.exe"" ""{app}\modules\kitty\kitty.exe""";    Components: kitty;        Flags: runhidden;   StatusMsg: "Installing KiTTY-PuTTY";
+;Filename: "{cmd}";                            Parameters: "/C mklink ""{app}\modules\putty\putty.exe"" ""{app}\modules\putty\kitty.exe""";    Components: putty;        Flags: runhidden;   StatusMsg: "Installing PuTTY";
 
 // Import CMD Nord Theme registry
 Filename: "reg.exe";                          Parameters: "import ""{app}\config\cmd\CMD Nord Theme Only (As Default Settings).reg""";        Tasks: cmd_theme;         Flags: runhidden;   StatusMsg: "Importing CMD Nord Theme registry";
 // Import KiTTY Nord Theme registry
-Filename: "reg.exe";                          Parameters: "import ""{app}\config\kitty\KiTTY Nord Theme Only (As Default Settings).reg""";    Tasks: kitty_theme;       Flags: runhidden;   StatusMsg: "Importing KiTTY Nord Theme registry";
+;Filename: "reg.exe";                          Parameters: "import ""{app}\config\putty\KiTTY Nord Theme Only (As Default Settings).reg""";    Tasks: kitty_theme;       Flags: runhidden;   StatusMsg: "Importing KiTTY Nord Theme registry";
 // Import PuTTY Nord Theme registry
-Filename: "reg.exe";                          Parameters: "import ""{app}\config\kitty\PuTTY Nord Theme Only (As Default Settings).reg""";    Tasks: putty_theme;       Flags: runhidden;   StatusMsg: "Importing PuTTY Nord Theme registry";
+Filename: "reg.exe";                          Parameters: "import ""{app}\config\putty\PuTTY Nord Theme Only (As Default Settings).reg""";    Tasks: putty_theme;       Flags: runhidden;   StatusMsg: "Importing PuTTY Nord Theme registry";
 
 // Import CMD Settings registry
 Filename: "reg.exe";                          Parameters: "import ""{app}\config\cmd\CMD Settings (As Default Settings).reg""";               Tasks: cmd_settings;      Flags: runhidden;   StatusMsg: "Importing CMD Settings registry";
 // Import KiTTY Settings registry
-Filename: "reg.exe";                          Parameters: "import ""{app}\config\kitty\KiTTY Settings (As Default Settings).reg""";           Tasks: kitty_settings;    Flags: runhidden;   StatusMsg: "Importing KiTTY Settings registry";
+;Filename: "reg.exe";                          Parameters: "import ""{app}\config\putty\KiTTY Settings (As Default Settings).reg""";           Tasks: kitty_settings;    Flags: runhidden;   StatusMsg: "Importing KiTTY Settings registry";
 // Import PuTTY Settings registry
-Filename: "reg.exe";                          Parameters: "import ""{app}\config\kitty\PuTTY Settings (As Default Settings).reg""";           Tasks: putty_settings;    Flags: runhidden;   StatusMsg: "Importing PuTTY Settings registry";
+Filename: "reg.exe";                          Parameters: "import ""{app}\config\putty\PuTTY Settings (As Default Settings).reg""";           Tasks: putty_settings;    Flags: runhidden;   StatusMsg: "Importing PuTTY Settings registry";
 
 [Icons]
-// Create shortcuts for KiTTY-PuTTY
-Name: "{group}\KiTTY-PuTTY\KiTTY-PuTTY";            Filename: "{app}\modules\kitty\kitty.exe";                                        Components: kitty;
-Name: "{group}\KiTTY-PuTTY\Launcher";               Filename: "{app}\modules\kitty\kitty.exe";      Parameters: "-launcher";          Components: kitty;
-Name: "{group}\KiTTY-PuTTY\Pageant Key List";       Filename: "{app}\modules\kitty\pageant.exe";                                      Components: kitty;
-Name: "{group}\KiTTY-PuTTY\PuTTY Key Generator";    Filename: "{app}\modules\kitty\puttygen.exe";                                     Components: kitty;
+// Create shortcuts for PuTTY
+;Name: "{group}\PuTTY\KiTTY";                  Filename: "{app}\modules\putty\kitty.exe";                                        Components: putty;
+Name: "{group}\PuTTY\PuTTY";                  Filename: "{app}\modules\putty\putty.exe";                                        Components: putty;
+Name: "{group}\PuTTY\Pageant Key List";       Filename: "{app}\modules\putty\pageant.exe";                                      Components: putty;
+Name: "{group}\PuTTY\PuTTY Key Generator";    Filename: "{app}\modules\putty\puttygen.exe";                                     Components: putty;
 
 // Shortcuts for Git are configured in the "{app}\modules\git\git-x64.ini" file
 
@@ -327,7 +328,7 @@ Type: filesandordirs;   Name: "{app}\config\clink\clink_*";
 Type: filesandordirs;   Name: "{app}\modules\clink";
 Type: filesandordirs;   Name: "{app}\modules\fonts";
 ;Type: filesandordirs;   Name: "{app}\modules\git";
-Type: filesandordirs;   Name: "{app}\modules\kitty";
+Type: filesandordirs;   Name: "{app}\modules\putty";
 Type: filesandordirs;   Name: "{app}\modules\php";
 
 [Code]
@@ -531,11 +532,11 @@ begin
       DownloadClink('https://api.github.com/repos/chrisant996/clink/releases/latest', 'clink.zip');
     if WizardIsComponentSelected('git') then
       DownloadGit('https://git-scm.com/download/win', 'git-x64.exe');
-    if WizardIsComponentSelected('kitty') then begin
+    if WizardIsComponentSelected('putty') then begin
       // Download latest version of KiTTY to use in place of PuTTY
-      DownloadPage.Add('http://www.9bis.net/kitty/files/kitty_portable.exe', 'kitty.exe', '');
-      // Disable download from the original PuTTY
-      //DownloadPage.Add('https://the.earth.li/~sgtatham/putty/latest/x86/putty.exe', 'putty.exe', '');
+      //DownloadPage.Add('http://www.9bis.net/kitty/files/kitty_portable.exe', 'kitty.exe', '');
+      // Download latest version of PuTTY
+      DownloadPage.Add('https://the.earth.li/~sgtatham/putty/latest/x86/putty.exe', 'putty.exe', '');
       DownloadPage.Add('http://the.earth.li/~sgtatham/putty/latest/x86/pscp.exe', 'pscp.exe', '');
       DownloadPage.Add('http://the.earth.li/~sgtatham/putty/latest/x86/psftp.exe', 'psftp.exe', '');
       DownloadPage.Add('http://the.earth.li/~sgtatham/putty/latest/x86/plink.exe', 'plink.exe', '');
