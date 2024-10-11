@@ -55,10 +55,10 @@ Source: "..\config\cmd\*";                                                    De
 Source: "..\config\git\*";                                                    DestDir: "{app}\config\git";                                            Components: git;          Flags: recursesubdirs restartreplace uninsrestartdelete;
 Source: "..\config\putty\*";                                                  DestDir: "{app}\config\putty";                                          Components: putty;        Flags: recursesubdirs restartreplace uninsrestartdelete;
 Source: "..\config\winterm\*";                                                DestDir: "{app}\config\winterm";                                                                  Flags: recursesubdirs restartreplace uninsrestartdelete;
-Source: "..\config\winterm\*";                                                DestDir: "{commonappdata}\Microsoft\Windows Terminal\Fragments\WSH";    Tasks: wterm_settings;    Flags: recursesubdirs restartreplace uninsrestartdelete;    Check: IsAdminInstallMode
-Source: "..\config\winterm\*";                                                DestDir: "{localappdata}\Microsoft\Windows Terminal\Fragments\WSH";     Tasks: wterm_settings;    Flags: recursesubdirs restartreplace uninsrestartdelete;    Check: not IsAdminInstallMode
+Source: "..\config\winterm\Fragments\*";                                      DestDir: "{commonappdata}\Microsoft\Windows Terminal\Fragments\WSH";    Tasks: wterm_settings;    Flags: recursesubdirs restartreplace uninsrestartdelete;    Check: IsAdminInstallMode
+Source: "..\config\winterm\Fragments\*";                                      DestDir: "{localappdata}\Microsoft\Windows Terminal\Fragments\WSH";     Tasks: wterm_settings;    Flags: recursesubdirs restartreplace uninsrestartdelete;    Check: not IsAdminInstallMode
 Source: "{localappdata}\Packages\Microsoft.WindowsTerminal_8wekyb3d8bbwe\LocalState\settings.json";   DestDir: "{localappdata}\Packages\Microsoft.WindowsTerminal_8wekyb3d8bbwe\LocalState";    DestName: "settings.wsh_backup.json";       Tasks: wterm_settings;    Flags: external ignoreversion restartreplace skipifsourcedoesntexist uninsneveruninstall uninsrestartdelete;
-Source: "..\config\winterm\WSH.json";                                                                 DestDir: "{localappdata}\Packages\Microsoft.WindowsTerminal_8wekyb3d8bbwe\LocalState";    DestName: "settings.json";                  Tasks: wterm_settings;    Flags: ignoreversion restartreplace uninsrestartdelete;
+Source: "..\config\winterm\settings.json";                                                            DestDir: "{localappdata}\Packages\Microsoft.WindowsTerminal_8wekyb3d8bbwe\LocalState";    DestName: "settings.json";                  Tasks: wterm_settings;    Flags: ignoreversion restartreplace uninsrestartdelete;
 Source: "..\icons\*";                                                         DestDir: "{app}\icons";                                                                           Flags: recursesubdirs restartreplace uninsrestartdelete;
 Source: "..\modules\bin\*";                                                   DestDir: "{app}\modules\bin";                                                                     Flags: recursesubdirs restartreplace uninsrestartdelete;
 Source: "..\modules\clink\*";                                                 DestDir: "{app}\modules\clink";                                         Components: clink;        Flags: recursesubdirs restartreplace uninsrestartdelete;
@@ -187,11 +187,11 @@ Name: "{group}\PuTTY\PuTTY Key Generator";    Filename: "{app}\modules\putty\put
 // Shortcuts for Git are configured in the "{app}\modules\git\git-x64.ini" file
 
 // Create console/terminal shortcuts
-Name: "{group}\CMD";                                Filename: "wt.exe";                             Parameters: "-p CMD";                                 IconFilename: "{app}\icons\cmd.ico";
-Name: "{group}\Git";                                Filename: "wt.exe";                             Parameters: "-p ""Git Bash""";    Components: git;    IconFilename: "{app}\modules\git\mingw64\share\git\git-for-windows.ico";
-Name: "{group}\Git";                                Filename: "wt.exe";                             Parameters: "-p ""Git CMD""";     Components: git;    IconFilename: "{app}\modules\git\mingw64\share\git\git-for-windows.ico";
-Name: "{group}\PowerShell";                         Filename: "wt.exe";                             Parameters: "-p PowerShell";                          IconFilename: "{app}\icons\powershell.ico";
-Name: "{group}\Ubuntu";                             Filename: "wt.exe";                             Parameters: "-p Ubuntu";                              IconFilename: "{app}\icons\ubuntu.ico";
+Name: "{group}\CMD";                          Filename: "{localappdata}\Microsoft\WindowsApps\wt.exe";    Parameters: "-p CMD";                                 IconFilename: "{app}\icons\cmd.ico";
+Name: "{group}\Git";                          Filename: "{localappdata}\Microsoft\WindowsApps\wt.exe";    Parameters: "-p ""Git Bash""";    Components: git;    IconFilename: "{app}\modules\git\mingw64\share\git\git-for-windows.ico";
+Name: "{group}\Git";                          Filename: "{localappdata}\Microsoft\WindowsApps\wt.exe";    Parameters: "-p ""Git CMD""";     Components: git;    IconFilename: "{app}\modules\git\mingw64\share\git\git-for-windows.ico";
+Name: "{group}\PowerShell";                   Filename: "{localappdata}\Microsoft\WindowsApps\wt.exe";    Parameters: "-p PowerShell";                          IconFilename: "{app}\icons\powershell.ico";
+Name: "{group}\Ubuntu";                       Filename: "{localappdata}\Microsoft\WindowsApps\wt.exe";    Parameters: "-p Ubuntu";                              IconFilename: "{app}\icons\ubuntu.ico";
 
 [Registry]
 // "HKCR\*\shell"                       adds the right click entry to all the files
@@ -205,35 +205,35 @@ Name: "{group}\Ubuntu";                             Filename: "wt.exe";         
 // CMD Context Menu
 Root: HKCR; Subkey: "Directory\background\shell\wsh_cm_cmd";                  ValueType: string;    ValueName: "";        ValueData: "Open CMD";                          Tasks: cmd_context_menu;          Flags: uninsdeletekey;
 Root: HKCR; Subkey: "Directory\background\shell\wsh_cm_cmd";                  ValueType: string;    ValueName: "Icon";    ValueData: "{app}\icons\cmd.ico";               Tasks: cmd_context_menu;          Flags: uninsdeletekey;
-Root: HKCR; Subkey: "Directory\background\shell\wsh_cm_cmd\command";          ValueType: string;    ValueName: "";        ValueData: "wt.exe -d ""%V."" -p CMD";          Tasks: cmd_context_menu;          Flags: uninsdeletekey;
+Root: HKCR; Subkey: "Directory\background\shell\wsh_cm_cmd\command";          ValueType: string;    ValueName: "";        ValueData: "{localappdata}\Microsoft\WindowsApps\wt.exe -d ""%V."" -p CMD";          Tasks: cmd_context_menu;          Flags: uninsdeletekey;
 Root: HKCR; Subkey: "Directory\shell\wsh_cm_cmd";                             ValueType: string;    ValueName: "";        ValueData: "Open CMD";                          Tasks: cmd_context_menu;          Flags: uninsdeletekey;
 Root: HKCR; Subkey: "Directory\shell\wsh_cm_cmd";                             ValueType: string;    ValueName: "Icon";    ValueData: "{app}\icons\cmd.ico";               Tasks: cmd_context_menu;          Flags: uninsdeletekey;
-Root: HKCR; Subkey: "Directory\shell\wsh_cm_cmd\command";                     ValueType: string;    ValueName: "";        ValueData: "wt.exe -d ""%V."" -p CMD";          Tasks: cmd_context_menu;          Flags: uninsdeletekey;
+Root: HKCR; Subkey: "Directory\shell\wsh_cm_cmd\command";                     ValueType: string;    ValueName: "";        ValueData: "{localappdata}\Microsoft\WindowsApps\wt.exe -d ""%V."" -p CMD";          Tasks: cmd_context_menu;          Flags: uninsdeletekey;
 Root: HKCR; Subkey: "Drive\shell\wsh_cm_cmd";                                 ValueType: string;    ValueName: "";        ValueData: "Open CMD";                          Tasks: cmd_context_menu;          Flags: uninsdeletekey;
 Root: HKCR; Subkey: "Drive\shell\wsh_cm_cmd";                                 ValueType: string;    ValueName: "Icon";    ValueData: "{app}\icons\cmd.ico";               Tasks: cmd_context_menu;          Flags: uninsdeletekey;
-Root: HKCR; Subkey: "Drive\shell\wsh_cm_cmd\command";                         ValueType: string;    ValueName: "";        ValueData: "wt.exe -d ""%V."" -p CMD";          Tasks: cmd_context_menu;          Flags: uninsdeletekey;
+Root: HKCR; Subkey: "Drive\shell\wsh_cm_cmd\command";                         ValueType: string;    ValueName: "";        ValueData: "{localappdata}\Microsoft\WindowsApps\wt.exe -d ""%V."" -p CMD";          Tasks: cmd_context_menu;          Flags: uninsdeletekey;
 
 // PowerShell Context Menu
 Root: HKCR; Subkey: "Directory\background\shell\wsh_cm_powershell";           ValueType: string;    ValueName: "";        ValueData: "Open PowerShell";                   Tasks: powershell_context_menu;   Flags: uninsdeletekey;
 Root: HKCR; Subkey: "Directory\background\shell\wsh_cm_powershell";           ValueType: string;    ValueName: "Icon";    ValueData: "{app}\icons\powershell.ico";        Tasks: powershell_context_menu;   Flags: uninsdeletekey;
-Root: HKCR; Subkey: "Directory\background\shell\wsh_cm_powershell\command";   ValueType: string;    ValueName: "";        ValueData: "wt.exe -d ""%V."" -p PowerShell";   Tasks: powershell_context_menu;   Flags: uninsdeletekey;
+Root: HKCR; Subkey: "Directory\background\shell\wsh_cm_powershell\command";   ValueType: string;    ValueName: "";        ValueData: "{localappdata}\Microsoft\WindowsApps\wt.exe -d ""%V."" -p PowerShell";   Tasks: powershell_context_menu;   Flags: uninsdeletekey;
 Root: HKCR; Subkey: "Directory\shell\wsh_cm_powershell";                      ValueType: string;    ValueName: "";        ValueData: "Open PowerShell";                   Tasks: powershell_context_menu;   Flags: uninsdeletekey;
 Root: HKCR; Subkey: "Directory\shell\wsh_cm_powershell";                      ValueType: string;    ValueName: "Icon";    ValueData: "{app}\icons\powershell.ico";        Tasks: powershell_context_menu;   Flags: uninsdeletekey;
-Root: HKCR; Subkey: "Directory\shell\wsh_cm_powershell\command";              ValueType: string;    ValueName: "";        ValueData: "wt.exe -d ""%V."" -p PowerShell";   Tasks: powershell_context_menu;   Flags: uninsdeletekey;
+Root: HKCR; Subkey: "Directory\shell\wsh_cm_powershell\command";              ValueType: string;    ValueName: "";        ValueData: "{localappdata}\Microsoft\WindowsApps\wt.exe -d ""%V."" -p PowerShell";   Tasks: powershell_context_menu;   Flags: uninsdeletekey;
 Root: HKCR; Subkey: "Drive\shell\wsh_cm_powershell";                          ValueType: string;    ValueName: "";        ValueData: "Open PowerShell";                   Tasks: powershell_context_menu;   Flags: uninsdeletekey;
 Root: HKCR; Subkey: "Drive\shell\wsh_cm_powershell";                          ValueType: string;    ValueName: "Icon";    ValueData: "{app}\icons\powershell.ico";        Tasks: powershell_context_menu;   Flags: uninsdeletekey;
-Root: HKCR; Subkey: "Drive\shell\wsh_cm_powershell\command";                  ValueType: string;    ValueName: "";        ValueData: "wt.exe -d ""%V."" -p PowerShell";   Tasks: powershell_context_menu;   Flags: uninsdeletekey;
+Root: HKCR; Subkey: "Drive\shell\wsh_cm_powershell\command";                  ValueType: string;    ValueName: "";        ValueData: "{localappdata}\Microsoft\WindowsApps\wt.exe -d ""%V."" -p PowerShell";   Tasks: powershell_context_menu;   Flags: uninsdeletekey;
 
 // Ubuntu Context Menu
 Root: HKCR; Subkey: "Directory\background\shell\wsh_cm_ubuntu";               ValueType: string;    ValueName: "";        ValueData: "Open Ubuntu";                       Tasks: ubuntu_context_menu;       Flags: uninsdeletekey;
 Root: HKCR; Subkey: "Directory\background\shell\wsh_cm_ubuntu";               ValueType: string;    ValueName: "Icon";    ValueData: "{app}\icons\ubuntu.ico";            Tasks: ubuntu_context_menu;       Flags: uninsdeletekey;
-Root: HKCR; Subkey: "Directory\background\shell\wsh_cm_ubuntu\command";       ValueType: string;    ValueName: "";        ValueData: "wt.exe -d ""%V."" -p Ubuntu";       Tasks: ubuntu_context_menu;       Flags: uninsdeletekey;
+Root: HKCR; Subkey: "Directory\background\shell\wsh_cm_ubuntu\command";       ValueType: string;    ValueName: "";        ValueData: "{localappdata}\Microsoft\WindowsApps\wt.exe -d ""%V."" -p Ubuntu";       Tasks: ubuntu_context_menu;       Flags: uninsdeletekey;
 Root: HKCR; Subkey: "Directory\shell\wsh_cm_ubuntu";                          ValueType: string;    ValueName: "";        ValueData: "Open Ubuntu";                       Tasks: ubuntu_context_menu;       Flags: uninsdeletekey;
 Root: HKCR; Subkey: "Directory\shell\wsh_cm_ubuntu";                          ValueType: string;    ValueName: "Icon";    ValueData: "{app}\icons\ubuntu.ico";            Tasks: ubuntu_context_menu;       Flags: uninsdeletekey;
-Root: HKCR; Subkey: "Directory\shell\wsh_cm_ubuntu\command";                  ValueType: string;    ValueName: "";        ValueData: "wt.exe -d ""%V."" -p Ubuntu";       Tasks: ubuntu_context_menu;       Flags: uninsdeletekey;
+Root: HKCR; Subkey: "Directory\shell\wsh_cm_ubuntu\command";                  ValueType: string;    ValueName: "";        ValueData: "{localappdata}\Microsoft\WindowsApps\wt.exe -d ""%V."" -p Ubuntu";       Tasks: ubuntu_context_menu;       Flags: uninsdeletekey;
 Root: HKCR; Subkey: "Drive\shell\wsh_cm_ubuntu";                              ValueType: string;    ValueName: "";        ValueData: "Open Ubuntu";                       Tasks: ubuntu_context_menu;       Flags: uninsdeletekey;
 Root: HKCR; Subkey: "Drive\shell\wsh_cm_ubuntu";                              ValueType: string;    ValueName: "Icon";    ValueData: "{app}\icons\ubuntu.ico";            Tasks: ubuntu_context_menu;       Flags: uninsdeletekey;
-Root: HKCR; Subkey: "Drive\shell\wsh_cm_ubuntu\command";                      ValueType: string;    ValueName: "";        ValueData: "wt.exe -d ""%V."" -p Ubuntu";       Tasks: ubuntu_context_menu;       Flags: uninsdeletekey;
+Root: HKCR; Subkey: "Drive\shell\wsh_cm_ubuntu\command";                      ValueType: string;    ValueName: "";        ValueData: "{localappdata}\Microsoft\WindowsApps\wt.exe -d ""%V."" -p Ubuntu";       Tasks: ubuntu_context_menu;       Flags: uninsdeletekey;
 
 [UninstallRun]
 // Execute files
@@ -293,7 +293,7 @@ var
 // Create the Windows Terminal fragments
 var
   JSONDirectory, JSONPath: String;
-function CreateFragment(const JSONDirectory, AppName, AppCommandLine, AppIcon, AppBackground, AppCursor, AppForeground, AppGuid: String): Boolean;
+function CreateFragment(const JSONDirectory, AppName, AppCommandLine, AppIcon, AppBackground, AppSelectionBackground, AppGuid: String): Boolean;
 begin
   JSONPath:= JSONDirectory+'\'+AppName+'.json';
   AppIcon:= ExpandConstant(AppIcon);
@@ -305,34 +305,21 @@ begin
     AppGuid:= '      "updates": "'+AppGuid+'",';
   if Length(AppBackground) > 0 then
     AppBackground:= '      "background": "'+AppBackground+'",';
-  if Length(AppCursor) > 0 then
-    AppCursor:= '      "cursorColor": "'+AppCursor+'",';
-  if Length(AppForeground) > 0 then
-    AppForeground:= '      "foreground": "'+AppForeground+'",';
+  if Length(AppSelectionBackground) > 0 then
+    AppSelectionBackground:= '      "selectionBackground": "'+AppForeground+'",';
 
   if not SaveStringToFile(JSONPath,
     '{'+
-    '  "profiles": '+
-    '  ['+
+    '  "profiles": ['+
     '    {'+
     AppGuid+
     '      "name": "'+AppName+'",'+
+    ''+
     AppBackground+
-    '      "bellStyle": ["window", "taskbar"],'+
-    '      "closeOnExit": "always",'+
-    '      "colorScheme": "Nord",'+
     '      "commandline": "'+AppCommandLine+'",'+
-    AppCursor+
-    '      "cursorShape": "bar",'+
     '      "elevate": true,'+
-    '      "font": {'+
-    '        "face": "Source Code Pro"'+
-    '      },'+
-    AppForeground+
-    '      "historySize": 9999,'+
     '      "icon": "'+AppIcon+'",'+
-    '      "intenseTextStyle": "bright",'+
-    '      "startingDirectory": "%USERPROFILE%"'+
+    AppSelectionBackground+
     '    }'+
     '  ]'+
     '}',False) then begin
@@ -353,12 +340,12 @@ begin
     Result:= False;
   end;
 
-  CreateFragment(JSONDirectory, 'CMD',        'cmd.exe /k {app}\config\cmd\init.cmd', '{app}\icons\cmd.ico',                                      '',         '',         '',         '{c23108d6-bbb8-5346-b4e5-ddf0d8577f47}');
-  CreateFragment(JSONDirectory, 'PowerShell', 'powershell.exe',                       '{app}\icons\powershell.ico',                               '#81A1C1',  '#ECEFF4',  '#ECEFF4',  '{8bf8204e-56fa-5a42-8a6d-890746e50195}');
-  CreateFragment(JSONDirectory, 'Ubuntu',     'ubuntu.exe',                           '{app}\icons\ubuntu.ico',                                   '',         '',         '',         '{273a8952-9a60-5b10-a6d5-0aa00fba00d9}');
+  CreateFragment(JSONDirectory, 'CMD',        'cmd.exe /k {app}\config\cmd\init.cmd', '{app}\icons\cmd.ico',                                      '',         '',         '{0caa0dad-35be-5f56-a8ff-afceeeaa6101}');
+  CreateFragment(JSONDirectory, 'PowerShell', 'powershell.exe',                       '{app}\icons\powershell.ico',                               '#4C566A',  '#81A1C1',  '{574e775e-4f2a-5b96-ac1e-a2962a402336}');
+  CreateFragment(JSONDirectory, 'Ubuntu',     'ubuntu.exe',                           '{app}\icons\ubuntu.ico',                                   '',         '',         '{51855cb2-8cce-5362-8f54-464b92b32386}');
   if WizardIsComponentSelected('git') then begin
-    CreateFragment(JSONDirectory, 'Git-CMD',  '{app}\modules\git\git-cmd.exe',        '{app}\modules\git\mingw64\share\git\git-for-windows.ico',  '',         '',         '',         '{782c3d40-2b4a-5e6c-a04d-1d3863322958}');
-    CreateFragment(JSONDirectory, 'Git-Bash', '{app}\modules\git\bin\bash.exe',       '{app}\modules\git\mingw64\share\git\git-for-windows.ico',  '',         '',         '',         '{1e705aec-228d-5a9a-bad0-65d9fffab1e6}');
+    CreateFragment(JSONDirectory, 'Git-CMD',  '{app}\modules\git\git-cmd.exe',        '{app}\modules\git\mingw64\share\git\git-for-windows.ico',  '',         '',         '{782c3d40-2b4a-5e6c-a04d-1d3863322958}');
+    CreateFragment(JSONDirectory, 'Git-Bash', '{app}\modules\git\bin\bash.exe',       '{app}\modules\git\mingw64\share\git\git-for-windows.ico',  '',         '',         '{1e705aec-228d-5a9a-bad0-65d9fffab1e6}');
   end;
 end;
 
