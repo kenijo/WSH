@@ -1,0 +1,13 @@
+{
+  "profiles": [{
+      "updates": "{e472c2ef-66c7-4ed3-b59c-a0b2c554e45a}",
+      "name": "PowerShell (Admin)",
+
+      "background": "#405060",
+
+      "elevate": true,
+      "icon": "C:/Software/WSH/icons/powershell_admin.ico",
+      "source": "Windows.Terminal.PowershellCore",
+    }
+  ]
+}

@@ -43,11 +43,13 @@ alias ls='ls -AFhN --color=auto --time-style=long-iso --format=vertical'
 alias dir='ls -AFhN --color=auto --time-style=long-iso --format=vertical'
 alias ll='ls -AFhN --color=auto --time-style=long-iso --format=long'
 
-alias cls='clear'                         # shortcut
-alias md=mkdir                            # shortcut
-alias rd=rmdir                            # shortcut
-alias vi='vim'                            # shortcut
+alias cls='clear'
+alias md=mkdir
+alias rd=rmdir
+alias vi='vim'
 alias unzip='7z x'
+alias update='sudo apt update && sudo apt full-upgrade && sudo apt autoremove'
+alias upgrade='sudo do-release-upgrade'
 
 # Add an "alert" alias for long running commands.  Use like so:
 #   sleep 10; alert

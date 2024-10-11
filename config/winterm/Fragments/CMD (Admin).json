@@ -1,0 +1,13 @@
+{
+  "profiles": [{
+      "updates": "{82a37e98-7211-46f1-aec4-55e01dca9888}",
+      "name": "CMD (Admin)",
+
+
+      "commandline": "%SystemRoot%\\system32\\cmd.exe /k C:\\Software\\WSH\\config\\cmd\\init.cmd",
+      "elevate": true,
+      "icon": "C:/Software/WSH/icons/cmd_admin.ico",
+
+    }
+  ]
+}

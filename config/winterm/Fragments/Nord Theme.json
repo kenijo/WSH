@@ -1,25 +1,27 @@
 {
-  "schemes": [
-    {
-      "background": "#2E3440",
-      "black": "#3B4252",
-      "blue": "#81A1C1",
-      "brightBlack": "#434C5E",
+  "schemes": [{
+      "name": "Nord",
+
+      "background": "#242A36",
+      "foreground": "#E5E9F0",
+      "cursorColor": "#ECEFF4",
+      "selectionBackground": "#ECEFF4",
+
+      "brightBlack": "#2E3440",
       "brightBlue": "#81A1C1",
       "brightCyan": "#8FBCBB",
       "brightGreen": "#A3BE8C",
       "brightPurple": "#B48EAD",
       "brightRed": "#BF616A",
-      "brightWhite": "#ECEFF4",
+      "brightWhite": "#E5E9F0",
       "brightYellow": "#EBCB8B",
-      "cursorColor": "#D8DEE9",
+
+      "black": "#242A36",
+      "blue": "#81A1C1",
       "cyan": "#8FBCBB",
-      "foreground": "#D8DEE9",
       "green": "#A3BE8C",
-      "name": "Nord",
       "purple": "#B48EAD",
       "red": "#BF616A",
-      "selectionBackground": "#4C566A",
       "white": "#E5E9F0",
       "yellow": "#EBCB8B"
     }

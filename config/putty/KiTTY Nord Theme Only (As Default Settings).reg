@@ -9,14 +9,14 @@ Windows Registry Editor Version 5.00
 ;;-----------------------------------------------------------------------------
 
 [HKEY_CURRENT_USER\SOFTWARE\9bis.com\KiTTY\Sessions\Default%20Settings]
-"Colour0"="216,222,233"
-"Colour1"="216,222,233"
-"Colour2"="46,52,64"
-"Colour3"="46,52,64"
-"Colour4"="216,222,233"
-"Colour5"="216,222,233"
-"Colour6"="59,66,82"
-"Colour7"="67,76,94"
+"Colour0"="229,233,240"
+"Colour1"="229,230,240"
+"Colour2"="36,42,54"
+"Colour3"="36,42,54"
+"Colour4"="236,239,244"
+"Colour5"="236,239,244"
+"Colour6"="36,42,54"
+"Colour7"="46,52,64"
 "Colour8"="191,97,106"
 "Colour9"="191,97,106"
 "Colour10"="163,190,140"
@@ -30,4 +30,4 @@ Windows Registry Editor Version 5.00
 "Colour18"="143,188,187"
 "Colour19"="143,188,187"
 "Colour20"="229,233,240"
-"Colour21"="236,239,244"
+"Colour21"="229,233,240"
