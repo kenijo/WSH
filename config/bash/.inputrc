@@ -1,10 +1,8 @@
-##-----------------------------------------------------------------------------
-## @author       Kenrick JORUS
-## @copyright    2022 Kenrick JORUS
-## @license      MIT License
-## @link         http://kenijo.github.io/WSH/
-## @description  Custom inputrc
-##-----------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+# @link          http://kenijo.github.io/WSH/
+# @description   Custom inputrc
+# @license       MIT License
+#-------------------------------------------------------------------------------
 
 # ~/.inputrc: Readline initialization file.
 
@@ -52,28 +50,28 @@ set convert-meta off
 set input-meta on
 set output-meta on
 #$if Bash
-  # Don't ring bell on completion
-  set bell-style none
+    # Don't ring bell on completion
+    set bell-style none
 
-  # or, don't beep at me - show me
-  #set bell-style visible
+    # or, don't beep at me - show me
+    #set bell-style visible
 
-  # Filename completion/expansion
-  set completion-ignore-case on
-  set show-all-if-ambiguous on
+    # Filename completion/expansion
+    set completion-ignore-case on
+    set show-all-if-ambiguous on
 
-  # Expand homedir name
-  #set expand-tilde on
+    # Expand homedir name
+    #set expand-tilde on
 
-  # Append "/" to all dirnames
-  set mark-directories on
-  #set mark-symlinked-directories on
+    # Append "/" to all dirnames
+    set mark-directories on
+    #set mark-symlinked-directories on
 
-  # Match all files
-  #set match-hidden-files on
+    # Match all files
+    #set match-hidden-files on
 
-  # 'Magic Space'
-  # Insert a space character then performs
-  # a history expansion in the line
-  #Space: magic-space
+    # 'Magic Space'
+    # Insert a space character then performs
+    # a history expansion in the line
+    #Space: magic-space
 #$endif
