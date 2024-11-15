@@ -1,12 +1,10 @@
 Windows Registry Editor Version 5.00
 
-;;-----------------------------------------------------------------------------
-;; @author       Kenrick JORUS
-;; @copyright    2022 Kenrick JORUS
-;; @license      MIT License
-;; @link         http://kenijo.github.io/WSH/
-;; @description  Define default theme (Nord) for PuTTY (Registry)
-;;-----------------------------------------------------------------------------
+;-------------------------------------------------------------------------------
+; @link         http://kenijo.github.io/WSH/
+; @description  Define default theme (Nord) for CMD (Registry)
+; @license      MIT License
+;-------------------------------------------------------------------------------
 
 [HKEY_CURRENT_USER\SOFTWARE\SimonTatham\PuTTY\Sessions\Default%20Settings]
 "Colour0"="229,233,240"
