@@ -1,13 +1,14 @@
 {
-  "profiles": [{
-      "updates": "{0caa0dad-35be-5f56-a8ff-afceeeaa6101}",
-      "name": "CMD",
+    "profiles": [
+        {
+            "updates": "{0caa0dad-35be-5f56-a8ff-afceeeaa6101}",
+            "name": "CMD",
 
 
-      "commandline": "%SystemRoot%\\system32\\cmd.exe /k C:/Software/WSH/config/cmd/init.cmd",
-      "elevate": false,
-      "icon": "C:/Software/WSH/icons/cmd.ico",
+            "commandline": "%SystemRoot%\\system32\\cmd.exe /k C:/Software/WSH/config/cmd/init.cmd",
+            "elevate": false,
+            "icon": "C:/Software/WSH/icons/cmd.ico"
 
-    }
-  ]
+        }
+    ]
 }

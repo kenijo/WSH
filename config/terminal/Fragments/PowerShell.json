@@ -1,13 +1,14 @@
 {
-  "profiles": [{
-      "updates": "{574e775e-4f2a-5b96-ac1e-a2962a402336}",
-      "name": "PowerShell",
+    "profiles": [
+        {
+            "updates": "{574e775e-4f2a-5b96-ac1e-a2962a402336}",
+            "name": "PowerShell",
 
-      "background": "#405060",
+            "background": "#405060",
 
-      "elevate": false,
-      "icon": "C:/Software/WSH/icons/powershell.ico",
-      "source": "Windows.Terminal.PowershellCore",
-    }
-  ]
+            "elevate": false,
+            "icon": "C:/Software/WSH/icons/powershell.ico",
+            "source": "Windows.Terminal.PowershellCore",
+        }
+    ]
 }

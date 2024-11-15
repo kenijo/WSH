@@ -1,13 +1,14 @@
 {
-  "profiles": [{
-      "updates": "{51855cb2-8cce-5362-8f54-464b92b32386}",
-      "name": "Ubuntu",
+    "profiles": [
+        {
+            "updates": "{51855cb2-8cce-5362-8f54-464b92b32386}",
+            "name": "Ubuntu",
 
 
 
-      "elevate": false,
-      "icon": "C:/Software/WSH/icons/ubuntu.ico",
-      "source": "CanonicalGroupLimited.Ubuntu_79rhkp1fndgsc",
-    }
-  ]
+            "elevate": false,
+            "icon": "C:/Software/WSH/icons/ubuntu.ico",
+            "source": "CanonicalGroupLimited.Ubuntu_79rhkp1fndgsc",
+        }
+    ]
 }

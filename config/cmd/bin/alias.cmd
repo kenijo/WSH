@@ -7,7 +7,7 @@
 @echo off
 
 if "%ALIASES%" == "" (
-  set ALIASES="%WSH_ROOT%\config\cmd\custom_aliases"
+    set ALIASES="%WSH_ROOT%\config\cmd\custom_aliases"
 )
 
 setlocal enabledelayedexpansion
@@ -20,60 +20,59 @@ rem #region parseargument
 goto parseargument
 
 :do_shift
-  shift
+    shift
 
 :parseargument
-  set currentarg=%~1
+    set currentarg=%~1
 
-  if /i "%currentarg%" equ "/f" (
-    set ALIASES=%~2
-    set _f=%~2
-    shift
-    goto :do_shift
-  ) else if /i "%currentarg%" == "/reload" (
-    goto :p_reload
-  ) else if "%currentarg%" equ "/H" (
-    goto :p_help
-  ) else if "%currentarg%" equ "/h" (
-    goto :p_help
-  ) else if "%currentarg%" equ "/?" (
-    goto :p_help
-  ) else if /i "%currentarg%" equ "/d" (
-    if "%~2" neq "" (
-      if "%~3" equ "" (
-        :: /d flag for delete existing alias
-        call :p_del %~2
+    if /i "%currentarg%" equ "/f" (
+        set ALIASES=%~2
+        set _f=%~2
         shift
-        goto :eof
-      )
+        goto :do_shift
+    ) else if /i "%currentarg%" == "/reload" (
+        goto :p_reload
+    ) else if "%currentarg%" equ "/H" (
+        goto :p_help
+    ) else if "%currentarg%" equ "/h" (
+        goto :p_help
+    ) else if "%currentarg%" equ "/?" (
+        goto :p_help
+    ) else if /i "%currentarg%" equ "/d" (
+        if "%~2" neq "" (
+            if "%~3" equ "" (
+                :: /d flag for delete existing alias
+                call :p_del %~2
+                shift
+                goto :eof
+            )
+        )
+    ) else if "%currentarg%" neq "" (
+        if "%~2" equ "" (
+            :: Show the specified alias
+            doskey /macros | %WINDIR%\System32\findstr /b %currentarg%= && exit /b
+            echo insufficient parameters.
+            goto :p_help
+        ) else (
+            :: handle quotes within command definition, e.g. quoted long file names
+            set _x=%*
+        )
     )
-  ) else if "%currentarg%" neq "" (
-    if "%~2" equ "" (
-      :: Show the specified alias
-      doskey /macros | %WINDIR%\System32\findstr /b %currentarg%= && exit /b
-      echo insufficient parameters.
-      goto :p_help
-    ) else (
-      :: handle quotes within command definition, e.g. quoted long file names
-      set _x=%*
-    )
-  )
-
 rem #endregion parseargument
 
 if not exist "%ALIASES%" (
-  echo ;= rem ------------------------------------------------------------------------- >> "%ALIASES%"
-  echo ;= rem ------------------------------------------------------------------------- >> "%ALIASES%"
-  echo ;= rem  @link            http://kenijo.github.io/WSH/ >> "%ALIASES%"
-  echo ;= rem  @description     Script to manage aliases >> "%ALIASES%"
-  echo ;= rem  @license         MIT License >> "%ALIASES%"
-  echo ;= rem ------------------------------------------------------------------------- >> "%ALIASES%"
+    echo ;= rem ------------------------------------------------------------------------- >> "%ALIASES%"
+    echo ;= rem ------------------------------------------------------------------------- >> "%ALIASES%"
+    echo ;= rem  @link            http://kenijo.github.io/WSH/ >> "%ALIASES%"
+    echo ;= rem  @description     Script to manage aliases >> "%ALIASES%"
+    echo ;= rem  @license         MIT License >> "%ALIASES%"
+    echo ;= rem ------------------------------------------------------------------------- >> "%ALIASES%"
 )
 
 :: validate alias
 for /f "delims== tokens=1,* usebackq" %%G in (`echo "!_x!"`) do (
-  set alias_name=%%G
-  set alias_value=%%H
+    set alias_name=%%G
+    set alias_value=%%H
 )
 
 :: leading quotes added while validating
@@ -86,9 +85,9 @@ set alias_value=!alias_value:~0,-1!
 set _temp=%alias_name: =%
 
 if not ["%_temp%"] == ["%alias_name%"] (
-  echo Your alias name can not contain a space
-  endlocal
-  exit /b
+    echo Your alias name can not contain a space
+    endlocal
+    exit /b
 )
 
 :: replace already defined alias
