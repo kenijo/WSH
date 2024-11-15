@@ -1,10 +1,14 @@
 {
+  "$help": "https://aka.ms/terminal-documentation",
+  "$schema": "https://aka.ms/terminal-profiles-schema",
+  "actions": [],
   "confirmCloseAllTabs": false,
   "copyFormatting": "all",
   "copyOnSelect": true,
   "defaultProfile": "{0caa0dad-35be-5f56-a8ff-afceeeaa6101}",
   "focusFollowMouse": true,
-  "newTabMenu": [{
+  "newTabMenu": [
+    {
       "type": "remainingProfiles"
     }
   ],
@@ -17,46 +21,56 @@
       ],
       "closeOnExit": "always",
       "colorScheme": "Nord",
-      "cursorShape": "bar",
       "font": {
-        "face": "Cascadia Code",
-        "size": 11.0
+        "face": "Hasklig"
       },
       "historySize": 9999,
-      "intenseTextStyle": "bright",
       "startingDirectory": "%USERPROFILE%"
     },
-    "list":
-    [{
+    "list": [
+      {
         "guid": "{0caa0dad-35be-5f56-a8ff-afceeeaa6101}",
         "hidden": false,
-        "name": "CMD"
-      }, {
+        "name": "CMD",
+        "source": "WSH"
+      },
+      {
         "guid": "{82a37e98-7211-46f1-aec4-55e01dca9888}",
         "hidden": false,
-        "name": "CMD (Admin)"
-      }, {
+        "name": "CMD (Admin)",
+        "source": "WSH"
+      },
+      {
         "guid": "{574e775e-4f2a-5b96-ac1e-a2962a402336}",
         "hidden": false,
         "name": "PowerShell",
-      }, {
+        "source": "WSH"
+      },
+      {
         "guid": "{e472c2ef-66c7-4ed3-b59c-a0b2c554e45a}",
         "hidden": false,
         "name": "PowerShell (Admin)",
-      }, {
+        "source": "WSH"
+      },
+      {
+        "cursorShape": "bar",
         "guid": "{51855cb2-8cce-5362-8f54-464b92b32386}",
         "hidden": false,
         "name": "Ubuntu",
-      }, {
+        "source": "WSH"
+      },
+      {
         "guid": "{61c54bbd-c2c6-5271-96e7-009a87ff44bf}",
         "hidden": true,
         "name": "Windows PowerShell"
-      }, {
+      },
+      {
         "guid": "{2c4de342-38b7-51cf-b940-2309a097f518}",
         "hidden": true,
         "name": "Ubuntu",
         "source": "Windows.Terminal.Wsl"
-      }, {
+      },
+      {
         "guid": "{b453ae62-4e3d-5e58-b989-0a998ec441b8}",
         "hidden": true,
         "name": "Azure Cloud Shell",
@@ -64,6 +78,7 @@
       }
     ]
   },
+  "schemes": [],
   "theme": "system",
   "themes": [],
   "windowingBehavior": "useAnyExisting"
