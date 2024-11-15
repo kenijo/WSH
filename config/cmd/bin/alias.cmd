@@ -1,8 +1,13 @@
+::------------------------------------------------------------------------------
+:: @link            http://kenijo.github.io/WSH/
+:: @description     Script to manage aliases
+:: @license         MIT License
+::------------------------------------------------------------------------------
+
 @echo off
 
-
 if "%ALIASES%" == "" (
-  set ALIASES="%WSH_ROOT%\config\cmd\custom_aliases.cmd"
+  set ALIASES="%WSH_ROOT%\config\cmd\custom_aliases"
 )
 
 setlocal enabledelayedexpansion
@@ -57,12 +62,12 @@ goto parseargument
 rem #endregion parseargument
 
 if not exist "%ALIASES%" (
-  echo ;= @echo off>"%ALIASES%"
-  echo ;= rem Call DOSKEY and use this file as the macrofile>>"%ALIASES%"
-  echo ;= %%SystemRoot%%\system32\doskey /listsize=1000 /macrofile=%%0%%>>"%ALIASES%"
-  echo ;= rem In batch mode, jump to the end of the file>>"%ALIASES%"
-  echo ;= goto:eof>>"%ALIASES%"
-  echo ;= Add aliases below here>>"%ALIASES%"
+  echo ;= rem ------------------------------------------------------------------------- >> "%ALIASES%"
+  echo ;= rem ------------------------------------------------------------------------- >> "%ALIASES%"
+  echo ;= rem  @link            http://kenijo.github.io/WSH/ >> "%ALIASES%"
+  echo ;= rem  @description     Script to manage aliases >> "%ALIASES%"
+  echo ;= rem  @license         MIT License >> "%ALIASES%"
+  echo ;= rem ------------------------------------------------------------------------- >> "%ALIASES%"
 )
 
 :: validate alias
