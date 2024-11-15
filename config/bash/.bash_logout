@@ -1,6 +1,6 @@
 #-------------------------------------------------------------------------------
 # @link          http://kenijo.github.io/WSH/
-# @description   Initialization script when starting Bash
+# @description   Script executed when leaving bash
 # @license       MIT License
 #-------------------------------------------------------------------------------
 

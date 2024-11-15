@@ -1,6 +1,6 @@
 "-------------------------------------------------------------------------------
 " @link         http://kenijo.github.io/WSH/
-" @description  Custom Dircolors
+" @description  Script executed when starting vim
 " @license      MIT License
 "-------------------------------------------------------------------------------
 
