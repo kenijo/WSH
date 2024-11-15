@@ -27,8 +27,8 @@ fi
 
 ################################################################################
 # Source a custom configuration
-if [ -f ~/.custom ]; then
-    source ~/.custom
+if [ -f ~/.bash_custom ]; then
+    source ~/.bash_custom
 fi
 
 ################################################################################
