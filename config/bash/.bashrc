@@ -23,9 +23,9 @@ alias du='du -h'                          # Default to human readable figures
 alias less='less -r'                      # raw control characters
 alias whence='type -a'                    # where, of a sort\
 
-alias grep='grep --color=auto'            # show differences in colour
-alias egrep='egrep --color=auto'          # show differences in colour
-alias fgrep='fgrep --color=auto'          # show differences in colour
+alias grep='grep --color=auto'            # show differences in color
+alias egrep='egrep --color=auto'          # show differences in color
+alias fgrep='fgrep --color=auto'          # show differences in color
 
 # ls --help
 #  -A, --almost-all         do not list implied . and ..
@@ -47,7 +47,6 @@ alias cls='clear'
 alias md=mkdir
 alias rd=rmdir
 alias vi='vim'
-alias unzip='7z x'
 alias update='sudo apt update && sudo apt full-upgrade && sudo apt autoremove'
 alias upgrade='sudo do-release-upgrade'
 
