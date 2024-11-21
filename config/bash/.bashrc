@@ -135,10 +135,49 @@ if lsb_release &> /dev/null; then
 fi
 
 ################################################################################
-# Set Enhance Prompt
 # Set Prompt
-export PS1="\[\n\]\[\e[0;37m\][Path:\[\e[0;34m\] \w\[\e[0;37m\]]\n\[\e[0;\`if [[ \$? = "0" ]]; then echo "32m"; else echo "31m"; fi\`\][\u@\h] \[\e[0;37m\]λ \[\e[0m\]";
-export PS2="\[\e[0;37m\]> \[\e[0m\]";
+build_prompt() {
+    lastErrorCode=$?;
+
+    reset="\[\e[0m\]";
+    bold="\[\e[1m\]";
+    black="\[\e[0;30m\]";
+    red="\[\e[0;31m\]";
+    green="\[\e[0;32m\]";
+    yellow="\[\e[0;33m\]";
+    blue="\[\e[0;34m\]";
+    magenta="\[\e[0;35m\]";
+    cyan="\[\e[0;36m\]";
+    white="\[\e[0;37m\]";
+
+    if [ $lastErrorCode == 0 ]; then
+        getErrorLevelColor=$green;
+    else
+        getErrorLevelColor=$red;
+    fi
+
+    if [ $EUID == 0 ]; then
+        getSymbol=$getErrorLevelColor"🛡  #> ";
+    else
+        getSymbol=$getErrorLevelColor" $> ";
+    fi
+
+    getComputerName="\h";
+    getUserName="\u";
+    getPath="\w";
+    getTime=$(date +%T);
+
+    _LEFT_LINE1=$blue"[Path: "$yellow$getPath$blue"]"$reset;
+    _LEFT_LINE2=$cyan"["$getUserName"@"$getComputerName"]"$getSymbol$reset;
+
+    _RIGHT_LINE_2="["$getTime"]";
+    let _SPACING=$COLUMNS-${#_RIGHT_LINE_2}
+    _RIGHT_LINE_2=$cyan$_RIGHT_LINE_2$reset;
+
+    PS0=$(tput sc)$(tput cuu 1)$(tput cuf $_SPACING)$_RIGHT_LINE_2"\n"$(tput rc);
+    PS1="\n"$_LEFT_LINE1"\n"$_LEFT_LINE2;
+}
+PROMPT_COMMAND=build_prompt;
 
 ################################################################################
 # Define the session start folder
