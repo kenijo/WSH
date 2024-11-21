@@ -4,25 +4,33 @@
 :: @license         MIT License
 ::
 ::        !!! THIS FILE GETS OVERWRITTEN WHEN WSH IS UPDATED !!!
+::
+:: Set Clink as autorun
+::  clink autorun install -- --nolog --profile "%WSH_CLINK%"
+::
+:: Set Clink as autorun
+::  clink config prompt wsh
+::
 ::------------------------------------------------------------------------------
 
 @echo off
 
 :: Display Windows version to mimic original CMD
-for /F "tokens=*" %%a in ('ver') do (set VERSION=%%a)
-echo %VERSION%
+::for /F "tokens=*" %%a in ('ver') do (set VERSION=%%a)
+::echo %VERSION%
 
 :: Find and set the script root directory
-if not defined WSH_ROOT set "WSH_ROOT=%~dp0"
+if not defined WSH_CLINK set "WSH_CLINK=%~dp0"
 
 :: Move up to WSH root directoryt
-for %%I in ("%WSH_ROOT%\..\..") do set "WSH_ROOT=%%~fI"
+for %%I in ("%WSH_CLINK%\..\..") do set "WSH_ROOT=%%~fI"
 
 :: Remove trailing '\'
+if "%WSH_CLINK:~-1%" == "\" SET "WSH_CLINK=%WSH_CLINK:~0,-1%"
 if "%WSH_ROOT:~-1%" == "\" SET "WSH_ROOT=%WSH_ROOT:~0,-1%"
 
 :: Update PATH
-set "PATH=%PATH%;%WSH_ROOT%\config\cmd\bin"
+set "PATH=%PATH%;%WSH_ROOT%\config\clink\bin"
 set "PATH=%PATH%;%WSH_ROOT%\modules\git\usr\bin"
 set "PATH=%PATH%;%WSH_ROOT%\modules\php"
 set "PATH=%PATH%;%WSH_ROOT%\modules\putty"
@@ -54,17 +62,17 @@ doskey e.=explorer .
 doskey egrep=egrep --color=auto $*
 doskey fgrep=fgrep --color=auto $*
 doskey grep=grep --color=auto $*
-doskey history=cat "%WSH_ROOT%\config\clink\.history"
 doskey pwd=cd
 doskey unalias=alias /d $1
 doskey vi=vim $*
 
 :: Source custom_commands if it exists
-if exist "%WSH_ROOT%\config\cmd\custom_commands" (
-    call "%WSH_ROOT%\config\cmd\custom_commands" > nul
+if exist "%WSH_CLINK%\custom_commands" (
+    call "%WSH_CLINK%\custom_commands" > nul
 )
 
-:: Inject clink
-:: "%WSH_ROOT%\modules\clink\clink.bat" inject --nolog --quiet --profile "%WSH_ROOT%\config\clink"
+:: Cleanup past Clink files
+del /F /Q "%WSH_CLINK%\clink.log" 2>null
+del /F /Q "%WSH_CLINK%\clink_errorlevel_*" 2>null
 
-exit /b
+exit /B

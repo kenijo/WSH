@@ -1,0 +1,240 @@
+--------------------------------------------------------------------------------
+-- @link         http://kenijo.github.io/WSH/
+-- @description  Use a custom CMD prompt (using Clink prompt filter)
+-- @license      MIT License
+--
+-- To activate this prompt, run `clink config prompt use wsh`.
+-- To deactivate it, run `clink config prompt clear`.
+--------------------------------------------------------------------------------
+
+local reset   = ";0"
+local bold    = ";1"
+local black   = ";30"
+local red     = ";31"
+local green   = ";32"
+local yellow  = ";33"
+local blue    = ";34"
+local magenta = ";35"
+local cyan    = ";36"
+local white   = ";37"
+
+local function command(cmd)
+    local f = io.popen("2>nul "..cmd)
+    if f then
+        local s = f:read() or ""
+        f:close()
+        if s ~= "" then
+            return s
+        end
+    end
+end
+
+local function sgr(...)
+    return "\x1b["..(table.concat({...}):gsub("^;+", "")).."m"
+end
+
+--- NVM
+
+local NVM_PROMPT_PREFIX = sgr(bold).."󰋙"..sgr(reset)
+local NVM_PROMPT_SUFFIX = ""
+
+local function nvm_prompt_info()
+    local nvm_prompt = command("nvm current")
+    if nvm_prompt then
+        nvm_prompt = nvm_prompt:gsub("^v","")
+        return NVM_PROMPT_PREFIX..nvm_prompt..NVM_PROMPT_SUFFIX
+    end
+    return ""
+end
+
+--- Git [±master ▲●]
+
+local GIT_PROMPT_PREFIX    = "["..sgr(bold,green).."±"..sgr(reset,bold,white)
+local GIT_PROMPT_SUFFIX    = sgr(reset).."]"
+local GIT_PROMPT_CLEAN     = sgr(bold,green).."✓"..sgr(reset)
+local GIT_PROMPT_AHEAD     = sgr(cyan).."▲"..sgr(reset)
+local GIT_PROMPT_BEHIND    = sgr(magenta).."▼"..sgr(reset)
+local GIT_PROMPT_DIVERGED  = ""
+local GIT_PROMPT_STAGED    = sgr(bold,green).."●"..sgr(reset)
+local GIT_PROMPT_UNSTAGED  = sgr(bold,yellow).."●"..sgr(reset)
+local GIT_PROMPT_UNTRACKED = sgr(bold,red).."●"..sgr(reset)
+local GIT_PROMPT_UNMERGED  = ""
+local GIT_PROMPT_STASHED   = "("..sgr(bold,blue)..""..sgr(reset)..")"
+
+local function git_info()
+    return git.getbranch()
+end
+
+local function get_git_status()
+    local result = ""
+    local branch
+
+    local info = git.getstatus()
+    if info then
+        local gitfiles = ""
+        if info.branch then
+            branch = info.branch
+        end
+        if info.staged then
+            gitfiles = gitfiles..GIT_PROMPT_STAGED
+        end
+        if info.tracked then
+            gitfiles = gitfiles..GIT_PROMPT_UNSTAGED
+        end
+        if info.untracked then
+            gitfiles = gitfiles..GIT_PROMPT_UNTRACKED
+        end
+        if info.conflict then
+            gitfiles = gitfiles..GIT_PROMPT_UNMERGED
+        end
+
+        if gitfiles == "" then
+            result = result..GIT_PROMPT_CLEAN
+        else
+            result = result..gitfiles
+        end
+
+        -- check status of local repository
+        if info.ahead or info.unpublished then
+            result = result..GIT_PROMPT_AHEAD
+        end
+        if info.behind then
+            result = result..GIT_PROMPT_BEHIND
+        end
+
+        -- check if there are stashed changes
+        if git.hasstash() then
+            result = result..GIT_PROMPT_STASHED
+        end
+    end
+
+    return { result = result, branch = branch }
+end
+
+local last_gitstatus
+local function git_status()
+    local gitstatus = clink.promptcoroutine(get_git_status)
+    if gitstatus then
+        last_gitstatus = gitstatus
+    else
+        gitstatus = last_gitstatus
+    end
+    if gitstatus then
+        return gitstatus.result, gitstatus.branch
+    end
+end
+
+local function git_prompt()
+    -- ignore non git folders and hidden repos (adapted from lib/git.zsh)
+    if not git.getgitdir() then
+        return ""
+    end
+
+    -- check git information
+    local gitinfo = git_info()
+    if gitinfo == "" then
+        return ""
+    end
+
+    local output = gitinfo
+
+    -- check git status
+    local gitstatus, branch = git_status()
+    if gitstatus then
+        if branch then
+            output = branch
+        end
+        output = output.." "..gitstatus
+    end
+
+    return GIT_PROMPT_PREFIX..output..GIT_PROMPT_SUFFIX
+end
+
+--------------------------------------------------------------------------------
+-- BEGIN PROMPT
+
+local function getAdminStatus()
+    if os.isuseradmin() then
+        return "🛡 "
+    else
+        return ""
+    end
+end
+
+local function getComputerName()
+    return (os.getenv("COMPUTERNAME") or "?")
+end
+
+local function getErrorLevelColor()
+    return (os.geterrorlevel() == 0) and sgr(green) or sgr(red)
+end
+
+local function getPath()
+    return sgr(yellow)..rl.collapsetilde(os.getcwd())..sgr(reset)
+end
+
+local function getSymbol()
+    local symbol
+    if os.isuseradmin() then
+        symbol = " #> "
+    else
+        symbol = " $> "
+    end
+    return getErrorLevelColor()..symbol..sgr(reset)
+end
+
+local function getTime()
+    return sgr(cyan).."["..os.date("%H:%M:%S").."]"..sgr(reset)
+end
+
+local function getUserName()
+    return (os.getenv("USERNAME") or "?")
+end
+
+local function getPrompt()
+    local _NVM_GIT = nvm_prompt_info().." "..git_prompt()
+    local _NVM_GIT = _NVM_GIT:gsub("^ +",""):gsub(" +$","")
+    local _PATH = sgr(blue).."[Path: "..sgr(reset)..getPath()..sgr(blue).."]"..sgr(reset)
+
+    local _LINE1 = _PATH.._NVM_GIT
+    local _LINE2 = sgr(cyan).."["..getUserName().."@"..getComputerName().."]"..sgr(reset)..sgr(reset)
+
+    return _LINE1.."\n".._LINE2..getAdminStatus()..getSymbol()
+end
+
+local p = clink.promptfilter(5)
+function p:filter()
+    return getPrompt()
+end
+function p:rightfilter()
+    return
+end
+
+function p:transientfilter()
+    return getPrompt()
+end
+function p:transientrightfilter()
+    return getTime()
+end
+
+-- END PROMPT
+--------------------------------------------------------------------------------
+-- BEGIN EXTENSIONS
+
+local last_cwd
+local last_gitdir
+clink.onbeginedit(function ()
+    -- Clear cached git info when the git dir changes.
+    local cwd = os.getcwd()
+    if last_cwd ~= cwd then
+        last_cwd = cwd
+        local gitdir = git.getgitdir()
+        if last_gitdir ~= gitdir then
+            last_gitdir = gitdir
+            last_gitstatus = nil
+        end
+    end
+end)
+
+-- END EXTENSIONS
+--------------------------------------------------------------------------------
