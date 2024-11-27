@@ -7,8 +7,8 @@
 
 
             "elevate": false,
-            "icon": "C:/Software/WSH/icons/ubuntu.ico",
-            "source": "CanonicalGroupLimited.Ubuntu_79rhkp1fndgsc",
+            "icon": "<WSH_ICON_PATH>\\icons\\ubuntu.ico",
+            "source": "CanonicalGroupLimited.Ubuntu_79rhkp1fndgsc"
         }
     ]
 }

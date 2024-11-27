@@ -29,9 +29,9 @@
                 "taskbar"
             ],
             "closeOnExit": "always",
-            "colorScheme": "Nord",
+            "colorScheme": "<WSH_THEME>",
             "font": {
-                "face": "Hasklig"
+                "face": "<WSH_FONT>"
             },
             "historySize": 9999,
             "startingDirectory": "%USERPROFILE%"

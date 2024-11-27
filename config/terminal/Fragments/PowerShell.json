@@ -7,8 +7,8 @@
             "background": "#405060",
 
             "elevate": false,
-            "icon": "C:/Software/WSH/icons/powershell.ico",
-            "source": "Windows.Terminal.PowershellCore",
+            "icon": "<WSH_ICON_PATH>\\icons\\powershell.ico",
+            "source": "Windows.Terminal.PowershellCore"
         }
     ]
 }

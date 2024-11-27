@@ -5,9 +5,9 @@
             "name": "CMD (Admin)",
 
 
-            "commandline": "%SystemRoot%\\system32\\cmd.exe /k C:\\Software\\WSH\\config\\cmd\\init.cmd",
+            "commandline": "%SystemRoot%\\system32\\cmd.exe",
             "elevate": true,
-            "icon": "C:/Software/WSH/icons/cmd_admin.ico"
+            "icon": "<WSH_ICON_PATH>\\icons\\cmd_admin.ico"
 
         }
     ]
