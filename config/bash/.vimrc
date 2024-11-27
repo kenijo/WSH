@@ -5,7 +5,7 @@
 "-------------------------------------------------------------------------------
 
 " Set colorscheme
-let $THEME="nord"
+let $THEME="<WSH_THEME>"
 
 " Upgrade vim-plug
 "   Terminal: vim -c "PlugUpgrade" -c "qa"
