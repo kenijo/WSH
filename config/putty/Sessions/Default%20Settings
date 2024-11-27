@@ -1,6 +1,6 @@
 Present\1\
 HostName\\
-LogFileName\kitty.log\
+LogFileName\PuTTY.log\
 LogType\0\
 LogFileClash\-1\
 LogFlush\1\
@@ -89,7 +89,7 @@ TelnetKey\0\
 TelnetRet\1\
 LocalEcho\2\
 LocalEdit\2\
-Answerback\KiTTY\
+Answerback\PuTTY\
 AlwaysOnTop\0\
 FullScreenOnAltEnter\0\
 HideMousePtr\0\

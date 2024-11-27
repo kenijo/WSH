@@ -2,7 +2,7 @@ Windows Registry Editor Version 5.00
 
 ;-------------------------------------------------------------------------------
 ; @link         http://kenijo.github.io/WSH/
-; @description  Define default theme (Nord) for PuTTY (Registry)
+; @description  Set Nord theme for PuTTY (Registry)
 ; @license      MIT License
 ;-------------------------------------------------------------------------------
 

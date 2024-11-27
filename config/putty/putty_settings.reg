@@ -2,14 +2,14 @@ Windows Registry Editor Version 5.00
 
 ;-------------------------------------------------------------------------------
 ; @link         http://kenijo.github.io/WSH/
-; @description  Define default theme (Nord) for PuTTY (Registry)
+; @description  Set default settings for PuTTY (Registry)
 ; @license      MIT License
 ;-------------------------------------------------------------------------------
 
 [HKEY_CURRENT_USER\SOFTWARE\SimonTatham\PuTTY\Sessions\Default%20Settings]
 "Present"=dword:00000001
 "HostName"=""
-"LogFileName"="kitty.log"
+"LogFileName"="PuTTY.log"
 "LogType"=dword:00000000
 "LogFileClash"=dword:ffffffff
 "LogFlush"=dword:00000001
@@ -98,7 +98,7 @@ Windows Registry Editor Version 5.00
 "TelnetRet"=dword:00000001
 "LocalEcho"=dword:00000002
 "LocalEdit"=dword:00000002
-"Answerback"="KiTTY"
+"Answerback"="PuTTY"
 "AlwaysOnTop"=dword:00000000
 "FullScreenOnAltEnter"=dword:00000000
 "HideMousePtr"=dword:00000000
