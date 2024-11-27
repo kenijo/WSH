@@ -1,6 +1,6 @@
 ::------------------------------------------------------------------------------
 :: @link            http://kenijo.github.io/WSH/
-:: @description     Initialization script when starting CMD
+:: @description     Initialization script when starting Clink
 :: @license         MIT License
 ::
 ::        !!! THIS FILE GETS OVERWRITTEN WHEN WSH IS UPDATED !!!
