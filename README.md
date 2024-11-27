@@ -1,7 +1,6 @@
 # WSH
 
-WSH is a packaged installer that will allow you to create a fully customized shell environment through a simple
-installer.
+WSH is a packaged installer that will allow you to create a fully customized shell environment through a simple installer.
 It takes the hard work out of downloading and configuring all the components you need.
 
 WSH simplifies the installation by asking simple questions and taking care of downloading and installing everything for you from trusted sources (official repositories).
@@ -9,8 +8,7 @@ It has a modular architecture that allows anyone to add and improve the installe
 
 ## Repository
 
-The repository contains the code to generate the simple installer based on [Inno
-Setup](https://jrsoftware.org/isinfo.php) scripts.
+The repository contains the code to generate the simple installer based on [InnoSetup](https://jrsoftware.org/isinfo.php) scripts.
 
 The releases are the compiled version of WSH.
 
@@ -22,26 +20,27 @@ The releases are the compiled version of WSH.
 - [PuTTY](http://www.putty.org)
 - [Windows Terminal](https://apps.microsoft.com/store/detail/windows-terminal/9N0DX20HK701) ([Github](https://github.com/microsoft/terminal))
 
-### Fonts
+### Recommanded Fonts
 
 - [Cascadia Code - Variable Font](https://github.com/microsoft/cascadia-code)
 - [Cascadia Mono - Variable Font](https://github.com/microsoft/cascadia-code)
 - [Fira Code - Variable Font](https://github.com/tonsky/FiraCode)
 - [Hack](https://github.com/source-foundry/Hack)
 - [Hasklig](https://github.com/i-tu/Hasklig)
-- [JerBrains Mono - Variable Font](https://www.jetbrains.com/lp/mono/)
+- [JetBrains Mono - Variable Font](https://www.jetbrains.com/lp/mono)
 - [Noto Sans Mono - Variable Font](https://notofonts.github.io/)
 - [RedHat Mono - Variable Font](https://github.com/RedHatOfficial/RedHatFont)
 - [Roboto Mono - Variable Font](https://fonts.google.com/specimen/Roboto+Mono)
 - [SF Mono Nerd-Font-Ligaturized](https://github.com/shaunsingh/SFMono-Nerd-Font-Ligaturized)
 - [SF Mono](https://github.com/blaisck/sfwin)
 - [Source Code Pro - Variable Font](https://github.com/adobe-fonts/source-code-pro)
-- [Ubuntu Mono - Variable Font](https://design.ubuntu.com/font/)
-- [Victor Mono](https://rubjo.github.io/victor-mono/)
+- [Ubuntu Mono - Variable Font](https://design.ubuntu.com/font)
+- [Victor Mono](https://rubjo.github.io/victor-mono)
 
-- Additional [Programming Fonts](https://www.programmingfonts.org/)
-- List of [Monospaced Fonts](https://en.m.wikipedia.org/wiki/List_of_monospaced_typefaces)
-- Too overwhelmed? Find your font in this [Coding Font Tournament](https://www.codingfont.com/)
+- List of [Monospaced Fonts](https://en.m.wikipedia.org/wiki/List_of_monospaced_typefaces) (With and without ligature)
+- List of [Nerd Fonts](https://www.nerdfonts.com) (Patched with glyphs)
+- Test some [Programming Fonts](https://www.programmingfonts.org)
+- Too overwhelmed? Find your font in this [Coding Font Tournament](https://www.codingfont.com)
 
 ### Vim
 
@@ -61,7 +60,5 @@ The releases are the compiled version of WSH.
 
 MIT
 
-[//]: < @author      Kenrick JORUS >
-[//]: < @copyright   2022 Kenrick JORUS >
-[//]: < @license     MIT License >
 [//]: < @link        http://kenijo.github.io/WSH/ >
+[//]: < @license     MIT License >
