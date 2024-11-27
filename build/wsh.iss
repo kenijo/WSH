@@ -1,514 +1,502 @@
-//-----------------------------------------------------------------------------
-// @author       Kenrick JORUS
-// @copyright    2022 Kenrick JORUS
-// @license      MIT License
-// @link         http://kenijo.github.io/WSH/
-// @description  Inno Setup script for WSH
-//-----------------------------------------------------------------------------
+;-------------------------------------------------------------------------------
+; @link         http://kenijo.github.io/WSH
+; @description  Inno Setup script for WSH
+; @license      MIT License
+;-------------------------------------------------------------------------------
+// TODO: Add a way to select a theme in the component section
+// TODO: Check why FontReg.exe is not working
+
+#define APP_NAME "WSH"
+#define APP_VERSION GetDateTimeString('yymmdd', '-', '') + " build " + GetDateTimeString('hhnnss', '-', '')
+#define APP_URL "http://kenijo.github.io/WSH"
+
+#define TERMINAL_SETTINGS "{localappdata}\Packages\Microsoft.WindowsTerminal_8wekyb3d8bbwe\LocalState";
+#define TERMINAL_FRAGMENTS "{localappdata}\Microsoft\Windows Terminal\Fragments";
+#define WSL_BASH "\\wsl$\Ubuntu\home\{code:AnsiLowercase|{username}}";
+
+; The value of this parameter is the name of the font as stored in the registry or WIN.INI
+#define WSH_FONT "Hasklig";
+#define WSH_THEME "Nord";
 
 [Setup]
-AppName=WSH
-AppVerName=WSH
-WizardStyle=modern
-WizardSizePercent=130
-DefaultDirName={commonpf}\WSH
-DefaultGroupName=WSH
-SetupIconFile="..\icons\wsh.ico"
+; The value of AppId uniquely identifies this application.
+; Do not use the same AppId value in installers for other applications.
+; (To generate a new GUID, click Tools | Generate GUID inside the IDE.)
+AppId={{86FC8442-27A7-4FE8-BEDD-E3AB83AE2922}
+AppName={#APP_NAME}
+AppVersion={#APP_VERSION}
+AppVerName={#APP_NAME} {#APP_VERSION}
+AppPublisherURL={#APP_URL}
+AppSupportURL={#APP_URL}
+AppUpdatesURL={#APP_URL}
+
+AllowCancelDuringInstall=no
+AllowNoIcons=no
+DefaultDirName={commonpf}\{#APP_NAME}
+DefaultGroupName={#APP_NAME}
+ShowComponentSizes=no
+
 OutputBaseFilename=WSH
 OutputDir=.
-AllowCancelDuringInstall=no
-// Specifies that Setup cannot run on anything but x64
-ArchitecturesAllowed=x64
+SetupIconFile=..\icons\wsh.ico
+
+; "ArchitecturesAllowed=x64compatible" specifies that Setup cannot run
+; on anything but x64 and Windows 11 on Arm.
+ArchitecturesAllowed=x64compatible
+; "ArchitecturesInstallIn64BitMode=x64compatible" requests that the
+; install be done in "64-bit mode" on x64 or Windows 11 on Arm,
+; meaning it should use the native 64-bit Program Files directory and
+; the 64-bit view of the registry.
+ArchitecturesInstallIn64BitMode=x64compatible
+Compression=lzma
+; Remove the following line to run in administrative install mode (install for all users.)
+; PrivilegesRequired=lowest
+; Need to run in administrative mode to install fonts
+SolidCompression=yes
+WizardSizePercent=140
+WizardStyle=modern
 
 [Types]
-Name: "full";                     Description: "Full Installation";
-Name: "custom";                   Description: "Custom Installation";   Flags: iscustom;
+Name: "full";                           Description: "Full Installation";
+Name: "custom";                         Description: "Custom Installation";                                                                                         Flags: iscustom;
 
 [Components]
-Name: "clink";                    Description: "Clink";         Types: custom full;   Flags: fixed;
-Name: "fonts";                    Description: "Fonts";         Types: full;
-Name: "git";                      Description: "Git";           Types: full;
-Name: "php";                      Description: "PHP";           Types: full;
-Name: "putty";                    Description: "PuTTY";   Types: full;
+Name: "clink";                          Description: "Clink";                               Types: custom full;                                                     Flags: fixed;
+Name: "fonts";                          Description: "Font: {#WSH_FONT}";                   Types: full;
+Name: "git";                            Description: "Git";                                 Types: full;
+Name: "php7";                           Description: "PHP7";                                Types: full;                                                            Flags: exclusive;
+Name: "php8";                           Description: "PHP8";                                Types: full;                                                            Flags: exclusive;
+Name: "putty";                          Description: "PuTTY";                               Types: full;
 
 [Tasks]
-Name: cmd_context_menu;           Description: "Add ""Open CMD""";                  GroupDescription: "Context Menu (Right Click):";
-Name: ubuntu_context_menu;        Description: "Add ""Open Ubuntu""";               GroupDescription: "Context Menu (Right Click):";
-Name: powershell_context_menu;    Description: "Add ""Open PowerShell""";           GroupDescription: "Context Menu (Right Click):";
+Name: cmd_context_menu;                 Description: "Add ""Open CMD""";                    GroupDescription: "Context Menu (Right Click):";
+Name: cmd_admin_context_menu;           Description: "Add ""Open CMD (Admin)""";            GroupDescription: "Context Menu (Right Click):";                        Flags: unchecked;
+Name: powershell_context_menu;          Description: "Add ""Open PowerShell""";             GroupDescription: "Context Menu (Right Click):";
+Name: powershell_admin_context_menu;    Description: "Add ""Open PowerShell (Admin)""";     GroupDescription: "Context Menu (Right Click):";                        Flags: unchecked;
+Name: ubuntu_context_menu;              Description: "Add ""Open Ubuntu""";                 GroupDescription: "Context Menu (Right Click):";
 
-Name: cmd_theme;                  Description: "Apply CMD Nord Theme";              GroupDescription: "Themes:";
-;Name: kitty_theme;                Description: "Apply KiTTY Nord Theme";            GroupDescription: "Themes:";                        Components: putty;
-Name: putty_theme;                Description: "Apply PuTTY Nord Theme";            GroupDescription: "Themes:";                        Components: putty;
+Name: cmd_theme;                        Description: "Apply CMD {#WSH_THEME} Theme";        GroupDescription: "Themes:";
+Name: putty_theme;                      Description: "Apply PuTTY {#WSH_THEME} Theme";      GroupDescription: "Themes:";            Components: putty;
 
-Name: cmd_settings;               Description: "Apply CMD Settings";                GroupDescription: "Settings:";
-;Name: kitty_settings;             Description: "Apply KiTTY Settings";              GroupDescription: "Settings:";                      Components: putty;
-Name: putty_settings;             Description: "Apply PuTTY Settings";              GroupDescription: "Settings:";                      Components: putty;
-Name: wterm_settings;             Description: "Apply Windows Terminal Settings";   GroupDescription: "Settings:";
+Name: bash_settings;                    Description: "Apply Bash Settings";                 GroupDescription: "Settings:";
+Name: cmd_settings;                     Description: "Apply CMD Settings";                  GroupDescription: "Settings:";
+Name: putty_settings;                   Description: "Apply PuTTY Settings";                GroupDescription: "Settings:";          Components: putty;
+Name: terminal_settings;                Description: "Apply Windows Terminal Settings";     GroupDescription: "Settings:";
 
 [Files]
-// Install local files
-Source: "..\build\*";                                                         DestDir: "{app}\build";                                                                           Flags: recursesubdirs restartreplace uninsrestartdelete;    Excludes: "{OutputBaseFilename}";
-Source: "..\config\bash\*";                                                   DestDir: "{app}\config\bash";                                                                     Flags: recursesubdirs restartreplace uninsrestartdelete;
-Source: "..\config\bash\*";                                                   DestDir: "\\wsl$\Ubuntu\home\{code:AnsiLowercase|{username}}";                                    Flags: recursesubdirs restartreplace uninsrestartdelete;
-Source: "..\config\clink\*";                                                  DestDir: "{app}\config\clink";                                          Components: clink;        Flags: recursesubdirs restartreplace uninsrestartdelete;
-Source: "..\config\cmd\*";                                                    DestDir: "{app}\config\cmd";                                                                      Flags: recursesubdirs restartreplace uninsrestartdelete;
-Source: "..\config\git\*";                                                    DestDir: "{app}\config\git";                                            Components: git;          Flags: recursesubdirs restartreplace uninsrestartdelete;
-Source: "..\config\putty\*";                                                  DestDir: "{app}\config\putty";                                          Components: putty;        Flags: recursesubdirs restartreplace uninsrestartdelete;
-Source: "..\config\winterm\*";                                                DestDir: "{app}\config\winterm";                                                                  Flags: recursesubdirs restartreplace uninsrestartdelete;
-Source: "..\config\winterm\Fragments\*";                                      DestDir: "{commonappdata}\Microsoft\Windows Terminal\Fragments\WSH";    Tasks: wterm_settings;    Flags: recursesubdirs restartreplace uninsrestartdelete;    Check: IsAdminInstallMode
-Source: "..\config\winterm\Fragments\*";                                      DestDir: "{localappdata}\Microsoft\Windows Terminal\Fragments\WSH";     Tasks: wterm_settings;    Flags: recursesubdirs restartreplace uninsrestartdelete;    Check: not IsAdminInstallMode
-Source: "{localappdata}\Packages\Microsoft.WindowsTerminal_8wekyb3d8bbwe\LocalState\settings.json";   DestDir: "{localappdata}\Packages\Microsoft.WindowsTerminal_8wekyb3d8bbwe\LocalState";    DestName: "settings.wsh_backup.json";       Tasks: wterm_settings;    Flags: external ignoreversion restartreplace skipifsourcedoesntexist uninsneveruninstall uninsrestartdelete;
-Source: "..\config\winterm\settings.json";                                                            DestDir: "{localappdata}\Packages\Microsoft.WindowsTerminal_8wekyb3d8bbwe\LocalState";    DestName: "settings.json";                  Tasks: wterm_settings;    Flags: ignoreversion restartreplace uninsrestartdelete;
-Source: "..\icons\*";                                                         DestDir: "{app}\icons";                                                                           Flags: recursesubdirs restartreplace uninsrestartdelete;
-Source: "..\modules\bin\*";                                                   DestDir: "{app}\modules\bin";                                                                     Flags: recursesubdirs restartreplace uninsrestartdelete;
-Source: "..\modules\clink\*";                                                 DestDir: "{app}\modules\clink";                                         Components: clink;        Flags: recursesubdirs restartreplace uninsrestartdelete;
-Source: "..\modules\fonts\*";                                                 DestDir: "{app}\modules\fonts";                                         Components: fonts;        Flags: recursesubdirs restartreplace uninsrestartdelete;
-Source: "..\modules\git\*";                                                   DestDir: "{app}\modules\git";                                           Components: git;          Flags: recursesubdirs restartreplace uninsrestartdelete;
-Source: "..\modules\putty\*";                                                 DestDir: "{app}\modules\putty";                                         Components: putty;        Flags: recursesubdirs restartreplace uninsrestartdelete;
-Source: "..\modules\php\*";                                                   DestDir: "{app}\modules\php";                                           Components: php;          Flags: recursesubdirs restartreplace uninsrestartdelete;
+; Create a backup of the non WSH files that may be overwritten
+Source: "{#WSL_BASH}\.bash_logout";             DestDir: "{app}\config_backup\bash";                    Tasks: bash_settings;       Flags: external recursesubdirs skipifsourcedoesntexist uninsrestartdelete;
+Source: "{#WSL_BASH}\.bashrc";                  DestDir: "{app}\config_backup\bash";                    Tasks: bash_settings;       Flags: external recursesubdirs skipifsourcedoesntexist uninsrestartdelete;
+Source: "{#WSL_BASH}\.dircolors";               DestDir: "{app}\config_backup\bash";                    Tasks: bash_settings;       Flags: external recursesubdirs skipifsourcedoesntexist uninsrestartdelete;
+Source: "{#WSL_BASH}\.inputrc";                 DestDir: "{app}\config_backup\bash";                    Tasks: bash_settings;       Flags: external recursesubdirs skipifsourcedoesntexist uninsrestartdelete;
+Source: "{#WSL_BASH}\.vimrc";                   DestDir: "{app}\config_backup\bash";                    Tasks: bash_settings;       Flags: external recursesubdirs skipifsourcedoesntexist uninsrestartdelete;
+Source: "{#WSL_BASH}\.vim\*";                   DestDir: "{app}\config_backup\bash\.vim";               Tasks: bash_settings;       Flags: external recursesubdirs skipifsourcedoesntexist uninsrestartdelete;
+Source: "{#TERMINAL_SETTINGS}\settings.json";   DestDir: "{app}\config_backup\terminal";                Tasks: terminal_settings;   Flags: external recursesubdirs skipifsourcedoesntexist uninsrestartdelete;
+Source: "{#TERMINAL_FRAGMENTS}\WSH\*";          DestDir: "{app}\config_backup\terminal\Fragments";      Tasks: terminal_settings;   Flags: external recursesubdirs skipifsourcedoesntexist uninsrestartdelete;
 
-// Install fonts
-Source: "..\modules\fonts\Roboto Mono\RobotoMono-Bold.ttf";                   DestDir: "{autofonts}"; FontInstall: "Roboto Mono";                     Components: fonts;        Flags: onlyifdoesntexist restartreplace uninsneveruninstall uninsrestartdelete;
-Source: "..\modules\fonts\Roboto Mono\RobotoMono-BoldItalic.ttf";             DestDir: "{autofonts}"; FontInstall: "Roboto Mono";                     Components: fonts;        Flags: onlyifdoesntexist restartreplace uninsneveruninstall uninsrestartdelete;
-Source: "..\modules\fonts\Roboto Mono\RobotoMono-ExtraLight.ttf";             DestDir: "{autofonts}"; FontInstall: "Roboto Mono ExtraLight";          Components: fonts;        Flags: onlyifdoesntexist restartreplace uninsneveruninstall uninsrestartdelete;
-Source: "..\modules\fonts\Roboto Mono\RobotoMono-ExtraLightItalic.ttf";       DestDir: "{autofonts}"; FontInstall: "Roboto Mono ExtraLight";          Components: fonts;        Flags: onlyifdoesntexist restartreplace uninsneveruninstall uninsrestartdelete;
-Source: "..\modules\fonts\Roboto Mono\RobotoMono-Italic.ttf";                 DestDir: "{autofonts}"; FontInstall: "Roboto Mono";                     Components: fonts;        Flags: onlyifdoesntexist restartreplace uninsneveruninstall uninsrestartdelete;
-Source: "..\modules\fonts\Roboto Mono\RobotoMono-Light.ttf";                  DestDir: "{autofonts}"; FontInstall: "Roboto Mono Light";               Components: fonts;        Flags: onlyifdoesntexist restartreplace uninsneveruninstall uninsrestartdelete;
-Source: "..\modules\fonts\Roboto Mono\RobotoMono-LightItalic.ttf";            DestDir: "{autofonts}"; FontInstall: "Roboto Mono Light";               Components: fonts;        Flags: onlyifdoesntexist restartreplace uninsneveruninstall uninsrestartdelete;
-Source: "..\modules\fonts\Roboto Mono\RobotoMono-Medium.ttf";                 DestDir: "{autofonts}"; FontInstall: "Roboto Mono Medium";              Components: fonts;        Flags: onlyifdoesntexist restartreplace uninsneveruninstall uninsrestartdelete;
-Source: "..\modules\fonts\Roboto Mono\RobotoMono-MediumItalic.ttf";           DestDir: "{autofonts}"; FontInstall: "Roboto Mono Medium";              Components: fonts;        Flags: onlyifdoesntexist restartreplace uninsneveruninstall uninsrestartdelete;
-Source: "..\modules\fonts\Roboto Mono\RobotoMono-Regular.ttf";                DestDir: "{autofonts}"; FontInstall: "Roboto Mono";                     Components: fonts;        Flags: onlyifdoesntexist restartreplace uninsneveruninstall uninsrestartdelete;
-Source: "..\modules\fonts\Roboto Mono\RobotoMono-SemiBold.ttf";               DestDir: "{autofonts}"; FontInstall: "Roboto Mono SemiBold";            Components: fonts;        Flags: onlyifdoesntexist restartreplace uninsneveruninstall uninsrestartdelete;
-Source: "..\modules\fonts\Roboto Mono\RobotoMono-SemiBoldItalic.ttf";         DestDir: "{autofonts}"; FontInstall: "Roboto Mono SemiBold";            Components: fonts;        Flags: onlyifdoesntexist restartreplace uninsneveruninstall uninsrestartdelete;
-Source: "..\modules\fonts\Roboto Mono\RobotoMono-Thin.ttf";                   DestDir: "{autofonts}"; FontInstall: "Roboto Mono Thin";                Components: fonts;        Flags: onlyifdoesntexist restartreplace uninsneveruninstall uninsrestartdelete;
-Source: "..\modules\fonts\Roboto Mono\RobotoMono-ThinItalic.ttf";             DestDir: "{autofonts}"; FontInstall: "Roboto Mono Thin";                Components: fonts;        Flags: onlyifdoesntexist restartreplace uninsneveruninstall uninsrestartdelete;
-Source: "..\modules\fonts\SF Mono\SFMono-Bold.otf";                           DestDir: "{autofonts}"; FontInstall: "SF Mono";                         Components: fonts;        Flags: onlyifdoesntexist restartreplace uninsneveruninstall uninsrestartdelete;
-Source: "..\modules\fonts\SF Mono\SFMono-BoldItalic.otf";                     DestDir: "{autofonts}"; FontInstall: "SF Mono";                         Components: fonts;        Flags: onlyifdoesntexist restartreplace uninsneveruninstall uninsrestartdelete;
-Source: "..\modules\fonts\SF Mono\SFMono-Heavy.otf";                          DestDir: "{autofonts}"; FontInstall: "SF Mono";                         Components: fonts;        Flags: onlyifdoesntexist restartreplace uninsneveruninstall uninsrestartdelete;
-Source: "..\modules\fonts\SF Mono\SFMono-HeavyItalic.otf";                    DestDir: "{autofonts}"; FontInstall: "SF Mono";                         Components: fonts;        Flags: onlyifdoesntexist restartreplace uninsneveruninstall uninsrestartdelete;
-Source: "..\modules\fonts\SF Mono\SFMono-Light.otf";                          DestDir: "{autofonts}"; FontInstall: "SF Mono";                         Components: fonts;        Flags: onlyifdoesntexist restartreplace uninsneveruninstall uninsrestartdelete;
-Source: "..\modules\fonts\SF Mono\SFMono-LightItalic.otf";                    DestDir: "{autofonts}"; FontInstall: "SF Mono";                         Components: fonts;        Flags: onlyifdoesntexist restartreplace uninsneveruninstall uninsrestartdelete;
-Source: "..\modules\fonts\SF Mono\SFMono-Medium.otf";                         DestDir: "{autofonts}"; FontInstall: "SF Mono";                         Components: fonts;        Flags: onlyifdoesntexist restartreplace uninsneveruninstall uninsrestartdelete;
-Source: "..\modules\fonts\SF Mono\SFMono-MediumItalic.otf";                   DestDir: "{autofonts}"; FontInstall: "SF Mono";                         Components: fonts;        Flags: onlyifdoesntexist restartreplace uninsneveruninstall uninsrestartdelete;
-Source: "..\modules\fonts\SF Mono\SFMono-Regular.otf";                        DestDir: "{autofonts}"; FontInstall: "SF Mono";                         Components: fonts;        Flags: onlyifdoesntexist restartreplace uninsneveruninstall uninsrestartdelete;
-Source: "..\modules\fonts\SF Mono\SFMono-RegularItalic.otf";                  DestDir: "{autofonts}"; FontInstall: "SF Mono";                         Components: fonts;        Flags: onlyifdoesntexist restartreplace uninsneveruninstall uninsrestartdelete;
-Source: "..\modules\fonts\SF Mono\SFMono-Semibold.otf";                       DestDir: "{autofonts}"; FontInstall: "SF Mono";                         Components: fonts;        Flags: onlyifdoesntexist restartreplace uninsneveruninstall uninsrestartdelete;
-Source: "..\modules\fonts\SF Mono\SFMono-SemiboldItalic.otf";                 DestDir: "{autofonts}"; FontInstall: "SF Mono";                         Components: fonts;        Flags: onlyifdoesntexist restartreplace uninsneveruninstall uninsrestartdelete;
-Source: "..\modules\fonts\Source Code Pro\SourceCodePro-Black.otf";           DestDir: "{autofonts}"; FontInstall: "Source Code Pro Black";           Components: fonts;        Flags: onlyifdoesntexist restartreplace uninsneveruninstall uninsrestartdelete;
-Source: "..\modules\fonts\Source Code Pro\SourceCodePro-BlackIt.otf";         DestDir: "{autofonts}"; FontInstall: "Source Code Pro Black";           Components: fonts;        Flags: onlyifdoesntexist restartreplace uninsneveruninstall uninsrestartdelete;
-Source: "..\modules\fonts\Source Code Pro\SourceCodePro-Bold.otf";            DestDir: "{autofonts}"; FontInstall: "Source Code Pro";                 Components: fonts;        Flags: onlyifdoesntexist restartreplace uninsneveruninstall uninsrestartdelete;
-Source: "..\modules\fonts\Source Code Pro\SourceCodePro-BoldIt.otf";          DestDir: "{autofonts}"; FontInstall: "Source Code Pro";                 Components: fonts;        Flags: onlyifdoesntexist restartreplace uninsneveruninstall uninsrestartdelete;
-Source: "..\modules\fonts\Source Code Pro\SourceCodePro-ExtraLight.otf";      DestDir: "{autofonts}"; FontInstall: "Source Code Pro ExtraLight";      Components: fonts;        Flags: onlyifdoesntexist restartreplace uninsneveruninstall uninsrestartdelete;
-Source: "..\modules\fonts\Source Code Pro\SourceCodePro-ExtraLightIt.otf";    DestDir: "{autofonts}"; FontInstall: "Source Code Pro ExtraLight";      Components: fonts;        Flags: onlyifdoesntexist restartreplace uninsneveruninstall uninsrestartdelete;
-Source: "..\modules\fonts\Source Code Pro\SourceCodePro-It.otf";              DestDir: "{autofonts}"; FontInstall: "Source Code Pro";                 Components: fonts;        Flags: onlyifdoesntexist restartreplace uninsneveruninstall uninsrestartdelete;
-Source: "..\modules\fonts\Source Code Pro\SourceCodePro-Light.otf";           DestDir: "{autofonts}"; FontInstall: "Source Code Pro Light";           Components: fonts;        Flags: onlyifdoesntexist restartreplace uninsneveruninstall uninsrestartdelete;
-Source: "..\modules\fonts\Source Code Pro\SourceCodePro-LightIt.otf";         DestDir: "{autofonts}"; FontInstall: "Source Code Pro Light";           Components: fonts;        Flags: onlyifdoesntexist restartreplace uninsneveruninstall uninsrestartdelete;
-Source: "..\modules\fonts\Source Code Pro\SourceCodePro-Medium.otf";          DestDir: "{autofonts}"; FontInstall: "Source Code Pro Medium";          Components: fonts;        Flags: onlyifdoesntexist restartreplace uninsneveruninstall uninsrestartdelete;
-Source: "..\modules\fonts\Source Code Pro\SourceCodePro-MediumIt.otf";        DestDir: "{autofonts}"; FontInstall: "Source Code Pro Medium";          Components: fonts;        Flags: onlyifdoesntexist restartreplace uninsneveruninstall uninsrestartdelete;
-Source: "..\modules\fonts\Source Code Pro\SourceCodePro-Regular.otf";         DestDir: "{autofonts}"; FontInstall: "Source Code Pro";                 Components: fonts;        Flags: onlyifdoesntexist restartreplace uninsneveruninstall uninsrestartdelete;
-Source: "..\modules\fonts\Source Code Pro\SourceCodePro-Semibold.otf";        DestDir: "{autofonts}"; FontInstall: "Source Code Pro SemiBold";        Components: fonts;        Flags: onlyifdoesntexist restartreplace uninsneveruninstall uninsrestartdelete;
-Source: "..\modules\fonts\Source Code Pro\SourceCodePro-SemiboldIt.otf";      DestDir: "{autofonts}"; FontInstall: "Source Code Pro SemiBold";        Components: fonts;        Flags: onlyifdoesntexist restartreplace uninsneveruninstall uninsrestartdelete;
-Source: "..\modules\fonts\Ubuntu Font\Ubuntu-B.ttf";                          DestDir: "{autofonts}"; FontInstall: "Ubuntu";                          Components: fonts;        Flags: onlyifdoesntexist restartreplace uninsneveruninstall uninsrestartdelete;
-Source: "..\modules\fonts\Ubuntu Font\Ubuntu-BI.ttf";                         DestDir: "{autofonts}"; FontInstall: "Ubuntu";                          Components: fonts;        Flags: onlyifdoesntexist restartreplace uninsneveruninstall uninsrestartdelete;
-Source: "..\modules\fonts\Ubuntu Font\Ubuntu-C.ttf";                          DestDir: "{autofonts}"; FontInstall: "Ubuntu Condensed";                Components: fonts;        Flags: onlyifdoesntexist restartreplace uninsneveruninstall uninsrestartdelete;
-Source: "..\modules\fonts\Ubuntu Font\Ubuntu-L.ttf";                          DestDir: "{autofonts}"; FontInstall: "Ubuntu Light";                    Components: fonts;        Flags: onlyifdoesntexist restartreplace uninsneveruninstall uninsrestartdelete;
-Source: "..\modules\fonts\Ubuntu Font\Ubuntu-LI.ttf";                         DestDir: "{autofonts}"; FontInstall: "Ubuntu Light";                    Components: fonts;        Flags: onlyifdoesntexist restartreplace uninsneveruninstall uninsrestartdelete;
-Source: "..\modules\fonts\Ubuntu Font\Ubuntu-M.ttf";                          DestDir: "{autofonts}"; FontInstall: "Ubuntu Light";                    Components: fonts;        Flags: onlyifdoesntexist restartreplace uninsneveruninstall uninsrestartdelete;
-Source: "..\modules\fonts\Ubuntu Font\Ubuntu-MI.ttf";                         DestDir: "{autofonts}"; FontInstall: "Ubuntu Light";                    Components: fonts;        Flags: onlyifdoesntexist restartreplace uninsneveruninstall uninsrestartdelete;
-Source: "..\modules\fonts\Ubuntu Font\Ubuntu-R.ttf";                          DestDir: "{autofonts}"; FontInstall: "Ubuntu Mono";                     Components: fonts;        Flags: onlyifdoesntexist restartreplace uninsneveruninstall uninsrestartdelete;
-Source: "..\modules\fonts\Ubuntu Font\Ubuntu-RI.ttf";                         DestDir: "{autofonts}"; FontInstall: "Ubuntu Mono";                     Components: fonts;        Flags: onlyifdoesntexist restartreplace uninsneveruninstall uninsrestartdelete;
-Source: "..\modules\fonts\Ubuntu Font\Ubuntu-Th.ttf";                         DestDir: "{autofonts}"; FontInstall: "Ubuntu Mono";                     Components: fonts;        Flags: onlyifdoesntexist restartreplace uninsneveruninstall uninsrestartdelete;
-Source: "..\modules\fonts\Ubuntu Font\UbuntuMono-B.ttf";                      DestDir: "{autofonts}"; FontInstall: "Ubuntu Mono";                     Components: fonts;        Flags: onlyifdoesntexist restartreplace uninsneveruninstall uninsrestartdelete;
-Source: "..\modules\fonts\Ubuntu Font\UbuntuMono-BI.ttf";                     DestDir: "{autofonts}"; FontInstall: "Ubuntu";                          Components: fonts;        Flags: onlyifdoesntexist restartreplace uninsneveruninstall uninsrestartdelete;
-Source: "..\modules\fonts\Ubuntu Font\UbuntuMono-R.ttf";                      DestDir: "{autofonts}"; FontInstall: "Ubuntu";                          Components: fonts;        Flags: onlyifdoesntexist restartreplace uninsneveruninstall uninsrestartdelete;
-Source: "..\modules\fonts\Ubuntu Font\UbuntuMono-RI.ttf";                     DestDir: "{autofonts}"; FontInstall: "Ubuntu Thin";                     Components: fonts;        Flags: onlyifdoesntexist restartreplace uninsneveruninstall uninsrestartdelete;
+; Install all files in destination directory
+Source: "..\build\*";                           DestDir: "{app}\build";     Excludes: "{OutputBaseFilename}, *git*, _config.yml";   Flags: recursesubdirs restartreplace uninsrestartdelete;
+Source: "..\config\*";                          DestDir: "{app}\config";                                                            Flags: recursesubdirs restartreplace uninsrestartdelete;
+Source: "..\icons\*";                           DestDir: "{app}\icons";                                                             Flags: recursesubdirs restartreplace uninsrestartdelete;
+Source: "..\modules\*";                         DestDir: "{app}\modules";                                                           Flags: recursesubdirs restartreplace uninsrestartdelete;
+Source: "..\README.md";                         DestDir: "{app}";                                                                   Flags: recursesubdirs restartreplace uninsrestartdelete;
+Source: "..\README.md";                         DestDir: "{app}";                                                                   Flags: recursesubdirs restartreplace uninsrestartdelete;
+Source: "..\build\FontReg\FontReg.exe";         DestDir: "{app}\modules\fonts";                                                     Flags: recursesubdirs restartreplace uninsrestartdelete;
 
-// Install files to be downloaded
-Source: "{tmp}\clink.zip";                                                    DestDir: "{app}\modules\clink";                                         Components: clink;        Flags: deleteafterinstall external uninsrestartdelete;
-Source: "{tmp}\git-x64.exe";                                                  DestDir: "{app}\modules\git";                                           Components: git;          Flags: deleteafterinstall external uninsrestartdelete;
-Source: "{tmp}\php-x64.zip";                                                  DestDir: "{app}\modules\php";                                           Components: php;          Flags: deleteafterinstall external uninsrestartdelete;
-;Source: "{tmp}\kitty.exe";                                                    DestDir: "{app}\modules\putty";                                         Components: putty;        Flags: external uninsrestartdelete;
-Source: "{tmp}\putty.exe";                                                    DestDir: "{app}\modules\putty";                                         Components: putty;        Flags: external uninsrestartdelete;
-Source: "{tmp}\pscp.exe";                                                     DestDir: "{app}\modules\putty";                                         Components: putty;        Flags: external uninsrestartdelete;
-Source: "{tmp}\psftp.exe";                                                    DestDir: "{app}\modules\putty";                                         Components: putty;        Flags: external uninsrestartdelete;
-Source: "{tmp}\plink.exe";                                                    DestDir: "{app}\modules\putty";                                         Components: putty;        Flags: external uninsrestartdelete;
-Source: "{tmp}\pageant.exe";                                                  DestDir: "{app}\modules\putty";                                         Components: putty;        Flags: external uninsrestartdelete;
-Source: "{tmp}\puttygen.exe";                                                 DestDir: "{app}\modules\putty";                                         Components: putty;        Flags: external uninsrestartdelete;
+; Install configuration files for the different applications
+; Flagged to not be uninstalled. Instead they will be uninstallled through the section [UninstallRun] to properly restore backed up files
+Source: "..\config\bash\*";                     DestDir: "{#WSL_BASH}";                                 Tasks: bash_settings;       Flags: recursesubdirs restartreplace uninsneveruninstall;
+Source: "..\config\terminal\settings.json";     DestDir: "{#TERMINAL_SETTINGS}";                        Tasks: terminal_settings;   Flags: recursesubdirs restartreplace uninsneveruninstall;
+Source: "..\config\terminal\Fragments\*";       DestDir: "{#TERMINAL_FRAGMENTS}\WSH";                   Tasks: terminal_settings;   Flags: recursesubdirs restartreplace uninsneveruninstall;
+
+; Install downloaded files
+Source: "{tmp}\clink.zip";                      DestDir: "{app}\modules\clink";                         Components: clink;          Flags: deleteafterinstall external uninsrestartdelete;
+Source: "{tmp}\git-x64.exe";                    DestDir: "{app}\modules\git";                           Components: git;            Flags: deleteafterinstall external uninsrestartdelete;
+Source: "{tmp}\php-x64.zip";                    DestDir: "{app}\modules\php";                           Components: php7;           Flags: deleteafterinstall external uninsrestartdelete;
+Source: "{tmp}\php-x64.zip";                    DestDir: "{app}\modules\php";                           Components: php8;           Flags: deleteafterinstall external uninsrestartdelete;
+Source: "{tmp}\putty.exe";                      DestDir: "{app}\modules\putty";                         Components: putty;          Flags: external uninsrestartdelete;
+Source: "{tmp}\pscp.exe";                       DestDir: "{app}\modules\putty";                         Components: putty;          Flags: external uninsrestartdelete;
+Source: "{tmp}\psftp.exe";                      DestDir: "{app}\modules\putty";                         Components: putty;          Flags: external uninsrestartdelete;
+Source: "{tmp}\plink.exe";                      DestDir: "{app}\modules\putty";                         Components: putty;          Flags: external uninsrestartdelete;
+Source: "{tmp}\pageant.exe";                    DestDir: "{app}\modules\putty";                         Components: putty;          Flags: external uninsrestartdelete;
+Source: "{tmp}\puttygen.exe";                   DestDir: "{app}\modules\putty";                         Components: putty;          Flags: external uninsrestartdelete;
 
 [INI]
-// Define KiTTY configuration
-;Filename: "{app}\config\putty\kitty.ini";   Section: "KiTTY";   Key: "savemode";    String: "dir";                  Components: putty;    Flags: uninsdeleteentry;
-;Filename: "{app}\config\putty\kitty.ini";   Section: "KiTTY";   Key: "configdir";   String: "{app}\config\putty";   Components: putty;    Flags: uninsdeleteentry;
-
-// Define Git installer configuration
-Filename: "{app}\config\git\git-x64.ini";   Section: "Setup";   Key: "Dir";         String: "{app}\modules\git";    Components: putty;    Flags: uninsdeleteentry;
-Filename: "{app}\config\git\git-x64.ini";   Section: "Setup";   Key: "Group";       String: "{groupname}\Git";      Components: putty;    Flags: uninsdeleteentry;
+; Define Git installer configuration
+Filename: "{app}\config\git\git-x64.ini";       Section: "Setup";   Key: "Dir";     String: "{app}\modules\git";    Components: git;
+Filename: "{app}\config\git\git-x64.ini";       Section: "Setup";   Key: "Group";   String: "{groupname}\Git";      Components: git;
 
 [Run]
-// Unzip Clink
-Filename: "{app}\build\7za.exe";              Parameters: "x -aoa -o""{app}\modules\clink\"" -y ""{app}\modules\clink\clink.zip"" ""*""";     Components: clink;        Flags: runhidden;   StatusMsg: "Installing Clink";
+; Register fonts with FontReg
+FileName: "{app}\modules\fonts\FontReg.exe";    Parameters: "/copy";                                                                                                                    Flags: runhidden;   StatusMsg: "Registering Fonts";
 
-// Set Clink as autorun
-;Filename: "{app}\modules\clink\clink.bat";    Parameters: "autorun set """"";                                                                 Components: clink;        Flags: runhidden;   StatusMsg: "Installing Clink";
-;Filename: "{app}\modules\clink\clink.bat";    Parameters: "autorun install -- --nolog --quiet --profile """"""{app}\config\clink\""""""";     Components: clink;        Flags: runhidden;   StatusMsg: "Installing Clink";
+; Backup CMD and PUTTY settings from registry
+FileName: "{sys}\reg";                          Parameters: "export ""HKCU\Console"" ""{app}\config_backup\cmd_settings.reg"" /y";                                                      Tasks: cmd_settings cmd_theme;      Flags: runhidden;   StatusMsg: "Installing Clink";
+FileName: "{sys}\reg";                          Parameters: "export ""HKCU\SOFTWARE\SimonTatham\PuTTY\Sessions\Default%20Settings"" ""{app}\config_backup\putty_settings.reg"" /y";     Tasks: putty_settings putty_theme;  Flags: runhidden;   StatusMsg: "Installing Clink";
 
-// Unzip Git
-Filename: "{app}\modules\git\git-x64.exe";    Parameters: "/LOADINF=""{app}\config\git\git-x64.ini"" /VERYSILENT";                            Components: git;          Flags: runhidden;   StatusMsg: "Installing Git";
+; Unzip and install Clink
+Filename: "{app}\build\7z\7za.exe";             Parameters: "x -aoa -o""{app}\modules\clink\"" -y ""{app}\modules\clink\clink.zip"" ""*""";                                             Components: clink;                  Flags: runhidden;   StatusMsg: "Installing Clink";
+Filename: "{app}\modules\clink\clink.bat";      Parameters: "autorun install -- --nolog --profile ""{app}\config\clink\""";                                                             Components: clink;                  Flags: runhidden;   StatusMsg: "Installing Clink";
 
-// Unzip PHP
-Filename: "{app}\build\7za.exe";              Parameters: "x -aoa -o""{app}\modules\php\"" -y ""{app}\modules\php\php-x64.zip"" ""*""";       Components: php;          Flags: runhidden;   StatusMsg: "Installing PHP";
+; Unzip and install Git
+Filename: "{app}\modules\git\git-x64.exe";      Parameters: "/LOADINF=""{app}\config\git\git-x64.ini"" /VERYSILENT";                                                                    Components: git;                    Flags: runhidden;   StatusMsg: "Installing Git";
 
-// Create a symbolic link to the "kitty.ini" configuration file
-;Filename: "{cmd}";                            Parameters: "/C mklink ""{app}\modules\putty\kitty.ini"" ""{app}\config\putty\kitty.ini""";     Components: putty;        Flags: runhidden;   StatusMsg: "Installing PuTTY";
-// Create a symbolic link to "kitty.exe" named "putty.exe" to allow either execuatble name to be used
-;Filename: "{cmd}";                            Parameters: "/C mklink ""{app}\modules\putty\putty.exe"" ""{app}\modules\putty\kitty.exe""";    Components: putty;        Flags: runhidden;   StatusMsg: "Installing PuTTY";
+; Unzip and install PHP
+Filename: "{app}\build\7z\7za.exe";             Parameters: "x -aoa -o""{app}\modules\php\"" -y ""{app}\modules\php\php-x64.zip"" ""*""";                                               Components: php7;                   Flags: runhidden;   StatusMsg: "Installing PHP7";
+Filename: "{app}\build\7z\7za.exe";             Parameters: "x -aoa -o""{app}\modules\php\"" -y ""{app}\modules\php\php-x64.zip"" ""*""";                                               Components: php8;                   Flags: runhidden;   StatusMsg: "Installing PHP8";
 
-// Import CMD Nord Theme registry
-Filename: "reg.exe";                          Parameters: "import ""{app}\config\cmd\CMD Nord Theme Only (As Default Settings).reg""";        Tasks: cmd_theme;         Flags: runhidden;   StatusMsg: "Importing CMD Nord Theme registry";
-// Import KiTTY Nord Theme registry
-;Filename: "reg.exe";                          Parameters: "import ""{app}\config\putty\KiTTY Nord Theme Only (As Default Settings).reg""";    Tasks: kitty_theme;       Flags: runhidden;   StatusMsg: "Importing KiTTY Nord Theme registry";
-// Import PuTTY Nord Theme registry
-Filename: "reg.exe";                          Parameters: "import ""{app}\config\putty\PuTTY Nord Theme Only (As Default Settings).reg""";    Tasks: putty_theme;       Flags: runhidden;   StatusMsg: "Importing PuTTY Nord Theme registry";
+; Import CMD and PuTTY themes to registry
+Filename: "{sys}\reg.exe";                      Parameters: "import ""{app}\config\clink\themes\cmd_theme_{#WSH_THEME}.reg""";                                                          Tasks: cmd_theme;                   Flags: runhidden;   StatusMsg: "Importing CMD {#WSH_THEME} Theme to registry";
+Filename: "{sys}\reg.exe";                      Parameters: "import ""{app}\config\putty\themes\putty_theme_{#WSH_THEME}.reg""";                                                        Tasks: putty_theme;                 Flags: runhidden;   StatusMsg: "Importing PuTTY {#WSH_THEME} Theme to registry";
 
-// Import CMD Settings registry
-Filename: "reg.exe";                          Parameters: "import ""{app}\config\cmd\CMD Settings (As Default Settings).reg""";               Tasks: cmd_settings;      Flags: runhidden;   StatusMsg: "Importing CMD Settings registry";
-// Import KiTTY Settings registry
-;Filename: "reg.exe";                          Parameters: "import ""{app}\config\putty\KiTTY Settings (As Default Settings).reg""";           Tasks: kitty_settings;    Flags: runhidden;   StatusMsg: "Importing KiTTY Settings registry";
-// Import PuTTY Settings registry
-Filename: "reg.exe";                          Parameters: "import ""{app}\config\putty\PuTTY Settings (As Default Settings).reg""";           Tasks: putty_settings;    Flags: runhidden;   StatusMsg: "Importing PuTTY Settings registry";
+; Import CMD and PuTTY settings to registry
+Filename: "{sys}\reg.exe";                      Parameters: "import ""{app}\config\clink\cmd_settings.reg""";                                                                           Tasks: cmd_settings;                Flags: runhidden;   StatusMsg: "Importing CMD Settings to registry";
+Filename: "{sys}\reg.exe";                      Parameters: "import ""{app}\config\putty\putty_settings.reg""";                                                                         Tasks: putty_settings;              Flags: runhidden;   StatusMsg: "Importing PuTTY Settings to registry";
 
 [Icons]
-// Create shortcuts for PuTTY
-;Name: "{group}\PuTTY\KiTTY";                  Filename: "{app}\modules\putty\kitty.exe";                                        Components: putty;
-Name: "{group}\PuTTY\PuTTY";                  Filename: "{app}\modules\putty\putty.exe";                                        Components: putty;
-Name: "{group}\PuTTY\Pageant Key List";       Filename: "{app}\modules\putty\pageant.exe";                                      Components: putty;
-Name: "{group}\PuTTY\PuTTY Key Generator";    Filename: "{app}\modules\putty\puttygen.exe";                                     Components: putty;
+; Create shortcuts for PuTTY
+Name: "{group}\PuTTY\PuTTY";                    Filename: "{app}\modules\putty\putty.exe";                  Components: putty;
+Name: "{group}\PuTTY\Pageant Key List";         Filename: "{app}\modules\putty\pageant.exe";                Components: putty;
+Name: "{group}\PuTTY\PuTTY Key Generator";      Filename: "{app}\modules\putty\puttygen.exe";               Components: putty;
 
-// Shortcuts for Git are configured in the "{app}\modules\git\git-x64.ini" file
+; Shortcuts for Git are configured in the "{app}\modules\git\git-x64.ini" file
+; Currently disabled in git-x64.ini
 
-// Create console/terminal shortcuts
-Name: "{group}\CMD";                          Filename: "{localappdata}\Microsoft\WindowsApps\wt.exe";    Parameters: "-p CMD";                                 IconFilename: "{app}\icons\cmd.ico";
-Name: "{group}\Git";                          Filename: "{localappdata}\Microsoft\WindowsApps\wt.exe";    Parameters: "-p ""Git Bash""";    Components: git;    IconFilename: "{app}\modules\git\mingw64\share\git\git-for-windows.ico";
-Name: "{group}\Git";                          Filename: "{localappdata}\Microsoft\WindowsApps\wt.exe";    Parameters: "-p ""Git CMD""";     Components: git;    IconFilename: "{app}\modules\git\mingw64\share\git\git-for-windows.ico";
-Name: "{group}\PowerShell";                   Filename: "{localappdata}\Microsoft\WindowsApps\wt.exe";    Parameters: "-p PowerShell";                          IconFilename: "{app}\icons\powershell.ico";
-Name: "{group}\Ubuntu";                       Filename: "{localappdata}\Microsoft\WindowsApps\wt.exe";    Parameters: "-p Ubuntu";                              IconFilename: "{app}\icons\ubuntu.ico";
+; Create console/terminal shortcuts
+Name: "{group}\CMD";                            Filename: "{autoappdata}\Microsoft\WindowsApps\wt.exe";     Tasks: terminal_settings;   Parameters: "-p CMD";                   IconFilename: "{app}\icons\cmd.ico";
+Name: "{group}\CMD (Admin)";                    Filename: "{autoappdata}\Microsoft\WindowsApps\wt.exe";     Tasks: terminal_settings;   Parameters: "-p CMD (Admin)";           IconFilename: "{app}\icons\cmd_admin.ico";
+Name: "{group}\PowerShell";                     Filename: "{autoappdata}\Microsoft\WindowsApps\wt.exe";     Tasks: terminal_settings;   Parameters: "-p PowerShell";            IconFilename: "{app}\icons\powershell.ico";
+Name: "{group}\PowerShell (Admin)";             Filename: "{autoappdata}\Microsoft\WindowsApps\wt.exe";     Tasks: terminal_settings;   Parameters: "-p PowerShell (Admin)";    IconFilename: "{app}\icons\powershell_admin.ico";
+Name: "{group}\Ubuntu";                         Filename: "{autoappdata}\Microsoft\WindowsApps\wt.exe";     Tasks: terminal_settings;   Parameters: "-p Ubuntu";                IconFilename: "{app}\icons\ubuntu.ico";
 
 [Registry]
-// "HKCR\*\shell"                       adds the right click entry to all the files
-// "HKCR\DesktopBackground\shell"       adds the right click entry to the desktop only
-// "HKCR\Directory\background\shell"    adds the right click entry to all the directories (folder, libraries, special folders), when done in the background
-// "HKCR\Directory\shell"               adds the right click entry to all the directories (folder, libraries, special folders)
-// "HKCR\Drive\shell"                   adds the right click entry to a drive only
-// "HKCR\Folder\shell"                  adds the right click entry to a folder only
-// "HKCR\LibraryFolder\shell"           adds the right click entry to a library only
+; Update font in the registry for CMD and PuTTY
+Root: HKCU; Subkey: "Console";                                                  ValueType: string;  ValueName: "FaceName";  ValueData: "{#WSH_FONT}";                                                                      Tasks: cmd_context_menu;                Flags: uninsdeletekey;
+Root: HKCU; Subkey: "SOFTWARE\SimonTatham\PuTTY\Sessions\Default%20Settings";   ValueType: string;  ValueName: "Font";      ValueData: "{#WSH_FONT}";                                                                      Tasks: cmd_context_menu;                Flags: uninsdeletekey;
 
-// CMD Context Menu
-Root: HKCR; Subkey: "Directory\background\shell\wsh_cm_cmd";                  ValueType: string;    ValueName: "";        ValueData: "Open CMD";                          Tasks: cmd_context_menu;          Flags: uninsdeletekey;
-Root: HKCR; Subkey: "Directory\background\shell\wsh_cm_cmd";                  ValueType: string;    ValueName: "Icon";    ValueData: "{app}\icons\cmd.ico";               Tasks: cmd_context_menu;          Flags: uninsdeletekey;
-Root: HKCR; Subkey: "Directory\background\shell\wsh_cm_cmd\command";          ValueType: string;    ValueName: "";        ValueData: "{localappdata}\Microsoft\WindowsApps\wt.exe -d ""%V."" -p CMD";          Tasks: cmd_context_menu;          Flags: uninsdeletekey;
-Root: HKCR; Subkey: "Directory\shell\wsh_cm_cmd";                             ValueType: string;    ValueName: "";        ValueData: "Open CMD";                          Tasks: cmd_context_menu;          Flags: uninsdeletekey;
-Root: HKCR; Subkey: "Directory\shell\wsh_cm_cmd";                             ValueType: string;    ValueName: "Icon";    ValueData: "{app}\icons\cmd.ico";               Tasks: cmd_context_menu;          Flags: uninsdeletekey;
-Root: HKCR; Subkey: "Directory\shell\wsh_cm_cmd\command";                     ValueType: string;    ValueName: "";        ValueData: "{localappdata}\Microsoft\WindowsApps\wt.exe -d ""%V."" -p CMD";          Tasks: cmd_context_menu;          Flags: uninsdeletekey;
-Root: HKCR; Subkey: "Drive\shell\wsh_cm_cmd";                                 ValueType: string;    ValueName: "";        ValueData: "Open CMD";                          Tasks: cmd_context_menu;          Flags: uninsdeletekey;
-Root: HKCR; Subkey: "Drive\shell\wsh_cm_cmd";                                 ValueType: string;    ValueName: "Icon";    ValueData: "{app}\icons\cmd.ico";               Tasks: cmd_context_menu;          Flags: uninsdeletekey;
-Root: HKCR; Subkey: "Drive\shell\wsh_cm_cmd\command";                         ValueType: string;    ValueName: "";        ValueData: "{localappdata}\Microsoft\WindowsApps\wt.exe -d ""%V."" -p CMD";          Tasks: cmd_context_menu;          Flags: uninsdeletekey;
+; If Admin user, for all users
+; "HKCR\*\shell"                                        Add Context Menu to All File Extensions
+; "HKCR\DesktopBackground\shell"                        Add Context Menu to Desktop only
+; "HKCR\Directory\background\shell"                     Add Context Menu to Directory Background (folder, libraries, special folders)
+; "HKCR\Directory\shell"                                Add Context Menu to Directory (folder, libraries, special folders)
+; "HKCR\Drive\shell"                                    Add Context Menu to Drive only
+; "HKCR\Folder\shell"                                   Adds the right click entry to a folder only
+; "HKCR\LibraryFolder\shell"                            Adds the right click entry to a library only
 
-// PowerShell Context Menu
-Root: HKCR; Subkey: "Directory\background\shell\wsh_cm_powershell";           ValueType: string;    ValueName: "";        ValueData: "Open PowerShell";                   Tasks: powershell_context_menu;   Flags: uninsdeletekey;
-Root: HKCR; Subkey: "Directory\background\shell\wsh_cm_powershell";           ValueType: string;    ValueName: "Icon";    ValueData: "{app}\icons\powershell.ico";        Tasks: powershell_context_menu;   Flags: uninsdeletekey;
-Root: HKCR; Subkey: "Directory\background\shell\wsh_cm_powershell\command";   ValueType: string;    ValueName: "";        ValueData: "{localappdata}\Microsoft\WindowsApps\wt.exe -d ""%V."" -p PowerShell";   Tasks: powershell_context_menu;   Flags: uninsdeletekey;
-Root: HKCR; Subkey: "Directory\shell\wsh_cm_powershell";                      ValueType: string;    ValueName: "";        ValueData: "Open PowerShell";                   Tasks: powershell_context_menu;   Flags: uninsdeletekey;
-Root: HKCR; Subkey: "Directory\shell\wsh_cm_powershell";                      ValueType: string;    ValueName: "Icon";    ValueData: "{app}\icons\powershell.ico";        Tasks: powershell_context_menu;   Flags: uninsdeletekey;
-Root: HKCR; Subkey: "Directory\shell\wsh_cm_powershell\command";              ValueType: string;    ValueName: "";        ValueData: "{localappdata}\Microsoft\WindowsApps\wt.exe -d ""%V."" -p PowerShell";   Tasks: powershell_context_menu;   Flags: uninsdeletekey;
-Root: HKCR; Subkey: "Drive\shell\wsh_cm_powershell";                          ValueType: string;    ValueName: "";        ValueData: "Open PowerShell";                   Tasks: powershell_context_menu;   Flags: uninsdeletekey;
-Root: HKCR; Subkey: "Drive\shell\wsh_cm_powershell";                          ValueType: string;    ValueName: "Icon";    ValueData: "{app}\icons\powershell.ico";        Tasks: powershell_context_menu;   Flags: uninsdeletekey;
-Root: HKCR; Subkey: "Drive\shell\wsh_cm_powershell\command";                  ValueType: string;    ValueName: "";        ValueData: "{localappdata}\Microsoft\WindowsApps\wt.exe -d ""%V."" -p PowerShell";   Tasks: powershell_context_menu;   Flags: uninsdeletekey;
+; If regular user, for that user
+; "HKCU\Software\Classes\*\shell"                       Add Context Menu to All File Extensions
+; "HKCU\Software\Classes\DesktopBackground\shell"       Add Context Menu to Desktop only
+; "HKCU\Software\Classes\Directory\background\shell"    Add Context Menu to Directory Background (folder, libraries, special folders)
+; "HKCU\Software\Classes\Directory\shell"               Add Context Menu to Directory (folder, libraries, special folders)
+; "HKCU\Software\Classes\Drive\shell"                   Add Context Menu to Drive only
+; "HKCU\Software\Classes\Folder\shell"                  Adds the right click entry to a folder only
+; "HKCU\Software\Classes\LibraryFolder\shell"           Adds the right click entry to a library only
 
-// Ubuntu Context Menu
-Root: HKCR; Subkey: "Directory\background\shell\wsh_cm_ubuntu";               ValueType: string;    ValueName: "";        ValueData: "Open Ubuntu";                       Tasks: ubuntu_context_menu;       Flags: uninsdeletekey;
-Root: HKCR; Subkey: "Directory\background\shell\wsh_cm_ubuntu";               ValueType: string;    ValueName: "Icon";    ValueData: "{app}\icons\ubuntu.ico";            Tasks: ubuntu_context_menu;       Flags: uninsdeletekey;
-Root: HKCR; Subkey: "Directory\background\shell\wsh_cm_ubuntu\command";       ValueType: string;    ValueName: "";        ValueData: "{localappdata}\Microsoft\WindowsApps\wt.exe -d ""%V."" -p Ubuntu";       Tasks: ubuntu_context_menu;       Flags: uninsdeletekey;
-Root: HKCR; Subkey: "Directory\shell\wsh_cm_ubuntu";                          ValueType: string;    ValueName: "";        ValueData: "Open Ubuntu";                       Tasks: ubuntu_context_menu;       Flags: uninsdeletekey;
-Root: HKCR; Subkey: "Directory\shell\wsh_cm_ubuntu";                          ValueType: string;    ValueName: "Icon";    ValueData: "{app}\icons\ubuntu.ico";            Tasks: ubuntu_context_menu;       Flags: uninsdeletekey;
-Root: HKCR; Subkey: "Directory\shell\wsh_cm_ubuntu\command";                  ValueType: string;    ValueName: "";        ValueData: "{localappdata}\Microsoft\WindowsApps\wt.exe -d ""%V."" -p Ubuntu";       Tasks: ubuntu_context_menu;       Flags: uninsdeletekey;
-Root: HKCR; Subkey: "Drive\shell\wsh_cm_ubuntu";                              ValueType: string;    ValueName: "";        ValueData: "Open Ubuntu";                       Tasks: ubuntu_context_menu;       Flags: uninsdeletekey;
-Root: HKCR; Subkey: "Drive\shell\wsh_cm_ubuntu";                              ValueType: string;    ValueName: "Icon";    ValueData: "{app}\icons\ubuntu.ico";            Tasks: ubuntu_context_menu;       Flags: uninsdeletekey;
-Root: HKCR; Subkey: "Drive\shell\wsh_cm_ubuntu\command";                      ValueType: string;    ValueName: "";        ValueData: "{localappdata}\Microsoft\WindowsApps\wt.exe -d ""%V."" -p Ubuntu";       Tasks: ubuntu_context_menu;       Flags: uninsdeletekey;
+; Context Menu CMD
+Root: HKCU; Subkey: "Software\Classes\Directory\background\shell\wsh_cm_cmd";                        ValueType: string;  ValueName: "";      ValueData: "Open CMD";                                                                      Tasks: cmd_context_menu;                Flags: uninsdeletekey;
+Root: HKCU; Subkey: "Software\Classes\Directory\background\shell\wsh_cm_cmd";                        ValueType: string;  ValueName: "Icon";  ValueData: "{app}\icons\cmd.ico";                                                           Tasks: cmd_context_menu;                Flags: uninsdeletekey;
+Root: HKCU; Subkey: "Software\Classes\Directory\background\shell\wsh_cm_cmd\command";                ValueType: string;  ValueName: "";      ValueData: "{autoappdata}\Microsoft\WindowsApps\wt.exe -d ""%V."" -p CMD";                  Tasks: cmd_context_menu;                Flags: uninsdeletekey;
+Root: HKCU; Subkey: "Software\Classes\Directory\shell\wsh_cm_cmd";                                   ValueType: string;  ValueName: "";      ValueData: "Open CMD";                                                                      Tasks: cmd_context_menu;                Flags: uninsdeletekey;
+Root: HKCU; Subkey: "Software\Classes\Directory\shell\wsh_cm_cmd";                                   ValueType: string;  ValueName: "Icon";  ValueData: "{app}\icons\cmd.ico";                                                           Tasks: cmd_context_menu;                Flags: uninsdeletekey;
+Root: HKCU; Subkey: "Software\Classes\Directory\shell\wsh_cm_cmd\command";                           ValueType: string;  ValueName: "";      ValueData: "{autoappdata}\Microsoft\WindowsApps\wt.exe -d ""%V."" -p CMD";                  Tasks: cmd_context_menu;                Flags: uninsdeletekey;
+
+; Context Menu CMD (Admin)
+Root: HKCU; Subkey: "Software\Classes\Directory\background\shell\wsh_cm_cmd_admin";                  ValueType: string;  ValueName: "";      ValueData: "Open CMD (Admin)";                                                              Tasks: cmd_admin_context_menu;          Flags: uninsdeletekey;
+Root: HKCU; Subkey: "Software\Classes\Directory\background\shell\wsh_cm_cmd_admin";                  ValueType: string;  ValueName: "Icon";  ValueData: "{app}\icons\cmd.ico";                                                           Tasks: cmd_admin_context_menu;          Flags: uninsdeletekey;
+Root: HKCU; Subkey: "Software\Classes\Directory\background\shell\wsh_cm_cmd_admin\command";          ValueType: string;  ValueName: "";      ValueData: "{autoappdata}\Microsoft\WindowsApps\wt.exe -d ""%V."" -p CMD (Admin)";          Tasks: cmd_admin_context_menu;          Flags: uninsdeletekey;
+Root: HKCU; Subkey: "Software\Classes\Directory\shell\wsh_cm_cmd_admin";                             ValueType: string;  ValueName: "";      ValueData: "Open CMD (Admin)";                                                              Tasks: cmd_admin_context_menu;          Flags: uninsdeletekey;
+Root: HKCU; Subkey: "Software\Classes\Directory\shell\wsh_cm_cmd_admin";                             ValueType: string;  ValueName: "Icon";  ValueData: "{app}\icons\cmd.ico";                                                           Tasks: cmd_admin_context_menu;          Flags: uninsdeletekey;
+Root: HKCU; Subkey: "Software\Classes\Directory\shell\wsh_cm_cmd_admin\command";                     ValueType: string;  ValueName: "";      ValueData: "{autoappdata}\Microsoft\WindowsApps\wt.exe -d ""%V."" -p CMD (Admin)";          Tasks: cmd_admin_context_menu;          Flags: uninsdeletekey;
+
+; Context Menu PowerShell
+Root: HKCU; Subkey: "Software\Classes\Directory\background\shell\wsh_cm_powershell";                 ValueType: string;  ValueName: "";      ValueData: "Open PowerShell";                                                               Tasks: powershell_context_menu;         Flags: uninsdeletekey;
+Root: HKCU; Subkey: "Software\Classes\Directory\background\shell\wsh_cm_powershell";                 ValueType: string;  ValueName: "Icon";  ValueData: "{app}\icons\powershell.ico";                                                    Tasks: powershell_context_menu;         Flags: uninsdeletekey;
+Root: HKCU; Subkey: "Software\Classes\Directory\background\shell\wsh_cm_powershell\command";         ValueType: string;  ValueName: "";      ValueData: "{autoappdata}\Microsoft\WindowsApps\wt.exe -d ""%V."" -p PowerShell";           Tasks: powershell_context_menu;         Flags: uninsdeletekey;
+Root: HKCU; Subkey: "Software\Classes\Directory\shell\wsh_cm_powershell";                            ValueType: string;  ValueName: "";      ValueData: "Open PowerShell";                                                               Tasks: powershell_context_menu;         Flags: uninsdeletekey;
+Root: HKCU; Subkey: "Software\Classes\Directory\shell\wsh_cm_powershell";                            ValueType: string;  ValueName: "Icon";  ValueData: "{app}\icons\powershell.ico";                                                    Tasks: powershell_context_menu;         Flags: uninsdeletekey;
+Root: HKCU; Subkey: "Software\Classes\Directory\shell\wsh_cm_powershell\command";                    ValueType: string;  ValueName: "";      ValueData: "{autoappdata}\Microsoft\WindowsApps\wt.exe -d ""%V."" -p PowerShell";           Tasks: powershell_context_menu;         Flags: uninsdeletekey;
+
+; Context Menu PowerShell (Admin)
+Root: HKCU; Subkey: "Software\Classes\Directory\background\shell\wsh_cm_powershell_admin";           ValueType: string;  ValueName: "";      ValueData: "Open PowerShell (Admin)";                                                       Tasks: powershell_admin_context_menu;   Flags: uninsdeletekey;
+Root: HKCU; Subkey: "Software\Classes\Directory\background\shell\wsh_cm_powershell_admin";           ValueType: string;  ValueName: "Icon";  ValueData: "{app}\icons\powershell.ico";                                                    Tasks: powershell_admin_context_menu;   Flags: uninsdeletekey;
+Root: HKCU; Subkey: "Software\Classes\Directory\background\shell\wsh_cm_powershell_admin\command";   ValueType: string;  ValueName: "";      ValueData: "{autoappdata}\Microsoft\WindowsApps\wt.exe -d ""%V."" -p PowerShell (Admin)";   Tasks: powershell_admin_context_menu;   Flags: uninsdeletekey;
+Root: HKCU; Subkey: "Software\Classes\Directory\shell\wsh_cm_powershell_admin";                      ValueType: string;  ValueName: "";      ValueData: "Open PowerShell (Admin)";                                                       Tasks: powershell_admin_context_menu;   Flags: uninsdeletekey;
+Root: HKCU; Subkey: "Software\Classes\Directory\shell\wsh_cm_powershell_admin";                      ValueType: string;  ValueName: "Icon";  ValueData: "{app}\icons\powershell.ico";                                                    Tasks: powershell_admin_context_menu;   Flags: uninsdeletekey;
+Root: HKCU; Subkey: "Software\Classes\Directory\shell\wsh_cm_powershell_admin\command";              ValueType: string;  ValueName: "";      ValueData: "{autoappdata}\Microsoft\WindowsApps\wt.exe -d ""%V."" -p PowerShell (Admin)";   Tasks: powershell_admin_context_menu;   Flags: uninsdeletekey;
+
+; Context Menu Ubuntu
+Root: HKCU; Subkey: "Software\Classes\Directory\background\shell\wsh_cm_ubuntu";                     ValueType: string;  ValueName: "";      ValueData: "Open Ubuntu";                                                                   Tasks: ubuntu_context_menu;             Flags: uninsdeletekey;
+Root: HKCU; Subkey: "Software\Classes\Directory\background\shell\wsh_cm_ubuntu";                     ValueType: string;  ValueName: "Icon";  ValueData: "{app}\icons\ubuntu.ico";                                                        Tasks: ubuntu_context_menu;             Flags: uninsdeletekey;
+Root: HKCU; Subkey: "Software\Classes\Directory\background\shell\wsh_cm_ubuntu\command";             ValueType: string;  ValueName: "";      ValueData: "{autoappdata}\Microsoft\WindowsApps\wt.exe -d ""%V."" -p Ubuntu";               Tasks: ubuntu_context_menu;             Flags: uninsdeletekey;
+Root: HKCU; Subkey: "Software\Classes\Directory\shell\wsh_cm_ubuntu";                                ValueType: string;  ValueName: "";      ValueData: "Open Ubuntu";                                                                   Tasks: ubuntu_context_menu;             Flags: uninsdeletekey;
+Root: HKCU; Subkey: "Software\Classes\Directory\shell\wsh_cm_ubuntu";                                ValueType: string;  ValueName: "Icon";  ValueData: "{app}\icons\ubuntu.ico";                                                        Tasks: ubuntu_context_menu;             Flags: uninsdeletekey;
+Root: HKCU; Subkey: "Software\Classes\Directory\shell\wsh_cm_ubuntu\command";                        ValueType: string;  ValueName: "";      ValueData: "{autoappdata}\Microsoft\WindowsApps\wt.exe -d ""%V."" -p Ubuntu";               Tasks: ubuntu_context_menu;             Flags: uninsdeletekey;
 
 [UninstallRun]
-// Execute files
-Filename: "{app}\modules\clink\clink.bat";    Parameters: "autorun set """"";                                               RunOnceId: "UninstallClink";            Components: clink;    Flags: runhidden skipifdoesntexist;
-Filename: "{app}\modules\git\unins000.exe";   Parameters: "/VERYSILENT";                                                    RunOnceId: "UninstallGit";              Components: git;      Flags: runhidden skipifdoesntexist;
+; Execute uninstallers
+Filename: "{app}\modules\clink\clink.bat";  Parameters: "autorun uninstall";                                                                            RunOnceId: "UninstallRun01";    Components: clink;                 Flags: runhidden skipifdoesntexist;
+Filename: "{app}\modules\git\unins000.exe"; Parameters: "/VERYSILENT";                                                                                  RunOnceId: "UninstallRun02";    Components: git;                   Flags: runhidden skipifdoesntexist;
 
-// Delete registry entries for CMD Context Menu (Right Clink)
-Filename: "reg.exe";                          Parameters: "delete HKCR\Directory\background\shell\wsh_cm_cmd /f";           RunOnceId: "UninstallCMD_CM";                                 Flags: runhidden;
-Filename: "reg.exe";                          Parameters: "delete HKCR\Directory\shell\wsh_cm_cmd /f";                      RunOnceId: "UninstallCMD_CM";                                 Flags: runhidden;
-Filename: "reg.exe";                          Parameters: "delete HKCR\Drive\shell\wsh_cm_cmd /f";                          RunOnceId: "UninstallCMD_CM";                                 Flags: runhidden;
+; Delete configuration files for the different applications before restoring backed up non WSH files
+Filename: "{cmd}";                          Parameters: "/c erase /f /q ""{#WSL_BASH}\.bash_logout""";                                                  RunOnceId: "UninstallRun03";    Tasks: bash_settings;              Flags: runhidden skipifdoesntexist;
+Filename: "{cmd}";                          Parameters: "/c erase /f /q ""{#WSL_BASH}\.bashrc""";                                                       RunOnceId: "UninstallRun04";    Tasks: bash_settings;              Flags: runhidden skipifdoesntexist;
+Filename: "{cmd}";                          Parameters: "/c erase /f /q ""{#WSL_BASH}\.dircolors""";                                                    RunOnceId: "UninstallRun05";    Tasks: bash_settings;              Flags: runhidden skipifdoesntexist;
+Filename: "{cmd}";                          Parameters: "/c erase /f /q ""{#WSL_BASH}\.inputrc""";                                                      RunOnceId: "UninstallRun06";    Tasks: bash_settings;              Flags: runhidden skipifdoesntexist;
+Filename: "{cmd}";                          Parameters: "/c erase /f /q ""{#WSL_BASH}\.vimrc""";                                                        RunOnceId: "UninstallRun07";    Tasks: bash_settings;              Flags: runhidden skipifdoesntexist;
+Filename: "{cmd}";                          Parameters: "/c rmdir /s /q ""{#WSL_BASH}\.vim""";                                                          RunOnceId: "UninstallRun08";    Tasks: bash_settings;              Flags: runhidden skipifdoesntexist;
+Filename: "{cmd}";                          Parameters: "/c erase /f /q ""{#TERMINAL_SETTINGS}\settings.json""";                                        RunOnceId: "UninstallRun09";    Tasks: terminal_settings;          Flags: runhidden skipifdoesntexist;
+Filename: "{cmd}";                          Parameters: "/c rmdir /s /q ""{#TERMINAL_FRAGMENTS}\WSH""";                                                 RunOnceId: "UninstallRun10";    Tasks: terminal_settings;          Flags: runhidden skipifdoesntexist;
 
-// Delete registry entries for PowerShell Context Menu (Right Clink)
-Filename: "reg.exe";                          Parameters: "delete HKCR\Directory\background\shell\wsh_cm_powershell /f";    RunOnceId: "UninstallPowerShell_CM";                          Flags: runhidden;
-Filename: "reg.exe";                          Parameters: "delete HKCR\Directory\shell\wsh_cm_powershell /f";               RunOnceId: "UninstallPowerShell_CM";                          Flags: runhidden;
-Filename: "reg.exe";                          Parameters: "delete HKCR\Drive\shell\wsh_cm_powershell /f";                   RunOnceId: "UninstallPowerShell_CM";                          Flags: runhidden;
+; Restore backed up non WSH files
+Filename: "{cmd}";                          Parameters: "/c move /y ""{app}\config_backup\bash\.bash_logout"" ""{#WSL_BASH}""";                         RunOnceId: "UninstallRun11";    Tasks: bash_settings;              Flags: runhidden skipifdoesntexist;
+Filename: "{cmd}";                          Parameters: "/c move /y ""{app}\config_backup\bash\.bashrc"" ""{#WSL_BASH}""";                              RunOnceId: "UninstallRun12";    Tasks: bash_settings;              Flags: runhidden skipifdoesntexist;
+Filename: "{cmd}";                          Parameters: "/c move /y ""{app}\config_backup\bash\.dircolors"" ""{#WSL_BASH}""";                           RunOnceId: "UninstallRun13";    Tasks: bash_settings;              Flags: runhidden skipifdoesntexist;
+Filename: "{cmd}";                          Parameters: "/c move /y ""{app}\config_backup\bash\.inputrc"" ""{#WSL_BASH}""";                             RunOnceId: "UninstallRun14";    Tasks: bash_settings;              Flags: runhidden skipifdoesntexist;
+Filename: "{cmd}";                          Parameters: "/c move /y ""{app}\config_backup\bash\.vimrc"" ""{#WSL_BASH}""";                               RunOnceId: "UninstallRun15";    Tasks: bash_settings;              Flags: runhidden skipifdoesntexist;
+Filename: "{cmd}";                          Parameters: "/c xcopy /s /y ""{app}\config_backup\bash\.vim\*"" ""{#WSL_BASH}""";                           RunOnceId: "UninstallRun16";    Tasks: bash_settings;              Flags: runhidden skipifdoesntexist;
+Filename: "{cmd}";                          Parameters: "/c move /y ""{app}\config_backup\terminal\settings.json"" ""{#TERMINAL_SETTINGS}""";           RunOnceId: "UninstallRun17";    Tasks: terminal_settings;          Flags: runhidden skipifdoesntexist;
+Filename: "{cmd}";                          Parameters: "/c xcopy /i /s /y ""{app}\config_backup\terminal\Fragments"" ""{#TERMINAL_FRAGMENTS}\WSH""";   RunOnceId: "UninstallRun18";    Tasks: terminal_settings;          Flags: runhidden skipifdoesntexist;
 
-// Delete registry entries for Ubuntu Context Menu (Right Clink)
-Filename: "reg.exe";                          Parameters: "delete HKCR\Directory\background\shell\wsh_cm_ubuntu /f";        RunOnceId: "UninstallUbuntu_CM";                              Flags: runhidden;
-Filename: "reg.exe";                          Parameters: "delete HKCR\Directory\shell\wsh_cm_ubuntu /f";                   RunOnceId: "UninstallUbuntu_CM";                              Flags: runhidden;
-Filename: "reg.exe";                          Parameters: "delete HKCR\Drive\shell\wsh_cm_ubuntu /f";                       RunOnceId: "UninstallUbuntu_CM";                              Flags: runhidden;
+; Delete CMD and PuTTY settings from registry
+Filename: "{sys}\reg.exe";                  Parameters: "delete ""HKCU\Console"" /f";                                                                   RunOnceId: "UninstallRun19";    Tasks: cmd_settings cmd_theme;      Flags: runhidden skipifdoesntexist;
+Filename: "{sys}\reg.exe";                  Parameters: "delete ""HKCU\SOFTWARE\SimonTatham\PuTTY\Sessions\Default%20Settings"" /f";                    RunOnceId: "UninstallRun20";    Tasks: putty_settings putty_theme;  Flags: runhidden skipifdoesntexist;
 
-// Delete registry entry for CMD Nord Theme
-;Filename: "reg.exe";                          Parameters: "delete HKCU\Console";                                                                                                          Flags: runhidden;
-// Delete registry entry for KiTTY Nord Theme
-;Filename: "reg.exe";                          Parameters: "delete HKCU\SOFTWARE\9bis.com\KiTTY\Sessions\Default%20Settings";                                                              Flags: runhidden;
-// Delete registry entry for PuTTY Nord Theme
-;Filename: "reg.exe";                          Parameters: "delete HKCU\SOFTWARE\SimonTatham\PuTTY\Sessions\Default%20Settings";                                                           Flags: runhidden;
-
-// Delete registry entry for CMD Settings
-;Filename: "reg.exe";                          Parameters: "delete HKCU\Console";                                                                                                          Flags: runhidden;
-// Delete registry entry for KiTTY Settings
-;Filename: "reg.exe";                          Parameters: "delete HKCU\SOFTWARE\9bis.com\KiTTY\Sessions\Default%20Settings";                                                              Flags: runhidden;
-// Delete registry entry for PuTTY Settings
-;Filename: "reg.exe";                          Parameters: "delete HKCU\SOFTWARE\SimonTatham\PuTTY\Sessions\Default%20Settings";                                                           Flags: runhidden;
+; Restore backed up CMD and PuTTY settings to registry
+Filename: "{sys}\reg.exe";                  Parameters: "import ""{app}\config_backup\themes\cmd_settings.reg""";                                       RunOnceId: "UninstallRun21";    Tasks: cmd_settings cmd_theme;      Flags: runhidden skipifdoesntexist;
+Filename: "{sys}\reg.exe";                  Parameters: "import ""{app}\config_backup\themes\putty_settings.reg""";                                     RunOnceId: "UninstallRun22";    Tasks: putty_settings putty_theme;  Flags: runhidden skipifdoesntexist;
 
 [UninstallDelete]
-Type: filesandordirs;   Name: "{app}\config\clink\clink_*";
-Type: filesandordirs;   Name: "{app}\modules\clink";
-Type: filesandordirs;   Name: "{app}\modules\fonts";
-;Type: filesandordirs;   Name: "{app}\modules\git";
-Type: filesandordirs;   Name: "{app}\modules\putty";
-Type: filesandordirs;   Name: "{app}\modules\php";
+; Delete left over files and folders
+Type: filesandordirs;   Name: "{app}\build\*";
+Type: filesandordirs;   Name: "{app}\config\*";
+Type: filesandordirs;   Name: "{app}\config_backup\*";
+Type: filesandordirs;   Name: "{app}\icons\*";
+Type: filesandordirs;   Name: "{app}\modules\*";
 
 [Code]
-// Use https://www.onlinegdb.com/online_pascal_compiler to test Pascal online
+// Use https://www.tutorialspoint.com/compile_pascal_online.php to test Pascal online
 
+// Replace string in file
+function FileReplaceString(const FileName, SearchString, ReplaceString: string): Boolean;
 var
-  DownloadPage: TDownloadWizardPage;
-  WinHttpReq: Variant;
-  Haystack: WideString;
-  HaystackLength: Integer;
-  NeedleStart, NeedleEnd: String;
-  NeedleLength, NeedlePos: Integer;
-  StrReplaced: String;
-
-
-// Create the Windows Terminal fragments
-var
-  JSONDirectory, JSONPath: String;
-function CreateFragment(const JSONDirectory, AppName, AppCommandLine, AppIcon, AppBackground, AppSelectionBackground, AppGuid: String): Boolean;
+    MyFile : TStrings;
+    MyText : string;
 begin
-  JSONPath:= JSONDirectory+'\'+AppName+'.json';
-  AppIcon:= ExpandConstant(AppIcon);
-  StringChangeEx(AppIcon, '\', '/', True);
-  AppCommandLine:= ExpandConstant(AppCommandLine);
-  StringChangeEx(AppCommandLine, '\', '/', True);
+    MyFile := TStringList.Create;
 
-  if Length(AppGuid) > 0 then
-    AppGuid:= '      "updates": "'+AppGuid+'",';
-  if Length(AppBackground) > 0 then
-    AppBackground:= '      "background": "'+AppBackground+'",';
-  if Length(AppSelectionBackground) > 0 then
-    AppSelectionBackground:= '      "selectionBackground": "'+AppForeground+'",';
+    try
+        result := true;
 
-  if not SaveStringToFile(JSONPath,
-    '{'+
-    '  "profiles": ['+
-    '    {'+
-    AppGuid+
-    '      "name": "'+AppName+'",'+
-    ''+
-    AppBackground+
-    '      "commandline": "'+AppCommandLine+'",'+
-    '      "elevate": true,'+
-    '      "icon": "'+AppIcon+'",'+
-    AppSelectionBackground+
-    '    }'+
-    '  ]'+
-    '}',False) then begin
-      MsgBox('Unable to install Windows Terminal Fragment to '+JSONPath, mbError, MB_OK);
-      Result:= False;
+        try
+            MyFile.LoadFromFile(FileName);
+            MyText := MyFile.Text;
+
+            { Only save if text has been changed. }
+            if StringChangeEx(MyText, SearchString, ReplaceString, True) > 0 then begin
+                MyFile.Text := MyText;
+                MyFile.SaveToFile(FileName);
+            end;
+        except
+            result := false;
+        end;
+    finally
+        MyFile.Free;
     end;
 end;
 
-function InstallWindowsTerminalFragment(): boolean;
+// Update variable placeholders in config files
+var folder, iconPath: String;
+var findRecord: TFindRec;
+function updateVariablePlaceholder(): boolean;
 begin
-  if IsAdminInstallMode() then
-    JSONDirectory:=ExpandConstant('{commonappdata}\Microsoft\Windows Terminal\Fragments\WSH')
-  else
-    JSONDirectory:=ExpandConstant('{localappdata}\Microsoft\Windows Terminal\Fragments\WSH');
+    folder:=ExpandConstant('{#TERMINAL_FRAGMENTS}\WSH')
 
-  if not ForceDirectories(JSONDirectory) then begin
-    MsgBox('Unable to install Windows Terminal Fragment to '+JSONDirectory, mbError, MB_OK);
-    Result:= False;
-  end;
+    if not ForceDirectories(folder) then begin
+        MsgBox('Unable to install Windows Terminal Fragment to '+folder, mbError, MB_OK);
+        Result:= False;
+    end;
 
-  CreateFragment(JSONDirectory, 'CMD',        'cmd.exe /k {app}\config\cmd\init.cmd', '{app}\icons\cmd.ico',                                      '',         '',         '{0caa0dad-35be-5f56-a8ff-afceeeaa6101}');
-  CreateFragment(JSONDirectory, 'PowerShell', 'powershell.exe',                       '{app}\icons\powershell.ico',                               '#4C566A',  '#81A1C1',  '{574e775e-4f2a-5b96-ac1e-a2962a402336}');
-  CreateFragment(JSONDirectory, 'Ubuntu',     'ubuntu.exe',                           '{app}\icons\ubuntu.ico',                                   '',         '',         '{51855cb2-8cce-5362-8f54-464b92b32386}');
-  if WizardIsComponentSelected('git') then begin
-    CreateFragment(JSONDirectory, 'Git-CMD',  '{app}\modules\git\git-cmd.exe',        '{app}\modules\git\mingw64\share\git\git-for-windows.ico',  '',         '',         '{782c3d40-2b4a-5e6c-a04d-1d3863322958}');
-    CreateFragment(JSONDirectory, 'Git-Bash', '{app}\modules\git\bin\bash.exe',       '{app}\modules\git\mingw64\share\git\git-for-windows.ico',  '',         '',         '{1e705aec-228d-5a9a-bad0-65d9fffab1e6}');
-  end;
+    iconPath:= ExpandConstant('{app}');
+    StringChangeEx(iconPath, '\', '\\', True);
+
+    if FindFirst (folder + '\*.json', findRecord) then begin
+        repeat
+            FileReplaceString(folder + '\' + findRecord.Name, '<WSH_ICON_PATH>', iconPath);
+        until
+            not FindNext(findRecord);
+    end;
+    FindClose(findRecord);
+
+    folder:=ExpandConstant('{#TERMINAL_SETTINGS}')
+    FileReplaceString(folder + '\settings.json', '<WSH_FONT>', '{#WSH_FONT}');
+    FileReplaceString(folder + '\settings.json', '<WSH_THEME>', '{#WSH_THEME}');
+
+    folder:=ExpandConstant('{app}\config\clink')
+    FileReplaceString(folder + '\clink_settings', '<WSH_CLINK_PATH>', folder);
+
+    folder:=ExpandConstant('{#WSL_BASH}')
+    FileReplaceString(folder + '\.vimrc', '<WSH_THEME>', '{#WSH_THEME}');
 end;
 
-function DownloadClink(const URL, SaveFileAs: String): Boolean;
+// Download artifact from Github
+var
+    DownloadPage: TDownloadWizardPage;
+    WinHttpReq: Variant;
+    jsonResponseLength, stringLength, stringPosition: Integer;
+    downloadLink, jsonResponse, jsonUrl, version: String;
+function DownloadFromGithub(Const repository, stringStart, stringEnd, filenameStart, filenameEnd, downloadFile: String): Boolean;
 begin
-  WinHttpReq:= CreateOleObject('WinHttp.WinHttpRequest.5.1');
-  WinHttpReq.Open('GET', URL, False);
-  WinHttpReq.Send('');
-  if WinHttpReq.Status <> 200 then begin
-    MsgBox(WinHttpReq.StatusText, mbError, MB_OK);
-    Result:= False;
-  end
-  else begin
-    NeedleStart:= '"browser_download_url":"';
-    NeedleEnd:= '.zip';
-    Haystack:= WinHttpReq.ResponseText;
-    HaystackLength:= Length(Haystack);
-    NeedleLength:= Length(NeedleStart);
-    NeedlePos:= Pos(NeedleStart, Haystack) + NeedleLength;
-    Haystack:= Copy(Haystack, NeedlePos, HaystackLength);
-    NeedleLength:= Length(NeedleEnd);
-    NeedlePos:= Pos(NeedleEnd, Haystack) + NeedleLength - 1;
-    Haystack:= Copy(Haystack, 0, NeedlePos);
+    jsonUrl:= 'https://api.github.com/repos/' + repository + '/releases/latest';
 
-    // Debug message to ensure we extracted the proper URL
-    DownloadPage.Add(Haystack, SaveFileAs, '');
-    Result:= True;
-  end;
+    WinHttpReq:= CreateOleObject('WinHttp.WinHttpRequest.5.1');
+    WinHttpReq.Open('GET', jsonUrl, False);
+    WinHttpReq.Send('');
+
+    if WinHttpReq.Status <> 200 then begin
+        MsgBox(WinHttpReq.StatusText, mbError, MB_OK);
+        Result:= False;
+    end else begin
+        jsonResponse:= WinHttpReq.ResponseText;
+
+        // Get the lenght of the downloaded JSON
+        jsonResponseLength:= Length(jsonResponse);
+
+        // Get the length of stringStart
+        stringLength:= Length(stringStart);
+
+        // Find the position of the end of stringStart in the JSON
+        stringPosition:= Pos(stringStart, jsonResponse) + stringLength;
+
+        // Copy the substring of the JSON that starts at the end of stringStart
+        jsonResponse:= Copy(jsonResponse, stringPosition, jsonResponseLength);
+
+        // Find the position of the begining of stringEnd in the JSON
+        stringPosition:= Pos(stringEnd, jsonResponse) - 1;
+
+        // Copy the substring of the JSON that ends at the start of stringEnd
+        version:= Copy(jsonResponse, 0, stringPosition);
+        downloadLink:= 'https://github.com/' + repository + '/releases/latest/download/' + filenameStart + version + filenameEnd;
+
+        DownloadPage.Add(downloadLink, downloadFile, '');
+        Result:= True;
+    end;
 end;
 
-function DownloadGit(const URL, SaveFileAs: String): Boolean;
+// Download PHP based on selected
+var searchString: String;
+function DownloadPHP(Const requestedVersion, visualStudioCompiler: String): Boolean;
 begin
-  WinHttpReq:= CreateOleObject('WinHttp.WinHttpRequest.5.1');
-  WinHttpReq.Open('GET', URL, False);
-  WinHttpReq.Send('');
-  if WinHttpReq.Status <> 200 then begin
-    MsgBox(WinHttpReq.StatusText, mbError, MB_OK);
-    Result:= False;
-  end
-  else begin
-    NeedleStart:= '<a id="auto-download-link" href="';
-    NeedleEnd:= '-bit.exe';
-    Haystack:= WinHttpReq.ResponseText;
-    HaystackLength:= Length(Haystack);
-    NeedleLength:= Length(NeedleStart);
-    NeedlePos:= Pos(NeedleStart, Haystack) + NeedleLength;
-    Haystack:= Copy(Haystack, NeedlePos, HaystackLength);
-    NeedleLength:= Length(NeedleEnd);
-    NeedlePos:= Pos(NeedleEnd, Haystack) + NeedleLength - 1;
-    Haystack:= Copy(Haystack, 0, NeedlePos);
+    jsonUrl:= 'https://www.php.net/releases/index.php?version=' + requestedVersion + '&json&max=1';
 
-    StrReplaced:= Haystack;
-    StringChangeEx(StrReplaced, '32-bit.exe', '64-bit.exe', True);
-    Haystack:= StrReplaced;
+    WinHttpReq:= CreateOleObject('WinHttp.WinHttpRequest.5.1');
+    WinHttpReq.Open('GET', jsonUrl, False);
+    WinHttpReq.Send('');
 
-    // Debug message to ensure we extracted the proper URL
-    DownloadPage.Add(Haystack, SaveFileAs, '');
-    Result:= True;
-  end;
+    if WinHttpReq.Status <> 200 then begin
+        MsgBox(WinHttpReq.StatusText, mbError, MB_OK);
+        Result:= False;
+    end else begin
+        jsonResponse:= WinHttpReq.ResponseText;
+
+        searchString:= '"';
+
+        // Get the lenght of the downloaded JSON
+        jsonResponseLength:= Length(jsonResponse);
+
+        // Get the length of searchString
+        stringLength:= Length(searchString);
+
+        // Find the position of the end of searchString in the JSON
+        stringPosition:= Pos(searchString, jsonResponse) + stringLength;
+
+        // Copy the substring of the JSON that starts at the end of searchString
+        jsonResponse:= Copy(jsonResponse, stringPosition, jsonResponseLength);
+
+        // Find the position of the begining of searchString in the JSON
+        stringPosition:= Pos(searchString, jsonResponse) - 1;
+
+        // Copy the substring of the JSON that ends at the start of searchString
+        version:= Copy(jsonResponse, 0, stringPosition);
+        downloadLink:= 'https://windows.php.net/downloads/releases/php-' + version + '-nts-Win32-' + visualStudioCompiler + '-x64.zip';
+
+        DownloadPage.Add(downloadLink, 'php-x64.zip', '');
+        Result:= True;
+    end;
 end;
 
-function DownloadPHP(const URL, SaveFileAs: String): Boolean;
-begin
-  WinHttpReq:= CreateOleObject('WinHttp.WinHttpRequest.5.1');
-  WinHttpReq.Open('GET', URL, False);
-  WinHttpReq.Send('');
-  if WinHttpReq.Status <> 200 then begin
-    MsgBox(WinHttpReq.StatusText, mbError, MB_OK);
-    Result:= False;
-  end
-  else begin
-    NeedleStart:= '-x64">VS16 x64 Non Thread Safe (';
-    Haystack:= WinHttpReq.ResponseText;
-    HaystackLength:= Length(Haystack);
-    NeedleLength:= Length(NeedleStart);
-    NeedlePos:= Pos(NeedleStart, Haystack) + NeedleLength;
-    Haystack:= Copy(Haystack, NeedlePos, HaystackLength);
-
-    NeedleStart:= '/downloads/releases/php-';
-    NeedleEnd:= '.zip';
-    HaystackLength:= Length(Haystack);
-    NeedleLength:= Length(NeedleStart);
-    NeedlePos:= Pos(NeedleStart, Haystack);
-    Haystack:= Copy(Haystack, NeedlePos, HaystackLength);
-    NeedleLength:= Length(NeedleEnd);
-    NeedlePos:= Pos(NeedleEnd, Haystack) + NeedleLength - 1;
-    Haystack:= Copy(Haystack, 0, NeedlePos);
-
-    Haystack:= 'https://windows.php.net' + Haystack;
-
-    // Debug message to ensure we extracted the proper URL
-    DownloadPage.Add(Haystack, SaveFileAs, '');
-    Result:= True;
-  end;
-end;
-
+// Manage the download progress status
 function OnDownloadProgress(const URL, FileName: String; const Progress, ProgressMax: Int64): Boolean;
 begin
-  if Progress = ProgressMax then
-    Log(Format('Successfully downloaded file to {tmp}: %s', [FileName]));
-  Result:= True;
-end;
-
-procedure InitializeWizard;
-begin
-  DownloadPage:= CreateDownloadPage(SetupMessage(msgWizardPreparing), SetupMessage(msgPreparingDesc), @OnDownloadProgress);
-end;
-
-function NextButtonClick(CurPageID: Integer): Boolean;
-begin
-  if CurPageID = wpReady then begin
-    InstallWindowsTerminalFragment();
-
-    DownloadPage.Clear;
-
-    if WizardIsComponentSelected('clink') then
-      DownloadClink('https://api.github.com/repos/chrisant996/clink/releases/latest', 'clink.zip');
-    if WizardIsComponentSelected('git') then
-      DownloadGit('https://git-scm.com/download/win', 'git-x64.exe');
-    if WizardIsComponentSelected('putty') then begin
-      // Download latest version of KiTTY to use in place of PuTTY
-      //DownloadPage.Add('http://www.9bis.net/kitty/files/kitty_portable.exe', 'kitty.exe', '');
-      // Download latest version of PuTTY
-      DownloadPage.Add('https://the.earth.li/~sgtatham/putty/latest/x86/putty.exe', 'putty.exe', '');
-      DownloadPage.Add('http://the.earth.li/~sgtatham/putty/latest/x86/pscp.exe', 'pscp.exe', '');
-      DownloadPage.Add('http://the.earth.li/~sgtatham/putty/latest/x86/psftp.exe', 'psftp.exe', '');
-      DownloadPage.Add('http://the.earth.li/~sgtatham/putty/latest/x86/plink.exe', 'plink.exe', '');
-      DownloadPage.Add('http://the.earth.li/~sgtatham/putty/latest/x86/pageant.exe', 'pageant.exe', '');
-      DownloadPage.Add('http://the.earth.li/~sgtatham/putty/latest/x86/puttygen.exe', 'puttygen.exe', '');
+    if Progress = ProgressMax then begin
+        Log(Format('Successfully downloaded file to {tmp}: %s', [FileName]));
     end;
-    if WizardIsComponentSelected('php') then
-      DownloadPHP('https://windows.php.net/download', 'php-x64.zip');
-
-    DownloadPage.Show;
-    try
-      try
-        DownloadPage.Download; // This downloads the files to {tmp}
-        Result:= True;
-      except
-        if DownloadPage.AbortedByUser then
-          Log('Aborted by user.')
-        else
-          SuppressibleMsgBox(AddPeriod(GetExceptionMessage), mbCriticalError, MB_OK, IDOK);
-        Result:= False;
-      end;
-    finally
-      DownloadPage.Hide;
-    end;
-  end else
     Result:= True;
 end;
 
-// Delete files during uninstall
-procedure CurUninstallStepChanged(CurUninstallStep: TUninstallStep);
-var
-  OldFile: string;
+// Initatialize the Wizard
+procedure InitializeWizard;
 begin
-  case CurUninstallStep of
-    usPostUninstall:
-      begin
-        OldFile := ExpandConstant('{localappdata}\Packages\Microsoft.WindowsTerminal_8wekyb3d8bbwe\LocalState\settings.wsh_backup.json');
-        if FileExists(OldFile) then
-          RenameFile(OldFile, ExpandConstant('{localappdata}\Packages\Microsoft.WindowsTerminal_8wekyb3d8bbwe\LocalState\settings.json'));
-      end;
-  end;
+    DownloadPage:= CreateDownloadPage(SetupMessage(msgWizardPreparing), SetupMessage(msgPreparingDesc), @OnDownloadProgress);
+end;
+
+// Executed when clicking on the 'Next' button
+function NextButtonClick(CurPageID: Integer): Boolean;
+begin
+    if CurPageID = wpFinished then begin
+        updateVariablePlaceholder();
+    end;
+
+    if CurPageID = wpReady then begin
+        DownloadPage.Clear;
+
+        if WizardIsComponentSelected('clink') then begin
+            DownloadFromGithub(
+                'chrisant996/clink',
+                'name":"clink.', '.zip',
+                'clink.', '.zip',
+                'clink.zip'
+            );
+        end;
+        if WizardIsComponentSelected('git') then begin
+            DownloadFromGithub(
+                'git-for-windows/git',
+                'name":"Git-', '-32-bit.exe',
+                'Git-', '-64-bit.exe',
+                'git-x64.exe'
+            );
+        end;
+        if WizardIsComponentSelected('putty') then begin
+            // Download latest version of PuTTY
+            DownloadPage.Add('https://the.earth.li/~sgtatham/putty/latest/x86/putty.exe', 'putty.exe', '');
+            DownloadPage.Add('http://the.earth.li/~sgtatham/putty/latest/x86/pscp.exe', 'pscp.exe', '');
+            DownloadPage.Add('http://the.earth.li/~sgtatham/putty/latest/x86/psftp.exe', 'psftp.exe', '');
+            DownloadPage.Add('http://the.earth.li/~sgtatham/putty/latest/x86/plink.exe', 'plink.exe', '');
+            DownloadPage.Add('http://the.earth.li/~sgtatham/putty/latest/x86/pageant.exe', 'pageant.exe', '');
+            DownloadPage.Add('http://the.earth.li/~sgtatham/putty/latest/x86/puttygen.exe', 'puttygen.exe', '');
+        end;
+        if WizardIsComponentSelected('php7') then begin
+            DownloadPHP('7', 'vc15');
+        end;
+        if WizardIsComponentSelected('php8') then begin
+            DownloadPHP('8', 'vs17');
+        end;
+
+        DownloadPage.Show;
+
+        try
+            DownloadPage.Download; // This downloads the files to {tmp}
+            Result:= True;
+        except
+            if DownloadPage.AbortedByUser then begin
+                Log('Aborted by user.')
+            end else begin
+                SuppressibleMsgBox(AddPeriod(GetExceptionMessage), mbCriticalError, MB_OK, IDOK);
+                Result:= False;
+            end;
+        finally
+            DownloadPage.Hide;
+        end;
+    end else begin
+        Result:= True;
+    end;
 end;
