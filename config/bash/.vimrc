@@ -4,32 +4,43 @@
 " @license      MIT License
 "-------------------------------------------------------------------------------
 
-" Set colorscheme
-let $THEME="<WSH_THEME>"
+" Install VIM Lightline plugin
+if empty(glob('~/.vim/plugin/lightline.vim'))
+    silent !wget -q -O tmp.tar.gz - https://github.com/itchyny/lightline.vim/archive/master.tar.gz
+    silent !tar -xf tmp.tar.gz --strip=2 "lightline.vim-master/autoload" --one-top-level=".vim/autoload"
+    silent !tar -xf tmp.tar.gz --strip=2 "lightline.vim-master/plugin" --one-top-level=".vim/plugin"
+    silent !rm -f tmp.tar.gz
+    silent !clear
+endif
+
+" Install VIM Monokai Pro theme
+if empty(glob('~/.vim/colors/monokai_pro.vim'))
+    silent !wget -q -O tmp.tar.gz - https://github.com/phanviet/vim-monokai-pro/archive/master.tar.gz
+    silent !tar -xf tmp.tar.gz --strip=2 "vim-monokai-pro-master/autoload" --one-top-level=".vim/autoload"
+    silent !tar -xf tmp.tar.gz --strip=2 "vim-monokai-pro-master/colors" --one-top-level=".vim/colors"
+    silent !rm -f tmp.tar.gz
+    silent !clear
+endif
 
 " Install VIM Nord theme
 if empty(glob('~/.vim/colors/nord.vim'))
-    silent !curl -s -fLo ~/.vim/colors/nord.vim --create-dirs
-        \ https://raw.githubusercontent.com/arcticicestudio/nord-vim/main/colors/nord.vim
+    silent !wget -q -O tmp.tar.gz - https://github.com/nordtheme/vim/archive/master.tar.gz
+    silent !tar -xf tmp.tar.gz --strip=2 "vim-main/autoload" --one-top-level=".vim/autoload"
+    silent !tar -xf tmp.tar.gz --strip=2 "vim-main/colors" --one-top-level=".vim/colors"
+    silent !rm -f tmp.tar.gz
+    silent !clear
 endif
 
-" Install VIM Monolai Pro theme
-if empty(glob('~/.vim/colors/monokai_pro.vim'))
-    silent !curl -s -fLo ~/.vim/colors/monokai_pro.vim --create-dirs
-        \ https://raw.githubusercontent.com/phanviet/vim-monokai-pro/refs/heads/master/colors/monokai_pro.vim
+" Install VIM OneDark theme
+if empty(glob('~/.vim/colors/onedark.vim'))
+    silent !wget -q -O tmp.tar.gz - https://github.com/joshdick/onedark.vim/archive/master.tar.gz
+    silent !tar -xf tmp.tar.gz --strip=2 "onedark.vim-main/autoload" --one-top-level=".vim/autoload"
+    silent !tar -xf tmp.tar.gz --strip=2 "onedark.vim-main/colors" --one-top-level=".vim/colors"
+    silent !rm -f tmp.tar.gz
+    silent !clear
 endif
 
-" Install VIM Lightline plugin
-if empty(glob('~/.vim/plugins/lightline.vim'))
-    silent !curl -s -fLo ~/.vim/plugins/lightline.vim --create-dirs
-        \ https://raw.githubusercontent.com/itchyny/lightline.vim/refs/heads/master/plugin/lightline.vim
-endif
-
-" Install VIM Polyglot plugin
-if empty(glob('~/.vim/plugins/polyglot.vim'))
-    silent !curl -s -fLo ~/.vim/plugins/polyglot.vim --create-dirs
-        \ https://raw.githubusercontent.com/sheerun/vim-polyglot/refs/heads/master/plugin/polyglot.vim
-endif
+"-------------------------------------------------------------------------------
 
 " Turn on line number
 "set number
@@ -43,13 +54,23 @@ set smarttab            " Inserts blanks on a <Tab> key (as per sw, ts and sts).
 set autoindent          " Copy indent from current line when starting a new line.
 set smartindent         " Reacts to the syntax/style of the code you are editing
 
-" Set colorscheme
-colorscheme $THEME
-
 " Enable LightLine
-let g:lightline = { 'colorscheme': $THEME }
 set laststatus=2
+set noshowmode
+let g:lightline = { 'colorscheme': '<WSH_THEME>' }
 
 " Set Nord Theme configuration (https://www.nordtheme.com/docs/ports/vim/configuration)
+let g:nord_bold = 1
 let g:nord_cursor_line_number_background = 1
+let g:nord_italic = 1
+let g:nord_italic_comments = 1
+let g:nord_underline = 1
 let g:nord_uniform_diff_background = 1
+
+" Set OneDark Theme configuration (https://github.com/joshdick/onedark.vim)
+let g:onedark_terminal_italics = 1
+
+" Set colorscheme
+syntax on
+set termguicolors
+colorscheme <WSH_THEME>
