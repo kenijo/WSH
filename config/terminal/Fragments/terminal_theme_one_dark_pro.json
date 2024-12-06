@@ -1,0 +1,30 @@
+{
+    "schemes": [
+        {
+            "name": "One Dark Pro",
+
+            "background": "#23272E",
+            "foreground": "#ABB2BF",
+            "cursorColor": "#ABB2BF",
+            "selectionBackground": "#3D4149",
+
+            "brightBlack": "#4F5666",
+            "brightBlue": "#4DC4FF",
+            "brightCyan": "#4CD1E0",
+            "brightGreen": "#A5E075",
+            "brightPurple": "#DE73FF",
+            "brightRed": "#FF616E",
+            "brightWhite": "#E6E6E6",
+            "brightYellow": "#F0A45D",
+
+            "black": "#3F4451",
+            "blue": "#4AA5F0",
+            "cyan": "#42B3C2",
+            "green": "#8CC265",
+            "purple": "#C162DE",
+            "red": "#E05561",
+            "white": "#D7DAE0",
+            "yellow": "#D18F52"
+        }
+    ]
+}
