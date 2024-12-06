@@ -3,10 +3,10 @@
         {
             "name": "Monokai Pro",
 
-            "background": "#2d2a2e",
+            "background": "#2D2A2E",
             "foreground": "#FCFCFA",
             "cursorColor": "#FCFCFA",
-            "selectionBackground": "#4c494c",
+            "selectionBackground": "#4C494C",
 
             "brightBlack": "#727072",
             "brightBlue": "#FC9867",
