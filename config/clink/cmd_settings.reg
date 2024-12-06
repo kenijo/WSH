@@ -9,11 +9,8 @@ Windows Registry Editor Version 5.00
 [HKEY_CURRENT_USER\Console]
 "CtrlKeyShortcutsDisabled" = dword: 00000000
 "CurrentPage" = dword: 00000000
-"CursorColor" = dword: 00e9ded8
 "CursorSize" = dword: 00000019
 "CursorType" = dword: 00000001
-"DefaultBackground" = dword: 0040342e
-"DefaultForeground" = dword: 00e9ded8
 "ExtendedEditKey" = dword: 00000001
 "FaceName" = "Lucida Console"
 "FilterOnPaste" = dword: 00000001
