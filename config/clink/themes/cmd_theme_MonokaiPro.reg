@@ -1,0 +1,30 @@
+Windows Registry Editor Version 5.00
+
+;-------------------------------------------------------------------------------
+; @link         http://kenijo.github.io/WSH/
+; @description  Set Nord theme for CMD (Registry)
+; @license      MIT License
+;-------------------------------------------------------------------------------
+
+[HKEY_CURRENT_USER\Console]
+"ColorTable00"=dword:00413e40
+"ColorTable01"=dword:006798fc
+"ColorTable02"=dword:0076dca9
+"ColorTable03"=dword:00e8dc78
+"ColorTable04"=dword:008861ff
+"ColorTable05"=dword:00f29dab
+"ColorTable06"=dword:0066d8ff
+"ColorTable07"=dword:00fafcfc
+"ColorTable08"=dword:00767676
+"ColorTable09"=dword:006798fc
+"ColorTable10"=dword:0076dca9
+"ColorTable11"=dword:00e8dc78
+"ColorTable12"=dword:008861ff
+"ColorTable13"=dword:00f29dab
+"ColorTable14"=dword:0066d8ff
+"ColorTable15"=dword:00fafcfc
+"CursorColor"=dword:00fafcfc
+"DefaultBackground"=dword:002e2a2d
+"DefaultForeground"=dword:00fafcfc
+"PopupColors"=dword:0000008f
+"ScreenColors"=dword:00000007
