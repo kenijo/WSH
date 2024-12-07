@@ -72,7 +72,7 @@ Name: theme;                    Description: "Theme";
 Name: theme\none;               Description: "No Theme";                                                                                Flags: exclusive;
 Name: theme\nord;               Description: "Nord";                                                                                    Flags: exclusive;
 Name: theme\monokai_pro;        Description: "Monokai Pro";                         Types: full;                                        Flags: exclusive;
-Name: theme\onedark;            Description: "OneDark";                             Types: full;                                        Flags: exclusive;
+Name: theme\onedark;            Description: "OneDark";                                                                                 Flags: exclusive;
 Name: wsh_bash;                 Description: "Apply WSL Bash Settings";             Types: full;
 
 [Tasks]
