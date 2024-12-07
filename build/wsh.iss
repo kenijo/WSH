@@ -147,10 +147,10 @@ Filename: "{app}\build\7z\7za.exe";             Parameters: "x -aoa -o""{app}\mo
 ; Import CMD and PuTTY themes to registry
 Filename: "{sys}\reg.exe";                      Parameters: "import ""{app}\config\clink\themes\cmd_theme_nord.reg""";                              Components: theme\nord;             Flags: runhidden;   StatusMsg: "Importing CMD Nord Theme";
 Filename: "{sys}\reg.exe";                      Parameters: "import ""{app}\config\clink\themes\cmd_theme_monokai_pro.reg""";                       Components: theme\monokai_pro;      Flags: runhidden;   StatusMsg: "Importing CMD Monokai Pro Theme";
-Filename: "{sys}\reg.exe";                      Parameters: "import ""{app}\config\clink\themes\cmd_theme_onedark.reg""";                           Components: theme\one_dark_pro;     Flags: runhidden;   StatusMsg: "Importing CMD OneDark Theme";
+Filename: "{sys}\reg.exe";                      Parameters: "import ""{app}\config\clink\themes\cmd_theme_onedark.reg""";                           Components: theme\onedark;          Flags: runhidden;   StatusMsg: "Importing CMD OneDark Theme";
 Filename: "{sys}\reg.exe";                      Parameters: "import ""{app}\config\putty\themes\putty_theme_nord.reg""";                            Components: theme\nord;             Flags: runhidden;   StatusMsg: "Importing PuTTY Nord Theme";
 Filename: "{sys}\reg.exe";                      Parameters: "import ""{app}\config\putty\themes\putty_theme_monokai_pro.reg""";                     Components: theme\monokai_pro;      Flags: runhidden;   StatusMsg: "Importing PuTTY Monokai Pro Theme";
-Filename: "{sys}\reg.exe";                      Parameters: "import ""{app}\config\putty\themes\putty_theme_onedark.reg""";                         Components: theme\one_dark_pro;     Flags: runhidden;   StatusMsg: "Importing PuTTY OneDark Theme";
+Filename: "{sys}\reg.exe";                      Parameters: "import ""{app}\config\putty\themes\putty_theme_onedark.reg""";                         Components: theme\onedark;          Flags: runhidden;   StatusMsg: "Importing PuTTY OneDark Theme";
 
 ; Import CMD and PuTTY settings to registry
 Filename: "{sys}\reg.exe";                      Parameters: "import ""{app}\config\clink\cmd_settings.reg""";                                       Components: clink\settings;         Flags: runhidden;   StatusMsg: "Importing CMD Settings";
@@ -348,6 +348,8 @@ begin
         FileReplaceString(terminalPath + '\settings.json', '<WSH_THEME>', 'OneDark');
         FileReplaceString(wshBashPath + '\.vimrc', '<WSH_THEME>', 'onedark');
     end;
+
+    Result:= True;
 end;
 
 // Download artifact from Github
