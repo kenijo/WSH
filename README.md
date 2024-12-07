@@ -14,13 +14,13 @@ The releases are the compiled version of WSH.
 
 ## Packages
 
-- [Clink](https://chrisant996.github.io/clink) ([Github](https://github.com/chrisant996/clink))
-- [Git](https://git-scm.com) ([Github](https://github.com/git-for-windows/git))
-- [PHP](http://php.net)
-- [PuTTY](http://www.putty.org)
-- [Windows Terminal](https://apps.microsoft.com/store/detail/windows-terminal/9N0DX20HK701) ([Github](https://github.com/microsoft/terminal))
+- [Clink](https://chrisant996.github.io/clink) ([Github](https://github.com/chrisant996/clink)) Bash's powerful command line editing
+- [Git](https://git-scm.com) ([Github](https://github.com/git-for-windows/git)) Distributed version control system
+- [PHP](http://php.net) General-purpose scripting language geared towards web development
+- [PuTTY](http://www.putty.org) Terminal emulator, serial console nad network file transfer application
+- [Vim Plugin LightLine](https://github.com/itchyny/lightline.vim) Light and configurable statusline/tabline plugin for Vim.
 
-### Recommanded Fonts
+## Recommanded Fonts
 
 - [Cascadia Code - Variable Font](https://github.com/microsoft/cascadia-code)
 - [Cascadia Mono - Variable Font](https://github.com/microsoft/cascadia-code)
@@ -42,13 +42,11 @@ The releases are the compiled version of WSH.
 - Test some [Programming Fonts](https://www.programmingfonts.org)
 - Too overwhelmed? Find your font in this [Coding Font Tournament](https://www.codingfont.com)
 
-### Vim
+## Vim Themes (ported to CMD, MobaXterm, PuTTY, Windows Terminal)
 
-- [Plugin LightLine](https://github.com/itchyny/lightline.vim) A light and configurable statusline/tabline plugin for Vim.
-- [Plugin Polyglot](https://github.com/sheerun/vim-polyglot) A collection of language packs for Vim.
-- [Theme Monokai Pro](https://github.com/phanviet/vim-monokai-pro)
-- [Theme Nord](https://github.com/nordtheme/vim)
-- [Vim Plug](https://github.com/junegunn/vim-plug) A minimalist Vim plugin manager.
+- [Monokai Pro for Vim](https://github.com/phanviet/vim-monokai-pro)
+- [Nord for Vim](https://github.com/nordtheme/vim)
+- [OneDark Pro for Vim](https://github.com/joshdick/onedark.vim)
 
 ## How to compile your own version of WSH
 
