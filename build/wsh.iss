@@ -10,6 +10,7 @@
 
 #define TERMINAL_SETTINGS "{localappdata}\Packages\Microsoft.WindowsTerminal_8wekyb3d8bbwe\LocalState";
 #define TERMINAL_FRAGMENTS "{localappdata}\Microsoft\Windows Terminal\Fragments";
+#define TERMINAL_EXE "{localappdata}\Microsoft\WindowsApps\wt.exe";
 #define WSL_BASH "\\wsl$\Ubuntu\home\{code:AnsiLowercase|{username}}";
 
 ; The value of this parameter is the name of the font as stored in the registry or WIN.INI
@@ -166,11 +167,11 @@ Name: "{group}\PuTTY\PuTTY Key Generator";      Filename: "{app}\modules\putty\p
 ; Currently disabled in git-x64.ini
 
 ; Create console/terminal shortcuts
-Name: "{group}\CMD";                            Filename: "{autoappdata}\Microsoft\WindowsApps\wt.exe";     Parameters: "-p CMD";                   Components: terminal;   IconFilename: "{app}\icons\cmd.ico";
-Name: "{group}\CMD (Admin)";                    Filename: "{autoappdata}\Microsoft\WindowsApps\wt.exe";     Parameters: "-p CMD (Admin)";           Components: terminal;   IconFilename: "{app}\icons\cmd_admin.ico";
-Name: "{group}\PowerShell";                     Filename: "{autoappdata}\Microsoft\WindowsApps\wt.exe";     Parameters: "-p PowerShell";            Components: terminal;   IconFilename: "{app}\icons\powershell.ico";
-Name: "{group}\PowerShell (Admin)";             Filename: "{autoappdata}\Microsoft\WindowsApps\wt.exe";     Parameters: "-p PowerShell (Admin)";    Components: terminal;   IconFilename: "{app}\icons\powershell_admin.ico";
-Name: "{group}\Ubuntu";                         Filename: "{autoappdata}\Microsoft\WindowsApps\wt.exe";     Parameters: "-p Ubuntu";                Components: terminal;   IconFilename: "{app}\icons\ubuntu.ico";
+Name: "{group}\CMD";                            Filename: "{#TERMINAL_EXE}";     Parameters: "-p CMD";                   Components: terminal;   IconFilename: "{app}\icons\cmd.ico";
+Name: "{group}\CMD (Admin)";                    Filename: "{#TERMINAL_EXE}";     Parameters: "-p CMD (Admin)";           Components: terminal;   IconFilename: "{app}\icons\cmd_admin.ico";
+Name: "{group}\PowerShell";                     Filename: "{#TERMINAL_EXE}";     Parameters: "-p PowerShell";            Components: terminal;   IconFilename: "{app}\icons\powershell.ico";
+Name: "{group}\PowerShell (Admin)";             Filename: "{#TERMINAL_EXE}";     Parameters: "-p PowerShell (Admin)";    Components: terminal;   IconFilename: "{app}\icons\powershell_admin.ico";
+Name: "{group}\Ubuntu";                         Filename: "{#TERMINAL_EXE}";     Parameters: "-p Ubuntu";                Components: terminal;   IconFilename: "{app}\icons\ubuntu.ico";
 
 [Registry]
 ; Update font in the registry for CMD and PuTTY
@@ -195,45 +196,48 @@ Root: HKCU; Subkey: "SOFTWARE\SimonTatham\PuTTY\Sessions\Default%20Settings";   
 ; "HKCU\Software\Classes\Folder\shell"                  Adds the right click entry to a folder only
 ; "HKCU\Software\Classes\LibraryFolder\shell"           Adds the right click entry to a library only
 
+#define SCDBS "Software\Classes\Directory\background\shell"
+#define SCDS "Software\Classes\Directory\shell"
+
 ; Context Menu CMD
-Root: HKCU; Subkey: "Software\Classes\Directory\background\shell\wsh_cm_cmd";                       ValueType: string;  ValueName: "";      ValueData: "Open CMD";                                                                      Tasks: cm_cmd;                  Flags: uninsdeletekey;
-Root: HKCU; Subkey: "Software\Classes\Directory\background\shell\wsh_cm_cmd";                       ValueType: string;  ValueName: "Icon";  ValueData: "{app}\icons\cmd.ico";                                                           Tasks: cm_cmd;                  Flags: uninsdeletekey;
-Root: HKCU; Subkey: "Software\Classes\Directory\background\shell\wsh_cm_cmd\command";               ValueType: string;  ValueName: "";      ValueData: "{autoappdata}\Microsoft\WindowsApps\wt.exe -d ""%V."" -p CMD";                  Tasks: cm_cmd;                  Flags: uninsdeletekey;
-Root: HKCU; Subkey: "Software\Classes\Directory\shell\wsh_cm_cmd";                                  ValueType: string;  ValueName: "";      ValueData: "Open CMD";                                                                      Tasks: cm_cmd;                  Flags: uninsdeletekey;
-Root: HKCU; Subkey: "Software\Classes\Directory\shell\wsh_cm_cmd";                                  ValueType: string;  ValueName: "Icon";  ValueData: "{app}\icons\cmd.ico";                                                           Tasks: cm_cmd;                  Flags: uninsdeletekey;
-Root: HKCU; Subkey: "Software\Classes\Directory\shell\wsh_cm_cmd\command";                          ValueType: string;  ValueName: "";      ValueData: "{autoappdata}\Microsoft\WindowsApps\wt.exe -d ""%V."" -p CMD";                  Tasks: cm_cmd;                  Flags: uninsdeletekey;
+Root: HKCU; Subkey: "{#SCDBS}\wsh_cm_cmd";                          ValueType: string;  ValueName: "";      ValueData: "Open CMD";                                              Tasks: cm_cmd;                  Flags: uninsdeletekey;
+Root: HKCU; Subkey: "{#SCDBS}\wsh_cm_cmd";                          ValueType: string;  ValueName: "Icon";  ValueData: "{app}\icons\cmd.ico";                                   Tasks: cm_cmd;                  Flags: uninsdeletekey;
+Root: HKCU; Subkey: "{#SCDBS}\wsh_cm_cmd\command";                  ValueType: string;  ValueName: "";      ValueData: "{#TERMINAL_EXE} -d ""%V."" -p CMD";                     Tasks: cm_cmd;                  Flags: uninsdeletekey;
+Root: HKCU; Subkey: "{#SCDS}\wsh_cm_cmd";                           ValueType: string;  ValueName: "";      ValueData: "Open CMD";                                              Tasks: cm_cmd;                  Flags: uninsdeletekey;
+Root: HKCU; Subkey: "{#SCDS}\wsh_cm_cmd";                           ValueType: string;  ValueName: "Icon";  ValueData: "{app}\icons\cmd.ico";                                   Tasks: cm_cmd;                  Flags: uninsdeletekey;
+Root: HKCU; Subkey: "{#SCDS}\wsh_cm_cmd\command";                   ValueType: string;  ValueName: "";      ValueData: "{#TERMINAL_EXE} -d ""%V."" -p CMD";                     Tasks: cm_cmd;                  Flags: uninsdeletekey;
 
 ; Context Menu CMD (Admin)
-Root: HKCU; Subkey: "Software\Classes\Directory\background\shell\wsh_cm_cmd_admin";                 ValueType: string;  ValueName: "";      ValueData: "Open CMD (Admin)";                                                              Tasks: cm_cmd_admin;            Flags: uninsdeletekey;
-Root: HKCU; Subkey: "Software\Classes\Directory\background\shell\wsh_cm_cmd_admin";                 ValueType: string;  ValueName: "Icon";  ValueData: "{app}\icons\cmd.ico";                                                           Tasks: cm_cmd_admin;            Flags: uninsdeletekey;
-Root: HKCU; Subkey: "Software\Classes\Directory\background\shell\wsh_cm_cmd_admin\command";         ValueType: string;  ValueName: "";      ValueData: "{autoappdata}\Microsoft\WindowsApps\wt.exe -d ""%V."" -p CMD (Admin)";          Tasks: cm_cmd_admin;            Flags: uninsdeletekey;
-Root: HKCU; Subkey: "Software\Classes\Directory\shell\wsh_cm_cmd_admin";                            ValueType: string;  ValueName: "";      ValueData: "Open CMD (Admin)";                                                              Tasks: cm_cmd_admin;            Flags: uninsdeletekey;
-Root: HKCU; Subkey: "Software\Classes\Directory\shell\wsh_cm_cmd_admin";                            ValueType: string;  ValueName: "Icon";  ValueData: "{app}\icons\cmd.ico";                                                           Tasks: cm_cmd_admin;            Flags: uninsdeletekey;
-Root: HKCU; Subkey: "Software\Classes\Directory\shell\wsh_cm_cmd_admin\command";                    ValueType: string;  ValueName: "";      ValueData: "{autoappdata}\Microsoft\WindowsApps\wt.exe -d ""%V."" -p CMD (Admin)";          Tasks: cm_cmd_admin;            Flags: uninsdeletekey;
+Root: HKCU; Subkey: "{#SCDBS}\wsh_cm_cmd_admin";                    ValueType: string;  ValueName: "";      ValueData: "Open CMD (Admin)";                                      Tasks: cm_cmd_admin;            Flags: uninsdeletekey;
+Root: HKCU; Subkey: "{#SCDBS}\wsh_cm_cmd_admin";                    ValueType: string;  ValueName: "Icon";  ValueData: "{app}\icons\cmd.ico";                                   Tasks: cm_cmd_admin;            Flags: uninsdeletekey;
+Root: HKCU; Subkey: "{#SCDBS}\wsh_cm_cmd_admin\command";            ValueType: string;  ValueName: "";      ValueData: "{#TERMINAL_EXE} -d ""%V."" -p CMD (Admin)";             Tasks: cm_cmd_admin;            Flags: uninsdeletekey;
+Root: HKCU; Subkey: "{#SCDS}\wsh_cm_cmd_admin";                     ValueType: string;  ValueName: "";      ValueData: "Open CMD (Admin)";                                      Tasks: cm_cmd_admin;            Flags: uninsdeletekey;
+Root: HKCU; Subkey: "{#SCDS}\wsh_cm_cmd_admin";                     ValueType: string;  ValueName: "Icon";  ValueData: "{app}\icons\cmd.ico";                                   Tasks: cm_cmd_admin;            Flags: uninsdeletekey;
+Root: HKCU; Subkey: "{#SCDS}\wsh_cm_cmd_admin\command";             ValueType: string;  ValueName: "";      ValueData: "{#TERMINAL_EXE} -d ""%V."" -p CMD (Admin)";             Tasks: cm_cmd_admin;            Flags: uninsdeletekey;
 
 ; Context Menu PowerShell
-Root: HKCU; Subkey: "Software\Classes\Directory\background\shell\wsh_cm_powershell";                ValueType: string;  ValueName: "";      ValueData: "Open PowerShell";                                                               Tasks: cm_powershell;           Flags: uninsdeletekey;
-Root: HKCU; Subkey: "Software\Classes\Directory\background\shell\wsh_cm_powershell";                ValueType: string;  ValueName: "Icon";  ValueData: "{app}\icons\powershell.ico";                                                    Tasks: cm_powershell;           Flags: uninsdeletekey;
-Root: HKCU; Subkey: "Software\Classes\Directory\background\shell\wsh_cm_powershell\command";        ValueType: string;  ValueName: "";      ValueData: "{autoappdata}\Microsoft\WindowsApps\wt.exe -d ""%V."" -p PowerShell";           Tasks: cm_powershell;           Flags: uninsdeletekey;
-Root: HKCU; Subkey: "Software\Classes\Directory\shell\wsh_cm_powershell";                           ValueType: string;  ValueName: "";      ValueData: "Open PowerShell";                                                               Tasks: cm_powershell;           Flags: uninsdeletekey;
-Root: HKCU; Subkey: "Software\Classes\Directory\shell\wsh_cm_powershell";                           ValueType: string;  ValueName: "Icon";  ValueData: "{app}\icons\powershell.ico";                                                    Tasks: cm_powershell;           Flags: uninsdeletekey;
-Root: HKCU; Subkey: "Software\Classes\Directory\shell\wsh_cm_powershell\command";                   ValueType: string;  ValueName: "";      ValueData: "{autoappdata}\Microsoft\WindowsApps\wt.exe -d ""%V."" -p PowerShell";           Tasks: cm_powershell;           Flags: uninsdeletekey;
+Root: HKCU; Subkey: "{#SCDBS}\wsh_cm_powershell";                   ValueType: string;  ValueName: "";      ValueData: "Open PowerShell";                                       Tasks: cm_powershell;           Flags: uninsdeletekey;
+Root: HKCU; Subkey: "{#SCDBS}\wsh_cm_powershell";                   ValueType: string;  ValueName: "Icon";  ValueData: "{app}\icons\powershell.ico";                            Tasks: cm_powershell;           Flags: uninsdeletekey;
+Root: HKCU; Subkey: "{#SCDBS}\wsh_cm_powershell\command";           ValueType: string;  ValueName: "";      ValueData: "{#TERMINAL_EXE} -d ""%V."" -p PowerShell";              Tasks: cm_powershell;           Flags: uninsdeletekey;
+Root: HKCU; Subkey: "{#SCDS}\wsh_cm_powershell";                    ValueType: string;  ValueName: "";      ValueData: "Open PowerShell";                                       Tasks: cm_powershell;           Flags: uninsdeletekey;
+Root: HKCU; Subkey: "{#SCDS}\wsh_cm_powershell";                    ValueType: string;  ValueName: "Icon";  ValueData: "{app}\icons\powershell.ico";                            Tasks: cm_powershell;           Flags: uninsdeletekey;
+Root: HKCU; Subkey: "{#SCDS}\wsh_cm_powershell\command";            ValueType: string;  ValueName: "";      ValueData: "{#TERMINAL_EXE} -d ""%V."" -p PowerShell";              Tasks: cm_powershell;           Flags: uninsdeletekey;
 
 ; Context Menu PowerShell (Admin)
-Root: HKCU; Subkey: "Software\Classes\Directory\background\shell\wsh_cm_powershell_admin";          ValueType: string;  ValueName: "";      ValueData: "Open PowerShell (Admin)";                                                       Tasks: cm_powershell_admin;     Flags: uninsdeletekey;
-Root: HKCU; Subkey: "Software\Classes\Directory\background\shell\wsh_cm_powershell_admin";          ValueType: string;  ValueName: "Icon";  ValueData: "{app}\icons\powershell.ico";                                                    Tasks: cm_powershell_admin;     Flags: uninsdeletekey;
-Root: HKCU; Subkey: "Software\Classes\Directory\background\shell\wsh_cm_powershell_admin\command";  ValueType: string;  ValueName: "";      ValueData: "{autoappdata}\Microsoft\WindowsApps\wt.exe -d ""%V."" -p PowerShell (Admin)";   Tasks: cm_powershell_admin;     Flags: uninsdeletekey;
-Root: HKCU; Subkey: "Software\Classes\Directory\shell\wsh_cm_powershell_admin";                     ValueType: string;  ValueName: "";      ValueData: "Open PowerShell (Admin)";                                                       Tasks: cm_powershell_admin;     Flags: uninsdeletekey;
-Root: HKCU; Subkey: "Software\Classes\Directory\shell\wsh_cm_powershell_admin";                     ValueType: string;  ValueName: "Icon";  ValueData: "{app}\icons\powershell.ico";                                                    Tasks: cm_powershell_admin;     Flags: uninsdeletekey;
-Root: HKCU; Subkey: "Software\Classes\Directory\shell\wsh_cm_powershell_admin\command";             ValueType: string;  ValueName: "";      ValueData: "{autoappdata}\Microsoft\WindowsApps\wt.exe -d ""%V."" -p PowerShell (Admin)";   Tasks: cm_powershell_admin;     Flags: uninsdeletekey;
+Root: HKCU; Subkey: "{#SCDBS}\wsh_cm_powershell_admin";             ValueType: string;  ValueName: "";      ValueData: "Open PowerShell (Admin)";                               Tasks: cm_powershell_admin;     Flags: uninsdeletekey;
+Root: HKCU; Subkey: "{#SCDBS}\wsh_cm_powershell_admin";             ValueType: string;  ValueName: "Icon";  ValueData: "{app}\icons\powershell.ico";                            Tasks: cm_powershell_admin;     Flags: uninsdeletekey;
+Root: HKCU; Subkey: "{#SCDBS}\wsh_cm_powershell_admin\command";     ValueType: string;  ValueName: "";      ValueData: "{#TERMINAL_EXE} -d ""%V."" -p PowerShell (Admin)";      Tasks: cm_powershell_admin;     Flags: uninsdeletekey;
+Root: HKCU; Subkey: "{#SCDS}\wsh_cm_powershell_admin";              ValueType: string;  ValueName: "";      ValueData: "Open PowerShell (Admin)";                               Tasks: cm_powershell_admin;     Flags: uninsdeletekey;
+Root: HKCU; Subkey: "{#SCDS}\wsh_cm_powershell_admin";              ValueType: string;  ValueName: "Icon";  ValueData: "{app}\icons\powershell.ico";                            Tasks: cm_powershell_admin;     Flags: uninsdeletekey;
+Root: HKCU; Subkey: "{#SCDS}\wsh_cm_powershell_admin\command";      ValueType: string;  ValueName: "";      ValueData: "{#TERMINAL_EXE} -d ""%V."" -p PowerShell (Admin)";      Tasks: cm_powershell_admin;     Flags: uninsdeletekey;
 
 ; Context Menu Ubuntu
-Root: HKCU; Subkey: "Software\Classes\Directory\background\shell\wsh_cm_ubuntu";                    ValueType: string;  ValueName: "";      ValueData: "Open Ubuntu";                                                                   Tasks: cm_ubuntu;               Flags: uninsdeletekey;
-Root: HKCU; Subkey: "Software\Classes\Directory\background\shell\wsh_cm_ubuntu";                    ValueType: string;  ValueName: "Icon";  ValueData: "{app}\icons\ubuntu.ico";                                                        Tasks: cm_ubuntu;               Flags: uninsdeletekey;
-Root: HKCU; Subkey: "Software\Classes\Directory\background\shell\wsh_cm_ubuntu\command";            ValueType: string;  ValueName: "";      ValueData: "{autoappdata}\Microsoft\WindowsApps\wt.exe -d ""%V."" -p Ubuntu";               Tasks: cm_ubuntu;               Flags: uninsdeletekey;
-Root: HKCU; Subkey: "Software\Classes\Directory\shell\wsh_cm_ubuntu";                               ValueType: string;  ValueName: "";      ValueData: "Open Ubuntu";                                                                   Tasks: cm_ubuntu;               Flags: uninsdeletekey;
-Root: HKCU; Subkey: "Software\Classes\Directory\shell\wsh_cm_ubuntu";                               ValueType: string;  ValueName: "Icon";  ValueData: "{app}\icons\ubuntu.ico";                                                        Tasks: cm_ubuntu;               Flags: uninsdeletekey;
-Root: HKCU; Subkey: "Software\Classes\Directory\shell\wsh_cm_ubuntu\command";                       ValueType: string;  ValueName: "";      ValueData: "{autoappdata}\Microsoft\WindowsApps\wt.exe -d ""%V."" -p Ubuntu";               Tasks: cm_ubuntu;               Flags: uninsdeletekey;
+Root: HKCU; Subkey: "{#SCDBS}\wsh_cm_ubuntu";                       ValueType: string;  ValueName: "";      ValueData: "Open Ubuntu";                                           Tasks: cm_ubuntu;               Flags: uninsdeletekey;
+Root: HKCU; Subkey: "{#SCDBS}\wsh_cm_ubuntu";                       ValueType: string;  ValueName: "Icon";  ValueData: "{app}\icons\ubuntu.ico";                                Tasks: cm_ubuntu;               Flags: uninsdeletekey;
+Root: HKCU; Subkey: "{#SCDBS}\wsh_cm_ubuntu\command";               ValueType: string;  ValueName: "";      ValueData: "{#TERMINAL_EXE} -d ""%V."" -p Ubuntu";                  Tasks: cm_ubuntu;               Flags: uninsdeletekey;
+Root: HKCU; Subkey: "{#SCDS}\wsh_cm_ubuntu";                        ValueType: string;  ValueName: "";      ValueData: "Open Ubuntu";                                           Tasks: cm_ubuntu;               Flags: uninsdeletekey;
+Root: HKCU; Subkey: "{#SCDS}\wsh_cm_ubuntu";                        ValueType: string;  ValueName: "Icon";  ValueData: "{app}\icons\ubuntu.ico";                                Tasks: cm_ubuntu;               Flags: uninsdeletekey;
+Root: HKCU; Subkey: "{#SCDS}\wsh_cm_ubuntu\command";                ValueType: string;  ValueName: "";      ValueData: "{#TERMINAL_EXE} -d ""%V."" -p Ubuntu";                  Tasks: cm_ubuntu;               Flags: uninsdeletekey;
 
 [UninstallRun]
 ; Execute uninstallers
