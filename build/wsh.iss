@@ -3,7 +3,6 @@
 ; @description  Inno Setup script for WSH
 ; @license      MIT License
 ;-------------------------------------------------------------------------------
-// TODO: check that the convert CRLF to LF works, critical for VIM
 
 #define APP_NAME "WSH"
 #define APP_VERSION GetDateTimeString('yymmdd', '-', '') + " build " + GetDateTimeString('hhnnss', '-', '')
@@ -73,6 +72,7 @@ Name: theme;                    Description: "Theme";
 Name: theme\none;               Description: "No Theme";                                                                                Flags: exclusive;
 Name: theme\nord;               Description: "Nord";                                                                                    Flags: exclusive;
 Name: theme\monokai_pro;        Description: "Monokai Pro";                         Types: full;                                        Flags: exclusive;
+Name: theme\onedark;            Description: "OneDark";                             Types: full;                                        Flags: exclusive;
 Name: wsh_bash;                 Description: "Apply WSL Bash Settings";             Types: full;
 
 [Tasks]
@@ -130,29 +130,31 @@ Filename: "{app}\config\git\git-x64.ini";       Section: "Setup";   Key: "Group"
 FileName: "{app}\modules\fonts\FontReg.exe";    Parameters: "/copy";                                                                                                                    Flags: runhidden;   StatusMsg: "Registering Fonts";
 
 ; Backup CMD and PUTTY settings from registry
-FileName: "{sys}\reg";                          Parameters: "export ""HKCU\Console"" ""{app}\config_backup\cmd_settings.reg"" /y";                                                      Components: clink\settings or theme\nord or theme\monokai_pro;  Flags: runhidden;   StatusMsg: "Backing up Clink";
-FileName: "{sys}\reg";                          Parameters: "export ""HKCU\SOFTWARE\SimonTatham\PuTTY\Sessions\Default%20Settings"" ""{app}\config_backup\putty_settings.reg"" /y";     Components: putty\settings or theme\nord or theme\monokai_pro;  Flags: runhidden;   StatusMsg: "Backing up PuTTY";
+FileName: "{sys}\reg";                          Parameters: "export ""HKCU\Console"" ""{app}\config_backup\cmd_settings.reg"" /y";                                                      Flags: runhidden;   StatusMsg: "Backing up CMD";
+FileName: "{sys}\reg";                          Parameters: "export ""HKCU\SOFTWARE\SimonTatham\PuTTY\Sessions\Default%20Settings"" ""{app}\config_backup\putty_settings.reg"" /y";     Flags: runhidden;   StatusMsg: "Backing up PuTTY";
 
 ; Unzip and install Clink
-Filename: "{app}\build\7z\7za.exe";             Parameters: "x -aoa -o""{app}\modules\clink\"" -y ""{app}\modules\clink\clink.zip"" ""*""";                                             Components: clink;                                              Flags: runhidden;   StatusMsg: "Installing Clink";
-Filename: "{app}\modules\clink\clink.bat";      Parameters: "autorun install -- --nolog --profile ""{app}\config\clink\""";                                                             Components: clink;                                              Flags: runhidden;   StatusMsg: "Installing PuTTY";
+Filename: "{app}\build\7z\7za.exe";             Parameters: "x -aoa -o""{app}\modules\clink\"" -y ""{app}\modules\clink\clink.zip"" ""*""";         Components: clink;                  Flags: runhidden;   StatusMsg: "Installing Clink";
+Filename: "{app}\modules\clink\clink.bat";      Parameters: "autorun install -- --nolog --profile ""{app}\config\clink\""";                         Components: clink;                  Flags: runhidden;   StatusMsg: "Installing PuTTY";
 
 ; Unzip and install Git
-Filename: "{app}\modules\git\git-x64.exe";      Parameters: "/LOADINF=""{app}\config\git\git-x64.ini"" /VERYSILENT";                                                                    Components: git;                                                Flags: runhidden;   StatusMsg: "Installing Git";
+Filename: "{app}\modules\git\git-x64.exe";      Parameters: "/LOADINF=""{app}\config\git\git-x64.ini"" /VERYSILENT";                                Components: git;                    Flags: runhidden;   StatusMsg: "Installing Git";
 
 ; Unzip and install PHP
-Filename: "{app}\build\7z\7za.exe";             Parameters: "x -aoa -o""{app}\modules\php\"" -y ""{app}\modules\php\php-x64.zip"" ""*""";                                               Components: php\php7;                                           Flags: runhidden;   StatusMsg: "Installing PHP7";
-Filename: "{app}\build\7z\7za.exe";             Parameters: "x -aoa -o""{app}\modules\php\"" -y ""{app}\modules\php\php-x64.zip"" ""*""";                                               Components: php\php8;                                           Flags: runhidden;   StatusMsg: "Installing PHP8";
+Filename: "{app}\build\7z\7za.exe";             Parameters: "x -aoa -o""{app}\modules\php\"" -y ""{app}\modules\php\php-x64.zip"" ""*""";           Components: php\php7;               Flags: runhidden;   StatusMsg: "Installing PHP7";
+Filename: "{app}\build\7z\7za.exe";             Parameters: "x -aoa -o""{app}\modules\php\"" -y ""{app}\modules\php\php-x64.zip"" ""*""";           Components: php\php8;               Flags: runhidden;   StatusMsg: "Installing PHP8";
 
 ; Import CMD and PuTTY themes to registry
-Filename: "{sys}\reg.exe";                      Parameters: "import ""{app}\config\clink\themes\cmd_theme_nord.reg""";                                                                  Components: theme\nord;                                         Flags: runhidden;   StatusMsg: "Importing CMD Nord Theme to registry";
-Filename: "{sys}\reg.exe";                      Parameters: "import ""{app}\config\clink\themes\cmd_theme_monokai_pro.reg""";                                                           Components: theme\monokai_pro;                                  Flags: runhidden;   StatusMsg: "Importing CMD Monokai Pro Theme to registry";
-Filename: "{sys}\reg.exe";                      Parameters: "import ""{app}\config\putty\themes\putty_theme_nord.reg""";                                                                Components: theme\nord;                                         Flags: runhidden;   StatusMsg: "Importing PuTTY Nord Theme to registry";
-Filename: "{sys}\reg.exe";                      Parameters: "import ""{app}\config\putty\themes\putty_theme_monokai_pro.reg""";                                                         Components: theme\monokai_pro;                                  Flags: runhidden;   StatusMsg: "Importing PuTTY Monokai Pro Theme to registry";
+Filename: "{sys}\reg.exe";                      Parameters: "import ""{app}\config\clink\themes\cmd_theme_nord.reg""";                              Components: theme\nord;             Flags: runhidden;   StatusMsg: "Importing CMD Nord Theme";
+Filename: "{sys}\reg.exe";                      Parameters: "import ""{app}\config\clink\themes\cmd_theme_monokai_pro.reg""";                       Components: theme\monokai_pro;      Flags: runhidden;   StatusMsg: "Importing CMD Monokai Pro Theme";
+Filename: "{sys}\reg.exe";                      Parameters: "import ""{app}\config\clink\themes\cmd_theme_onedark.reg""";                           Components: theme\one_dark_pro;     Flags: runhidden;   StatusMsg: "Importing CMD OneDark Theme";
+Filename: "{sys}\reg.exe";                      Parameters: "import ""{app}\config\putty\themes\putty_theme_nord.reg""";                            Components: theme\nord;             Flags: runhidden;   StatusMsg: "Importing PuTTY Nord Theme";
+Filename: "{sys}\reg.exe";                      Parameters: "import ""{app}\config\putty\themes\putty_theme_monokai_pro.reg""";                     Components: theme\monokai_pro;      Flags: runhidden;   StatusMsg: "Importing PuTTY Monokai Pro Theme";
+Filename: "{sys}\reg.exe";                      Parameters: "import ""{app}\config\putty\themes\putty_theme_onedark.reg""";                         Components: theme\one_dark_pro;     Flags: runhidden;   StatusMsg: "Importing PuTTY OneDark Theme";
 
 ; Import CMD and PuTTY settings to registry
-Filename: "{sys}\reg.exe";                      Parameters: "import ""{app}\config\clink\cmd_settings.reg""";                                                                           Components: clink\settings;                                     Flags: runhidden;   StatusMsg: "Importing CMD Settings to registry";
-Filename: "{sys}\reg.exe";                      Parameters: "import ""{app}\config\putty\putty_settings.reg""";                                                                         Components: putty\settings;                                     Flags: runhidden;   StatusMsg: "Importing PuTTY Settings to registry";
+Filename: "{sys}\reg.exe";                      Parameters: "import ""{app}\config\clink\cmd_settings.reg""";                                       Components: clink\settings;         Flags: runhidden;   StatusMsg: "Importing CMD Settings";
+Filename: "{sys}\reg.exe";                      Parameters: "import ""{app}\config\putty\putty_settings.reg""";                                     Components: putty\settings;         Flags: runhidden;   StatusMsg: "Importing PuTTY Settings";
 
 [Icons]
 ; Create shortcuts for PuTTY
@@ -235,40 +237,40 @@ Root: HKCU; Subkey: "Software\Classes\Directory\shell\wsh_cm_ubuntu\command";   
 
 [UninstallRun]
 ; Execute uninstallers
-Filename: "{app}\modules\clink\clink.bat";  Parameters: "autorun uninstall";                                                                            RunOnceId: "UninstallWSH01";    Components: clink;                                              Flags: runhidden skipifdoesntexist;
-Filename: "{app}\modules\git\unins000.exe"; Parameters: "/VERYSILENT";                                                                                  RunOnceId: "UninstallWSH02";    Components: git;                                                Flags: runhidden skipifdoesntexist;
+Filename: "{app}\modules\clink\clink.bat";  Parameters: "autorun uninstall";                                                                            RunOnceId: "UninstallWSH01";    Components: clink;              Flags: runhidden skipifdoesntexist;
+Filename: "{app}\modules\git\unins000.exe"; Parameters: "/VERYSILENT";                                                                                  RunOnceId: "UninstallWSH02";    Components: git;                Flags: runhidden skipifdoesntexist;
 
 ; Delete configuration files for the different applications before restoring backed up non WSH files
-Filename: "{cmd}";                          Parameters: "/c erase /f /q ""{#WSL_BASH}\.bash_aliases""";                                                 RunOnceId: "UninstallWSH03";    Components: wsh_bash;                                           Flags: runhidden skipifdoesntexist;
-Filename: "{cmd}";                          Parameters: "/c erase /f /q ""{#WSL_BASH}\.bash_history""";                                                 RunOnceId: "UninstallWSH04";    Components: wsh_bash;                                           Flags: runhidden skipifdoesntexist;
-Filename: "{cmd}";                          Parameters: "/c erase /f /q ""{#WSL_BASH}\.bash_logout""";                                                  RunOnceId: "UninstallWSH05";    Components: wsh_bash;                                           Flags: runhidden skipifdoesntexist;
-Filename: "{cmd}";                          Parameters: "/c erase /f /q ""{#WSL_BASH}\.bashrc""";                                                       RunOnceId: "UninstallWSH06";    Components: wsh_bash;                                           Flags: runhidden skipifdoesntexist;
-Filename: "{cmd}";                          Parameters: "/c erase /f /q ""{#WSL_BASH}\.dircolors""";                                                    RunOnceId: "UninstallWSH07";    Components: wsh_bash;                                           Flags: runhidden skipifdoesntexist;
-Filename: "{cmd}";                          Parameters: "/c erase /f /q ""{#WSL_BASH}\.inputrc""";                                                      RunOnceId: "UninstallWSH08";    Components: wsh_bash;                                           Flags: runhidden skipifdoesntexist;
-Filename: "{cmd}";                          Parameters: "/c erase /f /q ""{#WSL_BASH}\.viminfo""";                                                      RunOnceId: "UninstallWSH09";    Components: wsh_bash;                                           Flags: runhidden skipifdoesntexist;
-Filename: "{cmd}";                          Parameters: "/c erase /f /q ""{#WSL_BASH}\.vimrc""";                                                        RunOnceId: "UninstallWSH10";    Components: wsh_bash;                                           Flags: runhidden skipifdoesntexist;
-Filename: "{cmd}";                          Parameters: "/c rmdir /s /q ""{#WSL_BASH}\.vim""";                                                          RunOnceId: "UninstallWSH11";    Components: wsh_bash;                                           Flags: runhidden skipifdoesntexist;
-Filename: "{cmd}";                          Parameters: "/c erase /f /q ""{#TERMINAL_SETTINGS}\settings.json""";                                        RunOnceId: "UninstallWSH12";    Components: terminal;                                           Flags: runhidden skipifdoesntexist;
-Filename: "{cmd}";                          Parameters: "/c rmdir /s /q ""{#TERMINAL_FRAGMENTS}\WSH""";                                                 RunOnceId: "UninstallWSH13";    Components: terminal;                                           Flags: runhidden skipifdoesntexist;
+Filename: "{cmd}";                          Parameters: "/c erase /f /q ""{#WSL_BASH}\.bash_aliases""";                                                 RunOnceId: "UninstallWSH03";    Components: wsh_bash;           Flags: runhidden skipifdoesntexist;
+Filename: "{cmd}";                          Parameters: "/c erase /f /q ""{#WSL_BASH}\.bash_history""";                                                 RunOnceId: "UninstallWSH04";    Components: wsh_bash;           Flags: runhidden skipifdoesntexist;
+Filename: "{cmd}";                          Parameters: "/c erase /f /q ""{#WSL_BASH}\.bash_logout""";                                                  RunOnceId: "UninstallWSH05";    Components: wsh_bash;           Flags: runhidden skipifdoesntexist;
+Filename: "{cmd}";                          Parameters: "/c erase /f /q ""{#WSL_BASH}\.bashrc""";                                                       RunOnceId: "UninstallWSH06";    Components: wsh_bash;           Flags: runhidden skipifdoesntexist;
+Filename: "{cmd}";                          Parameters: "/c erase /f /q ""{#WSL_BASH}\.dircolors""";                                                    RunOnceId: "UninstallWSH07";    Components: wsh_bash;           Flags: runhidden skipifdoesntexist;
+Filename: "{cmd}";                          Parameters: "/c erase /f /q ""{#WSL_BASH}\.inputrc""";                                                      RunOnceId: "UninstallWSH08";    Components: wsh_bash;           Flags: runhidden skipifdoesntexist;
+Filename: "{cmd}";                          Parameters: "/c erase /f /q ""{#WSL_BASH}\.viminfo""";                                                      RunOnceId: "UninstallWSH09";    Components: wsh_bash;           Flags: runhidden skipifdoesntexist;
+Filename: "{cmd}";                          Parameters: "/c erase /f /q ""{#WSL_BASH}\.vimrc""";                                                        RunOnceId: "UninstallWSH10";    Components: wsh_bash;           Flags: runhidden skipifdoesntexist;
+Filename: "{cmd}";                          Parameters: "/c rmdir /s /q ""{#WSL_BASH}\.vim""";                                                          RunOnceId: "UninstallWSH11";    Components: wsh_bash;           Flags: runhidden skipifdoesntexist;
+Filename: "{cmd}";                          Parameters: "/c erase /f /q ""{#TERMINAL_SETTINGS}\settings.json""";                                        RunOnceId: "UninstallWSH12";    Components: terminal;           Flags: runhidden skipifdoesntexist;
+Filename: "{cmd}";                          Parameters: "/c rmdir /s /q ""{#TERMINAL_FRAGMENTS}\WSH""";                                                 RunOnceId: "UninstallWSH13";    Components: terminal;           Flags: runhidden skipifdoesntexist;
 
 ; Restore backed up non WSH files
-Filename: "{cmd}";                          Parameters: "/c move /y ""{app}\config_backup\bash\.bash_aliases"" ""{#WSL_BASH}""";                        RunOnceId: "UninstallWSH14";    Components: wsh_bash;                                           Flags: runhidden skipifdoesntexist;
-Filename: "{cmd}";                          Parameters: "/c move /y ""{app}\config_backup\bash\.bash_logout"" ""{#WSL_BASH}""";                         RunOnceId: "UninstallWSH15";    Components: wsh_bash;                                           Flags: runhidden skipifdoesntexist;
-Filename: "{cmd}";                          Parameters: "/c move /y ""{app}\config_backup\bash\.bashrc"" ""{#WSL_BASH}""";                              RunOnceId: "UninstallWSH16";    Components: wsh_bash;                                           Flags: runhidden skipifdoesntexist;
-Filename: "{cmd}";                          Parameters: "/c move /y ""{app}\config_backup\bash\.dircolors"" ""{#WSL_BASH}""";                           RunOnceId: "UninstallWSH17";    Components: wsh_bash;                                           Flags: runhidden skipifdoesntexist;
-Filename: "{cmd}";                          Parameters: "/c move /y ""{app}\config_backup\bash\.inputrc"" ""{#WSL_BASH}""";                             RunOnceId: "UninstallWSH18";    Components: wsh_bash;                                           Flags: runhidden skipifdoesntexist;
-Filename: "{cmd}";                          Parameters: "/c move /y ""{app}\config_backup\bash\.vimrc"" ""{#WSL_BASH}""";                               RunOnceId: "UninstallWSH19";    Components: wsh_bash;                                           Flags: runhidden skipifdoesntexist;
-Filename: "{cmd}";                          Parameters: "/c xcopy /s /y ""{app}\config_backup\bash\.vim\*"" ""{#WSL_BASH}""";                           RunOnceId: "UninstallWSH20";    Components: wsh_bash;                                           Flags: runhidden skipifdoesntexist;
-Filename: "{cmd}";                          Parameters: "/c move /y ""{app}\config_backup\terminal\settings.json"" ""{#TERMINAL_SETTINGS}""";           RunOnceId: "UninstallWSH21";    Components: terminal;                                           Flags: runhidden skipifdoesntexist;
-Filename: "{cmd}";                          Parameters: "/c xcopy /i /s /y ""{app}\config_backup\terminal\Fragments"" ""{#TERMINAL_FRAGMENTS}\WSH""";   RunOnceId: "UninstallWSH22";    Components: terminal;                                           Flags: runhidden skipifdoesntexist;
+Filename: "{cmd}";                          Parameters: "/c move /y ""{app}\config_backup\bash\.bash_aliases"" ""{#WSL_BASH}""";                        RunOnceId: "UninstallWSH14";    Components: wsh_bash;           Flags: runhidden skipifdoesntexist;
+Filename: "{cmd}";                          Parameters: "/c move /y ""{app}\config_backup\bash\.bash_logout"" ""{#WSL_BASH}""";                         RunOnceId: "UninstallWSH15";    Components: wsh_bash;           Flags: runhidden skipifdoesntexist;
+Filename: "{cmd}";                          Parameters: "/c move /y ""{app}\config_backup\bash\.bashrc"" ""{#WSL_BASH}""";                              RunOnceId: "UninstallWSH16";    Components: wsh_bash;           Flags: runhidden skipifdoesntexist;
+Filename: "{cmd}";                          Parameters: "/c move /y ""{app}\config_backup\bash\.dircolors"" ""{#WSL_BASH}""";                           RunOnceId: "UninstallWSH17";    Components: wsh_bash;           Flags: runhidden skipifdoesntexist;
+Filename: "{cmd}";                          Parameters: "/c move /y ""{app}\config_backup\bash\.inputrc"" ""{#WSL_BASH}""";                             RunOnceId: "UninstallWSH18";    Components: wsh_bash;           Flags: runhidden skipifdoesntexist;
+Filename: "{cmd}";                          Parameters: "/c move /y ""{app}\config_backup\bash\.vimrc"" ""{#WSL_BASH}""";                               RunOnceId: "UninstallWSH19";    Components: wsh_bash;           Flags: runhidden skipifdoesntexist;
+Filename: "{cmd}";                          Parameters: "/c xcopy /s /y ""{app}\config_backup\bash\.vim\*"" ""{#WSL_BASH}""";                           RunOnceId: "UninstallWSH20";    Components: wsh_bash;           Flags: runhidden skipifdoesntexist;
+Filename: "{cmd}";                          Parameters: "/c move /y ""{app}\config_backup\terminal\settings.json"" ""{#TERMINAL_SETTINGS}""";           RunOnceId: "UninstallWSH21";    Components: terminal;           Flags: runhidden skipifdoesntexist;
+Filename: "{cmd}";                          Parameters: "/c xcopy /i /s /y ""{app}\config_backup\terminal\Fragments"" ""{#TERMINAL_FRAGMENTS}\WSH""";   RunOnceId: "UninstallWSH22";    Components: terminal;           Flags: runhidden skipifdoesntexist;
 
 ; Delete CMD and PuTTY settings from registry
-Filename: "{sys}\reg.exe";                  Parameters: "delete ""HKCU\Console"" /f";                                                                   RunOnceId: "UninstallWSH23";    Components: clink\settings or theme\nord or theme\monokai_pro;  Flags: runhidden skipifdoesntexist;
-Filename: "{sys}\reg.exe";                  Parameters: "delete ""HKCU\SOFTWARE\SimonTatham\PuTTY\Sessions\Default%20Settings"" /f";                    RunOnceId: "UninstallWSH24";    Components: putty\settings or theme\nord or theme\monokai_pro;  Flags: runhidden skipifdoesntexist;
+Filename: "{sys}\reg.exe";                  Parameters: "delete ""HKCU\Console"" /f";                                                                   RunOnceId: "UninstallWSH23";                                    Flags: runhidden skipifdoesntexist;
+Filename: "{sys}\reg.exe";                  Parameters: "delete ""HKCU\SOFTWARE\SimonTatham\PuTTY\Sessions\Default%20Settings"" /f";                    RunOnceId: "UninstallWSH24";                                    Flags: runhidden skipifdoesntexist;
 
 ; Restore backed up CMD and PuTTY settings to registry
-Filename: "{sys}\reg.exe";                  Parameters: "import ""{app}\config_backup\themes\cmd_settings.reg""";                                       RunOnceId: "UninstallWSH25";    Components: clink\settings or theme\nord or theme\monokai_pro;  Flags: runhidden skipifdoesntexist;
-Filename: "{sys}\reg.exe";                  Parameters: "import ""{app}\config_backup\themes\putty_settings.reg""";                                     RunOnceId: "UninstallWSH26";    Components: putty\settings or theme\nord or theme\monokai_pro;  Flags: runhidden skipifdoesntexist;
+Filename: "{sys}\reg.exe";                  Parameters: "import ""{app}\config_backup\themes\cmd_settings.reg""";                                       RunOnceId: "UninstallWSH25";    Components: clink\settings;     Flags: runhidden skipifdoesntexist;
+Filename: "{sys}\reg.exe";                  Parameters: "import ""{app}\config_backup\themes\putty_settings.reg""";                                     RunOnceId: "UninstallWSH26";    Components: putty\settings;     Flags: runhidden skipifdoesntexist;
 
 [UninstallDelete]
 ; Delete left over files and folders
@@ -310,46 +312,41 @@ begin
 end;
 
 // Update variable placeholders in config files
-var folder, iconPath: String;
+var clinkPath, iconPath, terminalPath, wshBashPath: String;
 var findRecord: TFindRec;
 function updateVariablePlaceholder(): boolean;
 begin
-    folder:=ExpandConstant('{#TERMINAL_FRAGMENTS}\WSH')
-
-    if not ForceDirectories(folder) then begin
-        MsgBox('Unable to install Windows Terminal Fragment to '+folder, mbError, MB_OK);
-        Result:= False;
-    end;
+    clinkPath:=ExpandConstant('{app}\config\clink')
+    FileReplaceString(clinkPath + '\clink_settings', '<WSH_CLINK_PATH>', clinkPath);
 
     iconPath:= ExpandConstant('{app}');
     StringChangeEx(iconPath, '\', '\\', True);
 
-    if FindFirst (folder + '\*.json', findRecord) then begin
+    terminalPath:=ExpandConstant('{#TERMINAL_FRAGMENTS}\WSH')
+    if FindFirst (terminalPath + '\*.json', findRecord) then begin
         repeat
-            FileReplaceString(folder + '\' + findRecord.Name, '<WSH_ICON_PATH>', iconPath);
+            FileReplaceString(terminalPath + '\' + findRecord.Name, '<WSH_ICON_PATH>', iconPath);
         until
             not FindNext(findRecord);
     end;
     FindClose(findRecord);
 
-    folder:=ExpandConstant('{#TERMINAL_SETTINGS}')
-    FileReplaceString(folder + '\settings.json', '<WSH_FONT>', '{#WSH_FONT}');
+    terminalPath:=ExpandConstant('{#TERMINAL_SETTINGS}')
+    wshBashPath:=ExpandConstant('{#WSL_BASH}')
+
+    FileReplaceString(terminalPath + '\settings.json', '<WSH_FONT>', '{#WSH_FONT}');
+
     if WizardIsComponentSelected('theme\nord') then begin
-        FileReplaceString(folder + '\settings.json', '<WSH_THEME>', 'Nord');
+        FileReplaceString(terminalPath + '\settings.json', '<WSH_THEME>', 'Nord');
+        FileReplaceString(wshBashPath + '\.vimrc', '<WSH_THEME>', 'nord');
     end;
     if WizardIsComponentSelected('theme\monokai_pro') then begin
-        FileReplaceString(folder + '\settings.json', '<WSH_THEME>', 'Monokai Pro');
+        FileReplaceString(terminalPath + '\settings.json', '<WSH_THEME>', 'Monokai Pro');
+        FileReplaceString(wshBashPath + '\.vimrc', '<WSH_THEME>', 'monokai_pro');
     end;
-
-    folder:=ExpandConstant('{app}\config\clink')
-    FileReplaceString(folder + '\clink_settings', '<WSH_CLINK_PATH>', folder);
-
-    folder:=ExpandConstant('{#WSL_BASH}')
-    if WizardIsComponentSelected('theme\nord') then begin
-        FileReplaceString(folder + '\.vimrc', '<WSH_THEME>', 'nord');
-    end;
-    if WizardIsComponentSelected('theme\monokai_pro') then begin
-        FileReplaceString(folder + '\.vimrc', '<WSH_THEME>', 'monokai_pro');
+    if WizardIsComponentSelected('theme\onedark') then begin
+        FileReplaceString(terminalPath + '\settings.json', '<WSH_THEME>', 'OneDark');
+        FileReplaceString(wshBashPath + '\.vimrc', '<WSH_THEME>', 'onedark');
     end;
 end;
 
