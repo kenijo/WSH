@@ -1,0 +1,36 @@
+;= rem ------------------------------------------------------------------------- 
+;= rem ------------------------------------------------------------------------- 
+;= rem  @link            http://kenijo.github.io/WSH/ 
+;= rem  @description     Script to manage aliases 
+;= rem  @license         MIT License 
+;= rem ------------------------------------------------------------------------- 
+dir=dir /A /N $*
+dib=dir /A /B /N $*
+
+;= ls --help
+;=      -A, --almost-all        do not list implied . and ..
+;=      -F, --classify          append indicator (one of */=>@|) to entries
+;=      -h, --human-readable    with -l, print sizes in human readable format (e.g., 1K 234M 2G)
+;=      -N, --literal           print entry names without quoting
+;=      -v                      natural sort of (version) numbers within text (however it is case sensite: a comes after Z)
+;=      --color[=WHEN]          colorize the output. WHEN defaults to 'always' or can be 'never' or 'auto'
+;=      --format=WORD           long -l, single-column -1, vertical -C
+;=      --time-style=STYLE      STYLE: full-iso, long-iso, iso, locale, +FORMAT
+;=      --sort=WORD             sort by WORD instead of name: none (-U), size (-S), time (-t), version (-v), extension (-X)
+;=      -g                      like -l, but do not list owner
+;=      -o                      like -l, but do not list group information
+ls=ls -AFhN --color=auto --time-style=long-iso --format=vertical
+;= dir=ls -AFhN --color=auto --time-style=long-iso --format=vertical
+ll=ls -AFhN --color=auto --time-style=long-iso --format=long
+
+clear=cls $*
+df=df -h $*
+du=du -h $*
+e.=explorer .
+egrep=egrep --color=auto $*
+fgrep=fgrep --color=auto $*
+grep=grep --color=auto $*
+pwd=cd
+unalias=alias /d $1
+vi=vim $*
+kju=dir  

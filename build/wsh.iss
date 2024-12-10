@@ -64,6 +64,7 @@ Name: clink\settings;           Description: "Apply CMD Settings";              
 Name: fonts;                    Description: "Font: {#WSH_FONT}";                   Types: full;
 Name: git;                      Description: "Git";                                 Types: full;
 Name: php;                      Description: "PHP";
+Name: php\composer;             Description: "Composer";                            Types: full;
 Name: php\php7;                 Description: "PHP7";                                                                                    Flags: exclusive;
 Name: php\php8;                 Description: "PHP8";                                Types: full;                                        Flags: exclusive;
 Name: putty;                    Description: "PuTTY";                               Types: full;
@@ -112,6 +113,7 @@ Source: "..\config\terminal\Fragments\*";       DestDir: "{#TERMINAL_FRAGMENTS}\
 ; Install downloaded files
 Source: "{tmp}\clink.zip";                      DestDir: "{app}\modules\clink";                         Components: clink;          Flags: deleteafterinstall external uninsrestartdelete;
 Source: "{tmp}\git-x64.exe";                    DestDir: "{app}\modules\git";                           Components: git;            Flags: deleteafterinstall external uninsrestartdelete;
+Source: "{tmp}\composer.phar";                  DestDir: "{app}\modules\php";                           Components: php\composer;   Flags: external uninsrestartdelete;
 Source: "{tmp}\php-x64.zip";                    DestDir: "{app}\modules\php";                           Components: php\php7;       Flags: deleteafterinstall external uninsrestartdelete;
 Source: "{tmp}\php-x64.zip";                    DestDir: "{app}\modules\php";                           Components: php\php8;       Flags: deleteafterinstall external uninsrestartdelete;
 Source: "{tmp}\putty.exe";                      DestDir: "{app}\modules\putty";                         Components: putty;          Flags: external uninsrestartdelete;
@@ -128,40 +130,43 @@ Filename: "{app}\config\git\git-x64.ini";       Section: "Setup";   Key: "Group"
 
 [Run]
 ; Register fonts with FontReg
-FileName: "{app}\modules\fonts\FontReg.exe";    Parameters: "/copy";                                                                                                                    Flags: runhidden;   StatusMsg: "Registering Fonts";
+FileName: "{app}\modules\fonts\FontReg.exe";    Parameters: "/copy";                                                                                                                        Flags: runhidden;   StatusMsg: "Registering Fonts";
 
 ; Backup CMD and PUTTY settings from registry
-FileName: "{sys}\reg";                          Parameters: "export ""HKCU\Console"" ""{app}\config_backup\cmd_settings.reg"" /y";                                                      Flags: runhidden;   StatusMsg: "Backing up CMD";
-FileName: "{sys}\reg";                          Parameters: "export ""HKCU\SOFTWARE\SimonTatham\PuTTY\Sessions\Default%20Settings"" ""{app}\config_backup\putty_settings.reg"" /y";     Flags: runhidden;   StatusMsg: "Backing up PuTTY";
+FileName: "{sys}\reg";                          Parameters: "export ""HKCU\Console"" ""{app}\config_backup\cmd_settings.reg"" /y";                                                          Flags: runhidden;   StatusMsg: "Backing up CMD";
+FileName: "{sys}\reg";                          Parameters: "export ""HKCU\SOFTWARE\SimonTatham\PuTTY\Sessions\Default%20Settings"" ""{app}\config_backup\putty_settings.reg"" /y";         Flags: runhidden;   StatusMsg: "Backing up PuTTY";
 
 ; Unzip and install Clink
-Filename: "{app}\build\7z\7za.exe";             Parameters: "x -aoa -o""{app}\modules\clink\"" -y ""{app}\modules\clink\clink.zip"" ""*""";         Components: clink;                  Flags: runhidden;   StatusMsg: "Installing Clink";
-Filename: "{app}\modules\clink\clink.bat";      Parameters: "autorun install -- --nolog --profile ""{app}\config\clink\""";                         Components: clink;                  Flags: runhidden;   StatusMsg: "Installing PuTTY";
+Filename: "{app}\build\7z\7za.exe";             Parameters: "x -aoa -o""{app}\modules\clink\"" -y ""{app}\modules\clink\clink.zip"" ""*""";             Components: clink;                  Flags: runhidden;   StatusMsg: "Installing Clink";
+Filename: "{app}\modules\clink\clink.bat";      Parameters: "autorun install -- --nolog --profile ""{app}\config\clink\""";                             Components: clink;                  Flags: runhidden;   StatusMsg: "Installing PuTTY";
 
 ; Unzip and install Git
-Filename: "{app}\modules\git\git-x64.exe";      Parameters: "/LOADINF=""{app}\config\git\git-x64.ini"" /VERYSILENT";                                Components: git;                    Flags: runhidden;   StatusMsg: "Installing Git";
+Filename: "{app}\modules\git\git-x64.exe";      Parameters: "/LOADINF=""{app}\config\git\git-x64.ini"" /VERYSILENT";                                    Components: git;                    Flags: runhidden;   StatusMsg: "Installing Git";
 
 ; Unzip and install PHP
-Filename: "{app}\build\7z\7za.exe";             Parameters: "x -aoa -o""{app}\modules\php\"" -y ""{app}\modules\php\php-x64.zip"" ""*""";           Components: php\php7;               Flags: runhidden;   StatusMsg: "Installing PHP7";
-Filename: "{app}\build\7z\7za.exe";             Parameters: "x -aoa -o""{app}\modules\php\"" -y ""{app}\modules\php\php-x64.zip"" ""*""";           Components: php\php8;               Flags: runhidden;   StatusMsg: "Installing PHP8";
+Filename: "{app}\build\7z\7za.exe";             Parameters: "x -aoa -o""{app}\modules\php\"" -y ""{app}\modules\php\php-x64.zip"" ""*""";               Components: php\php7;               Flags: runhidden;   StatusMsg: "Installing PHP7";
+Filename: "{app}\build\7z\7za.exe";             Parameters: "x -aoa -o""{app}\modules\php\"" -y ""{app}\modules\php\php-x64.zip"" ""*""";               Components: php\php8;               Flags: runhidden;   StatusMsg: "Installing PHP8";
+
+; Create a composer.phar executable
+Filename: "{cmd}";                              Parameters: "/c echo @php ""{app}\modules\php\composer.phar"" %*>""{app}\modules\php\composer.cmd""";   Components: php\composer;           Flags: runhidden;   StatusMsg: "Creating composer.phar executable";
 
 ; Import CMD and PuTTY themes to registry
-Filename: "{sys}\reg.exe";                      Parameters: "import ""{app}\config\clink\themes\cmd_theme_nord.reg""";                              Components: theme\nord;             Flags: runhidden;   StatusMsg: "Importing CMD Nord Theme";
-Filename: "{sys}\reg.exe";                      Parameters: "import ""{app}\config\clink\themes\cmd_theme_monokai_pro.reg""";                       Components: theme\monokai_pro;      Flags: runhidden;   StatusMsg: "Importing CMD Monokai Pro Theme";
-Filename: "{sys}\reg.exe";                      Parameters: "import ""{app}\config\clink\themes\cmd_theme_onedark.reg""";                           Components: theme\onedark;          Flags: runhidden;   StatusMsg: "Importing CMD OneDark Theme";
-Filename: "{sys}\reg.exe";                      Parameters: "import ""{app}\config\putty\themes\putty_theme_nord.reg""";                            Components: theme\nord;             Flags: runhidden;   StatusMsg: "Importing PuTTY Nord Theme";
-Filename: "{sys}\reg.exe";                      Parameters: "import ""{app}\config\putty\themes\putty_theme_monokai_pro.reg""";                     Components: theme\monokai_pro;      Flags: runhidden;   StatusMsg: "Importing PuTTY Monokai Pro Theme";
-Filename: "{sys}\reg.exe";                      Parameters: "import ""{app}\config\putty\themes\putty_theme_onedark.reg""";                         Components: theme\onedark;          Flags: runhidden;   StatusMsg: "Importing PuTTY OneDark Theme";
+Filename: "{sys}\reg.exe";                      Parameters: "import ""{app}\config\clink\themes\cmd_theme_nord.reg""";                                  Components: theme\nord;             Flags: runhidden;   StatusMsg: "Importing CMD Nord Theme";
+Filename: "{sys}\reg.exe";                      Parameters: "import ""{app}\config\clink\themes\cmd_theme_monokai_pro.reg""";                           Components: theme\monokai_pro;      Flags: runhidden;   StatusMsg: "Importing CMD Monokai Pro Theme";
+Filename: "{sys}\reg.exe";                      Parameters: "import ""{app}\config\clink\themes\cmd_theme_onedark.reg""";                               Components: theme\onedark;          Flags: runhidden;   StatusMsg: "Importing CMD OneDark Theme";
+Filename: "{sys}\reg.exe";                      Parameters: "import ""{app}\config\putty\themes\putty_theme_nord.reg""";                                Components: theme\nord;             Flags: runhidden;   StatusMsg: "Importing PuTTY Nord Theme";
+Filename: "{sys}\reg.exe";                      Parameters: "import ""{app}\config\putty\themes\putty_theme_monokai_pro.reg""";                         Components: theme\monokai_pro;      Flags: runhidden;   StatusMsg: "Importing PuTTY Monokai Pro Theme";
+Filename: "{sys}\reg.exe";                      Parameters: "import ""{app}\config\putty\themes\putty_theme_onedark.reg""";                             Components: theme\onedark;          Flags: runhidden;   StatusMsg: "Importing PuTTY OneDark Theme";
 
 ; Import CMD and PuTTY settings to registry
-Filename: "{sys}\reg.exe";                      Parameters: "import ""{app}\config\clink\cmd_settings.reg""";                                       Components: clink\settings;         Flags: runhidden;   StatusMsg: "Importing CMD Settings";
-Filename: "{sys}\reg.exe";                      Parameters: "import ""{app}\config\putty\putty_settings.reg""";                                     Components: putty\settings;         Flags: runhidden;   StatusMsg: "Importing PuTTY Settings";
+Filename: "{sys}\reg.exe";                      Parameters: "import ""{app}\config\clink\cmd_settings.reg""";                                           Components: clink\settings;         Flags: runhidden;   StatusMsg: "Importing CMD Settings";
+Filename: "{sys}\reg.exe";                      Parameters: "import ""{app}\config\putty\putty_settings.reg""";                                         Components: putty\settings;         Flags: runhidden;   StatusMsg: "Importing PuTTY Settings";
 
 [Icons]
 ; Create shortcuts for PuTTY
-Name: "{group}\PuTTY\PuTTY";                    Filename: "{app}\modules\putty\putty.exe";                                                          Components: putty;
-Name: "{group}\PuTTY\Pageant Key List";         Filename: "{app}\modules\putty\pageant.exe";                                                        Components: putty;
-Name: "{group}\PuTTY\PuTTY Key Generator";      Filename: "{app}\modules\putty\puttygen.exe";                                                       Components: putty;
+Name: "{group}\PuTTY\PuTTY";                    Filename: "{app}\modules\putty\putty.exe";                                                              Components: putty;
+Name: "{group}\PuTTY\Pageant Key List";         Filename: "{app}\modules\putty\pageant.exe";                                                            Components: putty;
+Name: "{group}\PuTTY\PuTTY Key Generator";      Filename: "{app}\modules\putty\puttygen.exe";                                                           Components: putty;
 
 ; Shortcuts for Git are configured in the "{app}\modules\git\git-x64.ini" file
 ; Currently disabled in git-x64.ini
@@ -175,8 +180,8 @@ Name: "{group}\Ubuntu";                         Filename: "{#TERMINAL_EXE}";    
 
 [Registry]
 ; Update font in the registry for CMD and PuTTY
-Root: HKCU; Subkey: "Console";                                                  ValueType: string;  ValueName: "FaceName";  ValueData: "{#WSH_FONT}";                                                                                   Tasks: cm_cmd;                Flags: uninsdeletekey;
-Root: HKCU; Subkey: "SOFTWARE\SimonTatham\PuTTY\Sessions\Default%20Settings";   ValueType: string;  ValueName: "Font";      ValueData: "{#WSH_FONT}";                                                                                   Tasks: cm_cmd;                Flags: uninsdeletekey;
+Root: HKCU; Subkey: "Console";                                                  ValueType: string;  ValueName: "FaceName";  ValueData: "{#WSH_FONT}";                           Tasks: cm_cmd;              Flags: uninsdeletekey;
+Root: HKCU; Subkey: "SOFTWARE\SimonTatham\PuTTY\Sessions\Default%20Settings";   ValueType: string;  ValueName: "Font";      ValueData: "{#WSH_FONT}";                           Tasks: cm_cmd;              Flags: uninsdeletekey;
 
 ; If Admin user, for all users
 ; "HKCR\*\shell"                                        Add Context Menu to All File Extensions
@@ -285,7 +290,7 @@ Type: filesandordirs;   Name: "{app}\icons\*";
 Type: filesandordirs;   Name: "{app}\modules\*";
 
 [Code]
-// Use https://www.tutorialspoint.com/compile_pascal_online.php to test Pascal online
+// Use http://tpcg.io/_D8LSF1 to test Pascal online
 
 // Replace string in file
 function FileReplaceString(const FileName, SearchString, ReplaceString: string): Boolean;
@@ -491,6 +496,14 @@ begin
             DownloadPage.Add('http://the.earth.li/~sgtatham/putty/latest/x86/plink.exe', 'plink.exe', '');
             DownloadPage.Add('http://the.earth.li/~sgtatham/putty/latest/x86/pageant.exe', 'pageant.exe', '');
             DownloadPage.Add('http://the.earth.li/~sgtatham/putty/latest/x86/puttygen.exe', 'puttygen.exe', '');
+        end;
+        if WizardIsComponentSelected('php\composer') then begin
+            DownloadFromGithub(
+                'composer/composer',
+                'composer.', 'phar',
+                'composer', '.phar',
+                'composer.phar'
+            );
         end;
         if WizardIsComponentSelected('php\php7') then begin
             DownloadPHP('7', 'vc15');

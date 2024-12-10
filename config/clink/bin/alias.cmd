@@ -27,7 +27,6 @@ goto parseargument
 
   if /i "%currentarg%" equ "/f" (
     set ALIASES=%~2
-    set _f=%~2
     shift
     goto :do_shift
   ) else if /i "%currentarg%" == "/reload" (
@@ -50,7 +49,7 @@ goto parseargument
   ) else if "%currentarg%" neq "" (
     if "%~2" equ "" (
       :: Show the specified alias
-      doskey /macros | %WINDIR%\System32\findstr /b %currentarg%= && exit /b
+      doskey /macros | findstr /b %currentarg%= && exit /b
       echo insufficient parameters.
       goto :p_help
     ) else (
@@ -70,16 +69,16 @@ if not exist "%ALIASES%" (
 )
 
 :: validate alias
-for /f "delims== tokens=1,* usebackq" %%G in (`echo "!_x!"`) do (
+for /f "delims== tokens=1,* usebackq" %%G in (`echo "%_x%"`) do (
   set alias_name=%%G
   set alias_value=%%H
 )
 
 :: leading quotes added while validating
-set alias_name=!alias_name:~1!
+set alias_name=%alias_name:~1%
 
 :: trailing quotes added while validating
-set alias_value=!alias_value:~0,-1!
+set alias_value=%alias_value:~0,-1%
 
 ::remove spaces
 set _temp=%alias_name: =%
@@ -91,7 +90,7 @@ if not ["%_temp%"] == ["%alias_name%"] (
 )
 
 :: replace already defined alias
-%WINDIR%\System32\findstr /b /l /v /i "%alias_name%=" "%ALIASES%" >> "%ALIASES%.tmp"
+findstr /b /l /v /i "%alias_name%=" "%ALIASES%" >> "%ALIASES%.tmp"
 echo %alias_name%=%alias_value% >> "%ALIASES%.tmp" && type "%ALIASES%.tmp" > "%ALIASES%" & @del /f /q "%ALIASES%.tmp"
 doskey /macrofile="%ALIASES%"
 endlocal
@@ -99,8 +98,7 @@ exit /b
 
 :p_del
 set del_alias=%~1
-
-%WINDIR%\System32\findstr /b /l /v /i "%del_alias%=" "%ALIASES%" >> "%ALIASES%.tmp"
+findstr /b /l /v /i "%del_alias%=" "%ALIASES%" >> "%ALIASES%.tmp"
 type "%ALIASES%".tmp > "%ALIASES%" & @del /f /q "%ALIASES%.tmp"
 doskey %del_alias%=
 doskey /macrofile="%ALIASES%"
@@ -112,7 +110,7 @@ echo Aliases reloaded
 exit /b
 
 :p_show
-doskey /macros|%WINDIR%\System32\findstr /v /r "^;=" | sort
+doskey /macros | findstr /v /r "^;=" | sort
 exit /b
 
 :p_help
