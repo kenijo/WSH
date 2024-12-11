@@ -7,8 +7,8 @@
 " Install VIM Lightline plugin
 if empty(glob('~/.vim/plugin/lightline.vim'))
     silent !wget -q -O tmp.tar.gz - https://github.com/itchyny/lightline.vim/archive/master.tar.gz
-    silent !tar -xf tmp.tar.gz --strip=2 "lightline.vim-master/autoload" --one-top-level=".vim/autoload"
-    silent !tar -xf tmp.tar.gz --strip=2 "lightline.vim-master/plugin" --one-top-level=".vim/plugin"
+    silent !tar -xf tmp.tar.gz --strip=2 'lightline.vim-master/autoload' --one-top-level='~/.vim/autoload'
+    silent !tar -xf tmp.tar.gz --strip=2 'lightline.vim-master/plugin' --one-top-level='~/.vim/plugin'
     silent !rm -f tmp.tar.gz
     silent !clear
 endif
@@ -16,8 +16,8 @@ endif
 " Install VIM Monokai Pro theme
 if empty(glob('~/.vim/colors/monokai_pro.vim'))
     silent !wget -q -O tmp.tar.gz - https://github.com/phanviet/vim-monokai-pro/archive/master.tar.gz
-    silent !tar -xf tmp.tar.gz --strip=2 "vim-monokai-pro-master/autoload" --one-top-level=".vim/autoload"
-    silent !tar -xf tmp.tar.gz --strip=2 "vim-monokai-pro-master/colors" --one-top-level=".vim/colors"
+    silent !tar -xf tmp.tar.gz --strip=2 'vim-monokai-pro-master/autoload' --one-top-level='~/.vim/autoload'
+    silent !tar -xf tmp.tar.gz --strip=2 'vim-monokai-pro-master/colors' --one-top-level='~/.vim/colors'
     silent !rm -f tmp.tar.gz
     silent !clear
 endif
@@ -25,8 +25,8 @@ endif
 " Install VIM Nord theme
 if empty(glob('~/.vim/colors/nord.vim'))
     silent !wget -q -O tmp.tar.gz - https://github.com/nordtheme/vim/archive/master.tar.gz
-    silent !tar -xf tmp.tar.gz --strip=2 "vim-main/autoload" --one-top-level=".vim/autoload"
-    silent !tar -xf tmp.tar.gz --strip=2 "vim-main/colors" --one-top-level=".vim/colors"
+    silent !tar -xf tmp.tar.gz --strip=2 'vim-main/autoload' --one-top-level='~/.vim/autoload'
+    silent !tar -xf tmp.tar.gz --strip=2 'vim-main/colors' --one-top-level='~/.vim/colors'
     silent !rm -f tmp.tar.gz
     silent !clear
 endif
@@ -34,8 +34,8 @@ endif
 " Install VIM OneDark theme
 if empty(glob('~/.vim/colors/onedark.vim'))
     silent !wget -q -O tmp.tar.gz - https://github.com/joshdick/onedark.vim/archive/master.tar.gz
-    silent !tar -xf tmp.tar.gz --strip=2 "onedark.vim-main/autoload" --one-top-level=".vim/autoload"
-    silent !tar -xf tmp.tar.gz --strip=2 "onedark.vim-main/colors" --one-top-level=".vim/colors"
+    silent !tar -xf tmp.tar.gz --strip=2 'onedark.vim-main/autoload' --one-top-level='~/.vim/autoload'
+    silent !tar -xf tmp.tar.gz --strip=2 'onedark.vim-main/colors' --one-top-level='~/.vim/colors'
     silent !rm -f tmp.tar.gz
     silent !clear
 endif
@@ -57,7 +57,7 @@ set smartindent         " Reacts to the syntax/style of the code you are editing
 " Enable LightLine
 set laststatus=2
 set noshowmode
-let g:lightline = { 'colorscheme': '<WSH_THEME>' }
+let g:lightline = { 'colorscheme': 'monokai_pro' }
 
 " Set Nord Theme configuration (https://www.nordtheme.com/docs/ports/vim/configuration)
 let g:nord_bold = 1
@@ -73,4 +73,4 @@ let g:onedark_terminal_italics = 1
 " Set colorscheme
 syntax on
 set termguicolors
-colorscheme <WSH_THEME>
+colorscheme monokai_pro
