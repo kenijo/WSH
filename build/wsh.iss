@@ -14,7 +14,7 @@
 #define WSL_BASH "\\wsl$\Ubuntu\home\{code:AnsiLowercase|{username}}";
 
 ; The value of this parameter is the name of the font as stored in the registry or WIN.INI
-#define WSH_FONT "Hasklig";
+#define WSH_FONT "Source Code Pro Ligaturized";
 
 [Setup]
 ; The value of AppId uniquely identifies this application.
