@@ -4,7 +4,7 @@
             "updates": "{51855cb2-8cce-5362-8f54-464b92b32386}",
             "name": "Ubuntu",
 
-            "background": "#300A24",
+            "background": "#350226",
 
             "elevate": false,
             "icon": "<WSH_ICON_PATH>\\icons\\ubuntu.ico",
