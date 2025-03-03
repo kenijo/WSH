@@ -1,5 +1,4 @@
 ;= rem ------------------------------------------------------------------------- 
-;= rem ------------------------------------------------------------------------- 
 ;= rem  @link            http://kenijo.github.io/WSH/ 
 ;= rem  @description     Script to manage aliases 
 ;= rem  @license         MIT License 
@@ -19,9 +18,9 @@ dib=dir /A /B /N $*
 ;=      --sort=WORD             sort by WORD instead of name: none (-U), size (-S), time (-t), version (-v), extension (-X)
 ;=      -g                      like -l, but do not list owner
 ;=      -o                      like -l, but do not list group information
-ls=ls -AFhN --color=auto --time-style=long-iso --format=vertical
+ls=ls -AFhN --color=auto --time-style=long-iso --format=vertical $*
 ;= dir=ls -AFhN --color=auto --time-style=long-iso --format=vertical
-ll=ls -AFhN --color=auto --time-style=long-iso --format=long
+ll=ls -AFhN --color=auto --time-style=long-iso --format=long $*
 
 clear=cls $*
 df=df -h $*
@@ -33,4 +32,3 @@ grep=grep --color=auto $*
 pwd=cd
 unalias=alias /d $1
 vi=vim $*
-kju=dir  
