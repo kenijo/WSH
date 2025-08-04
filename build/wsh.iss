@@ -172,11 +172,11 @@ Name: "{group}\PuTTY\PuTTY Key Generator";      Filename: "{app}\modules\putty\p
 ; Currently disabled in git-x64.ini
 
 ; Create console/terminal shortcuts
-Name: "{group}\CMD";                            Filename: "{#TERMINAL_EXE}";     Parameters: "-p CMD";                   Components: terminal;   IconFilename: "{app}\icons\cmd.ico";
-Name: "{group}\CMD (Admin)";                    Filename: "{#TERMINAL_EXE}";     Parameters: "-p CMD (Admin)";           Components: terminal;   IconFilename: "{app}\icons\cmd_admin.ico";
-Name: "{group}\PowerShell";                     Filename: "{#TERMINAL_EXE}";     Parameters: "-p PowerShell";            Components: terminal;   IconFilename: "{app}\icons\powershell.ico";
-Name: "{group}\PowerShell (Admin)";             Filename: "{#TERMINAL_EXE}";     Parameters: "-p PowerShell (Admin)";    Components: terminal;   IconFilename: "{app}\icons\powershell_admin.ico";
-Name: "{group}\Ubuntu";                         Filename: "{#TERMINAL_EXE}";     Parameters: "-p Ubuntu";                Components: terminal;   IconFilename: "{app}\icons\ubuntu.ico";
+Name: "{group}\CMD";                            Filename: "{#TERMINAL_EXE}";     Parameters: "-p \"CMD\"";                   Components: terminal;   IconFilename: "{app}\icons\cmd.ico";
+Name: "{group}\CMD (Admin)";                    Filename: "{#TERMINAL_EXE}";     Parameters: "-p \"CMD (Admin)\"";           Components: terminal;   IconFilename: "{app}\icons\cmd_admin.ico";
+Name: "{group}\PowerShell";                     Filename: "{#TERMINAL_EXE}";     Parameters: "-p \"PowerShell\"";            Components: terminal;   IconFilename: "{app}\icons\powershell.ico";
+Name: "{group}\PowerShell (Admin)";             Filename: "{#TERMINAL_EXE}";     Parameters: "-p \"PowerShell (Admin)\"";    Components: terminal;   IconFilename: "{app}\icons\powershell_admin.ico";
+Name: "{group}\Ubuntu";                         Filename: "{#TERMINAL_EXE}";     Parameters: "-p \"Ubuntu\"";                Components: terminal;   IconFilename: "{app}\icons\ubuntu.ico";
 
 [Registry]
 ; Update font in the registry for CMD and PuTTY
